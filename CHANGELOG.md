@@ -25,6 +25,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - `components/ui/marker.tsx` — inline text marker/divider with `default`/`separator`/`border` variants for annotating message content.
 - `hooks/use-mobile.ts` — `useIsMobile()` hook backing `sidebar.tsx`'s responsive behavior, tracking a 768px breakpoint via `matchMedia`.
 - New runtime dependencies in `package.json` to support the above: `@base-ui/react`, `@shadcn/react`, `cmdk`, `date-fns`, `embla-carousel-react`, `input-otp`, `react-day-picker`, `react-resizable-panels`, `recharts`, `sonner`, `vaul`.
+- Global toast notifications wired into the app shell using the `sonner` toast system, making the pre-installed `components/ui/sonner.tsx` primitive actually reachable at runtime for the first time:
+  - `app/layout.tsx`:
+    - Added `import { Toaster } from "@/components/ui/sonner"` next to the existing `ThemeProvider` and `cn` imports.
+    - Rendered a single app-wide `<Toaster />` instance inside `ThemeProvider`, immediately after `{children}`. Mounting it once at the root layout means every route renders its toasts through the same portal — individual pages only need to call `toast(...)`, never mount their own toaster.
+    - Placement rationale: `sonner.tsx` calls `useTheme()` from `next-themes` to mirror the app's light/dark theme onto the toasts. The `<Toaster />` must therefore live *inside* `ThemeProvider`; mounting it outside the provider would fall back to the default theme and desync toast styling from the rest of the UI.
+
+### Changed
+
+- `app/page.tsx` — turned the placeholder home page into an interactive demo of the toast API:
+  - Added the `"use client"` directive at the top of the file. This is required because the button now uses an `onClick` event handler, and per `node_modules/next/dist/docs/01-app/03-api-reference/01-directives/use-client.md`, event handlers can only run in Client Components. The page previously had no client-side interactivity and rendered as a Server Component.
+  - Added `import { toast } from "sonner"` to call the imperative toast API directly (the `<Toaster />` that renders these toasts is mounted globally in `app/layout.tsx`, so no per-page setup is needed).
+  - Wired the existing "Button" (unchanged markup, classes, and copy otherwise) with `onClick={() => toast("Button clicked!", { description: "The toast API is working." })}`, so clicking it surfaces a themed toast with a title and description — a working end-to-end confirmation that the `sonner` integration is live.
+  - Left the rest of the page (heading, descriptive paragraphs, and the dark-mode `kbd` hint) untouched.
+- `CLAUDE.md` — added a project instructions file at the repo root mirroring the `nextjs-agent-rules` block (the "This is NOT the Next.js you know" notice), so Claude Code picks up the same "read `node_modules/next/dist/docs/` before writing code" guidance that `AGENTS.md` already provides to other agents.
+- `AGENTS.md` — inserted a blank line after the `<!-- BEGIN:nextjs-agent-rules -->` marker so its formatting matches the new `CLAUDE.md`.
 
 ## [0.0.1] - 2026-07-15
 
