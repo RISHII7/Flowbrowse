@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.1.0] - 2026-07-15
+
 ### Added
 
 - Full shadcn/ui component library, installed via the shadcn CLI on top of the existing `button.tsx` primitive. All components are built on `radix-ui` primitives and `class-variance-authority` variants, styled with Tailwind CSS v4 and the project's `cn()` helper:
@@ -30,6 +32,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
     - Added `import { Toaster } from "@/components/ui/sonner"` next to the existing `ThemeProvider` and `cn` imports.
     - Rendered a single app-wide `<Toaster />` instance inside `ThemeProvider`, immediately after `{children}`. Mounting it once at the root layout means every route renders its toasts through the same portal — individual pages only need to call `toast(...)`, never mount their own toaster.
     - Placement rationale: `sonner.tsx` calls `useTheme()` from `next-themes` to mirror the app's light/dark theme onto the toasts. The `<Toaster />` must therefore live *inside* `ThemeProvider`; mounting it outside the provider would fall back to the default theme and desync toast styling from the rest of the UI.
+- Clerk authentication, added via the Clerk CLI (`clerk init --framework next --pm npm`, linked to the `flowbrowse` Clerk application) and finished by hand to match the reference implementation:
+  - New runtime dependencies in `package.json`: `@clerk/nextjs` (^7.5.18) for the Next.js SDK, and `@clerk/ui` (pinned to `^1.24.1` to match the reference commit) for the shadcn-styled Clerk component theme.
+  - `proxy.ts` — new root proxy (Next.js 16 renamed Middleware to Proxy; same functionality) wiring up `clerkMiddleware()`. Uses `createRouteMatcher` to mark `/`, `/sign-in(.*)`, and `/sign-up(.*)` as public and calls `auth.protect()` on every other request, so the landing page and auth pages stay reachable while all other routes require authentication. The `config.matcher` skips `_next` and static assets while covering app routes and `/api|/trpc`.
+  - `app/sign-in/[[...sign-in]]/page.tsx` and `app/sign-up/[[...sign-up]]/page.tsx` — new Clerk catch-all auth routes, each rendering the prebuilt `<SignIn />` / `<SignUp />` component centered on a full-height page.
+  - `.env.local` — Clerk publishable/secret keys and sign-in/sign-up route env vars written by `clerk init` (gitignored, not committed).
+  - `.gitignore` — updated by `clerk init` to ensure Clerk secrets in `.env*` stay out of version control.
 
 ### Changed
 
@@ -40,6 +48,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Left the rest of the page (heading, descriptive paragraphs, and the dark-mode `kbd` hint) untouched.
 - `CLAUDE.md` — added a project instructions file at the repo root mirroring the `nextjs-agent-rules` block (the "This is NOT the Next.js you know" notice), so Claude Code picks up the same "read `node_modules/next/dist/docs/` before writing code" guidance that `AGENTS.md` already provides to other agents.
 - `AGENTS.md` — inserted a blank line after the `<!-- BEGIN:nextjs-agent-rules -->` marker so its formatting matches the new `CLAUDE.md`.
+- `app/layout.tsx` — integrated Clerk into the app shell:
+  - Wrapped the app in `<ClerkProvider appearance={{ theme: shadcn }}>` (inside `<body>`, wrapping `ThemeProvider`) using the `shadcn` theme from `@clerk/ui/themes`, and imported `@clerk/ui/themes/shadcn.css` so Clerk's prebuilt components (`SignIn`, `SignUp`, `UserButton`) match the app's shadcn styling.
+  - Added a global `<header>` with `Show`-gated auth controls: when `signed-out`, modal `SignInButton`/`SignUpButton` (`mode="modal"`) rendered through the project's own `Button` (`ghost`/default variants); when `signed-in`, Clerk's `<UserButton />`. This gives every route a consistent, polished place to sign in, sign up, and manage the account.
 
 ## [0.0.1] - 2026-07-15
 
@@ -63,5 +74,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Project documentation: `README.md` (shadcn component usage) and `AGENTS.md` (agent-facing note to consult `node_modules/next/dist/docs/` given breaking changes in this Next.js version).
 - `.gitignore` for standard Next.js/Node artifacts (`node_modules`, `.next`, env files, build output, etc.).
 
-[Unreleased]: https://github.com/RISHII7/Flowbrowse/compare/v0.0.1...HEAD
+[Unreleased]: https://github.com/RISHII7/Flowbrowse/compare/v0.1.0...HEAD
+[0.1.0]: https://github.com/RISHII7/Flowbrowse/compare/v0.0.1...v0.1.0
 [0.0.1]: https://github.com/RISHII7/Flowbrowse/releases/tag/v0.0.1
