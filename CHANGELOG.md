@@ -8,7 +8,7 @@ _All notable changes to this project, documented with care._
 
 [![Keep a Changelog](https://img.shields.io/badge/Keep%20a%20Changelog-1.1.0-E05735?style=flat-square&logo=keepachangelog&logoColor=white)](https://keepachangelog.com/en/1.1.0/)
 [![Semantic Versioning](https://img.shields.io/badge/SemVer-2.0.0-3F51B5?style=flat-square&logo=semver&logoColor=white)](https://semver.org/spec/v2.0.0.html)
-[![Latest Release](https://img.shields.io/badge/latest-v0.1.2-2EA043?style=flat-square&logo=github&logoColor=white)](https://github.com/RISHII7/Flowbrowse/releases/tag/v0.1.2)
+[![Latest Release](https://img.shields.io/badge/latest-v0.1.3-2EA043?style=flat-square&logo=github&logoColor=white)](https://github.com/RISHII7/Flowbrowse/releases/tag/v0.1.3)
 
 </div>
 
@@ -33,6 +33,7 @@ This changelog is written to be **read by humans**. Every release lists exactly 
 
 | Version | Date | Headline |
 | :-- | :-- | :-- |
+| [**0.1.3**](#013--2026-07-16) | 2026-07-16 | 🤖 Clerk agent-skills bundle for AI coding tools |
 | [**0.1.2**](#012--2026-07-16) | 2026-07-16 | 🔐 Auth reorganized into an `(auth)` route group · protected home |
 | [**0.1.1**](#011--2026-07-16) | 2026-07-16 | 📝 World-class changelog overhaul |
 | [**0.1.0**](#010--2026-07-15) | 2026-07-15 | 🔐 Clerk authentication · 🔔 Sonner toasts · 🧩 Full shadcn/ui + AI chat-kit |
@@ -42,7 +43,21 @@ This changelog is written to be **read by humans**. Every release lists exactly 
 
 ## [Unreleased]
 
-> _Nothing yet — the working tree is in sync with `v0.1.2`._
+> _Nothing yet — the working tree is in sync with `v0.1.3`._
+
+---
+
+## [0.1.3] — 2026-07-16
+
+> **Highlights** 🤖 Installed the Clerk agent-skills bundle — reference documentation for Clerk CLI, Backend API, custom UI, Next.js patterns, organizations, billing, setup, and testing — so AI coding assistants have first-party Clerk context available in this repo.
+
+### ✨ Added
+
+- **`.agents/skills/`** — the canonical Clerk agent-skills bundle, pulled from [`clerk/skills`](https://github.com/clerk/skills) by the Clerk CLI's skills installer (`npx skills`) during the earlier `clerk init` run. Eight skills covering `clerk`, `clerk-backend-api`, `clerk-billing`, `clerk-cli`, `clerk-custom-ui`, `clerk-nextjs-patterns`, `clerk-orgs`, and `clerk-setup` — each a `SKILL.md` plus supporting references, scripts, and templates.
+- **`.claude/skills/`** — the same eight skills, so Claude Code resolves Clerk skill context directly. On disk these are symlinks into `.agents/skills/`; because this environment's `git config core.symlinks` is `false`, Windows Git followed the links and committed full duplicate copies rather than symlink entries (a known tradeoff, accepted for now — see the `Other agent tools note` below).
+- **`skills-lock.json`** — the installer's lockfile recording each skill's source repo, path, and content hash, so future `clerk update`/re-installs can detect drift or upstream changes.
+
+> **Other agent tools note:** the installer also wired up (but did not need to duplicate into this repo) symlinks for Amp, Antigravity, Codex, Continue, Cursor, Gemini CLI, Junie, Windsurf, and Zed, all pointing at the same `.agents/skills/` source.
 
 ---
 
@@ -199,7 +214,8 @@ Added via the Clerk CLI (`clerk init --framework next --pm npm`, linked to the `
 
 </div>
 
-[Unreleased]: https://github.com/RISHII7/Flowbrowse/compare/v0.1.2...HEAD
+[Unreleased]: https://github.com/RISHII7/Flowbrowse/compare/v0.1.3...HEAD
+[0.1.3]: https://github.com/RISHII7/Flowbrowse/compare/v0.1.2...v0.1.3
 [0.1.2]: https://github.com/RISHII7/Flowbrowse/compare/v0.1.1...v0.1.2
 [0.1.1]: https://github.com/RISHII7/Flowbrowse/compare/v0.1.0...v0.1.1
 [0.1.0]: https://github.com/RISHII7/Flowbrowse/compare/v0.0.1...v0.1.0
