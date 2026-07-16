@@ -8,7 +8,7 @@ _All notable changes to this project, documented with care._
 
 [![Keep a Changelog](https://img.shields.io/badge/Keep%20a%20Changelog-1.1.0-E05735?style=flat-square&logo=keepachangelog&logoColor=white)](https://keepachangelog.com/en/1.1.0/)
 [![Semantic Versioning](https://img.shields.io/badge/SemVer-2.0.0-3F51B5?style=flat-square&logo=semver&logoColor=white)](https://semver.org/spec/v2.0.0.html)
-[![Latest Release](https://img.shields.io/badge/latest-v0.1.3-2EA043?style=flat-square&logo=github&logoColor=white)](https://github.com/RISHII7/Flowbrowse/releases/tag/v0.1.3)
+[![Latest Release](https://img.shields.io/badge/latest-v0.2.0-2EA043?style=flat-square&logo=github&logoColor=white)](https://github.com/RISHII7/Flowbrowse/releases/tag/v0.2.0)
 
 </div>
 
@@ -33,6 +33,7 @@ This changelog is written to be **read by humans**. Every release lists exactly 
 
 | Version | Date | Headline |
 | :-- | :-- | :-- |
+| [**0.2.0**](#020--2026-07-16) | 2026-07-16 | 🏢 Clerk Organizations — choose-organization task + switcher |
 | [**0.1.3**](#013--2026-07-16) | 2026-07-16 | 🤖 Clerk agent-skills bundle for AI coding tools |
 | [**0.1.2**](#012--2026-07-16) | 2026-07-16 | 🔐 Auth reorganized into an `(auth)` route group · protected home |
 | [**0.1.1**](#011--2026-07-16) | 2026-07-16 | 📝 World-class changelog overhaul |
@@ -43,7 +44,22 @@ This changelog is written to be **read by humans**. Every release lists exactly 
 
 ## [Unreleased]
 
-> _Nothing yet — the working tree is in sync with `v0.1.3`._
+> _Nothing yet — the working tree is in sync with `v0.2.0`._
+
+---
+
+## [0.2.0] — 2026-07-16
+
+> **Highlights** 🏢 Clerk **Organizations** support — signed-in users can be prompted to choose or create an organization, and switch between organizations directly from the home page.
+
+### ✨ Added
+
+- **`app/(auth)/choose-organization/page.tsx`** — new route rendering Clerk's `<TaskChooseOrganization redirectUrlComplete="/" />`, grouped under the existing `(auth)` route group. Resolves to `/choose-organization` (route groups are URL-transparent) and returns the user to `/` once they've picked or created an organization.
+- **`app/page.tsx`** — added `<OrganizationSwitcher />` alongside the existing `<UserButton />` (wrapped in a flex column), so the active organization can be switched directly from the home page.
+
+### ♻️ Changed
+
+- **`app/layout.tsx`** — added `taskUrls={{ "choose-organization": "/choose-organization" }}` to `<ClerkProvider>`, so when Clerk determines a signed-in user has an outstanding "choose organization" task, it redirects them to the new in-app page instead of Clerk's default hosted task UI.
 
 ---
 
@@ -214,7 +230,8 @@ Added via the Clerk CLI (`clerk init --framework next --pm npm`, linked to the `
 
 </div>
 
-[Unreleased]: https://github.com/RISHII7/Flowbrowse/compare/v0.1.3...HEAD
+[Unreleased]: https://github.com/RISHII7/Flowbrowse/compare/v0.2.0...HEAD
+[0.2.0]: https://github.com/RISHII7/Flowbrowse/compare/v0.1.3...v0.2.0
 [0.1.3]: https://github.com/RISHII7/Flowbrowse/compare/v0.1.2...v0.1.3
 [0.1.2]: https://github.com/RISHII7/Flowbrowse/compare/v0.1.1...v0.1.2
 [0.1.1]: https://github.com/RISHII7/Flowbrowse/compare/v0.1.0...v0.1.1
