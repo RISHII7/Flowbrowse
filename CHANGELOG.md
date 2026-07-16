@@ -8,7 +8,7 @@ _All notable changes to this project, documented with care._
 
 [![Keep a Changelog](https://img.shields.io/badge/Keep%20a%20Changelog-1.1.0-E05735?style=flat-square&logo=keepachangelog&logoColor=white)](https://keepachangelog.com/en/1.1.0/)
 [![Semantic Versioning](https://img.shields.io/badge/SemVer-2.0.0-3F51B5?style=flat-square&logo=semver&logoColor=white)](https://semver.org/spec/v2.0.0.html)
-[![Latest Release](https://img.shields.io/badge/latest-v0.2.0-2EA043?style=flat-square&logo=github&logoColor=white)](https://github.com/RISHII7/Flowbrowse/releases/tag/v0.2.0)
+[![Latest Release](https://img.shields.io/badge/latest-v0.2.1-2EA043?style=flat-square&logo=github&logoColor=white)](https://github.com/RISHII7/Flowbrowse/releases/tag/v0.2.1)
 
 </div>
 
@@ -33,6 +33,7 @@ This changelog is written to be **read by humans**. Every release lists exactly 
 
 | Version | Date | Headline |
 | :-- | :-- | :-- |
+| [**0.2.1**](#021--2026-07-16) | 2026-07-16 | 🎨 Reference design mockups · global theme polish |
 | [**0.2.0**](#020--2026-07-16) | 2026-07-16 | 🏢 Clerk Organizations — choose-organization task + switcher |
 | [**0.1.3**](#013--2026-07-16) | 2026-07-16 | 🤖 Clerk agent-skills bundle for AI coding tools |
 | [**0.1.2**](#012--2026-07-16) | 2026-07-16 | 🔐 Auth reorganized into an `(auth)` route group · protected home |
@@ -44,7 +45,26 @@ This changelog is written to be **read by humans**. Every release lists exactly 
 
 ## [Unreleased]
 
-> _Nothing yet — the working tree is in sync with `v0.2.0`._
+> _Nothing yet — the working tree is in sync with `v0.2.1`._
+
+---
+
+## [0.2.1] — 2026-07-16
+
+> **Highlights** 🎨 Reference design mockups for the workflow-editor UI, plus a round of global theme polish — a Clerk theme import at the stylesheet level, tighter corner radii, a softer dark mode, and pointer cursors on buttons.
+
+### ✨ Added
+
+- **`design/`** _(new, 16 PNGs)_ — reference screenshots/mockups downloaded verbatim from [`code-with-antonio/browser-automation-app`](https://github.com/code-with-antonio/browser-automation-app/tree/e30bdfdc2e0964e013382e77da5187c89b058f3e/design) (fetched via the GitHub Contents API so byte content matches the source exactly). Covers the app shell and workflow editor: `action-node`, `app-sidebar`, `canvas`, `empty-editor`, `logs-panel`, `logs-with-output-panel`, `no-workflow-selected`, `node-data-1/2/3`, `node-editor-1/2/3`, `node-in-progress`, `right-sidebar`, `trigger-node`. Serves as the visual reference for upcoming UI work.
+
+### ♻️ Changed
+
+- **`app/globals.css`** — global theme polish:
+  - Added `@import "@clerk/ui/themes/shadcn.css";` alongside the existing Tailwind/shadcn imports, making Clerk's shadcn theme tokens available at the global stylesheet level in addition to the direct import already present in `app/layout.tsx`.
+  - Reduced `--radius` from `0.625rem` to `0.4rem` for tighter corner rounding across every radius-derived token (`sm`/`md`/`lg`/`xl`/`2xl`/`3xl`/`4xl`).
+  - Lightened the dark theme's `--background` (`0.145` → `0.222`), `--card` (`0.205` → `0.256`), and `--sidebar` (`0.205` → `0.235`) tokens for a softer, less pitch-black dark mode.
+  - Added a new `@layer base` rule forcing `cursor: pointer` on all non-disabled buttons and `role="button"` elements.
+  - Re-indented the file from 4-space to 2-space indentation for consistency with the rest of the codebase, and added the missing trailing newline.
 
 ---
 
@@ -230,7 +250,8 @@ Added via the Clerk CLI (`clerk init --framework next --pm npm`, linked to the `
 
 </div>
 
-[Unreleased]: https://github.com/RISHII7/Flowbrowse/compare/v0.2.0...HEAD
+[Unreleased]: https://github.com/RISHII7/Flowbrowse/compare/v0.2.1...HEAD
+[0.2.1]: https://github.com/RISHII7/Flowbrowse/compare/v0.2.0...v0.2.1
 [0.2.0]: https://github.com/RISHII7/Flowbrowse/compare/v0.1.3...v0.2.0
 [0.1.3]: https://github.com/RISHII7/Flowbrowse/compare/v0.1.2...v0.1.3
 [0.1.2]: https://github.com/RISHII7/Flowbrowse/compare/v0.1.1...v0.1.2
