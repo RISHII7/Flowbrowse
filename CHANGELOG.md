@@ -8,7 +8,7 @@ _All notable changes to this project, documented with care._
 
 [![Keep a Changelog](https://img.shields.io/badge/Keep%20a%20Changelog-1.1.0-E05735?style=flat-square&logo=keepachangelog&logoColor=white)](https://keepachangelog.com/en/1.1.0/)
 [![Semantic Versioning](https://img.shields.io/badge/SemVer-2.0.0-3F51B5?style=flat-square&logo=semver&logoColor=white)](https://semver.org/spec/v2.0.0.html)
-[![Latest Release](https://img.shields.io/badge/latest-v0.2.2-2EA043?style=flat-square&logo=github&logoColor=white)](https://github.com/RISHII7/Flowbrowse/releases/tag/v0.2.2)
+[![Latest Release](https://img.shields.io/badge/latest-v0.3.0-2EA043?style=flat-square&logo=github&logoColor=white)](https://github.com/RISHII7/Flowbrowse/releases/tag/v0.3.0)
 
 </div>
 
@@ -33,6 +33,7 @@ This changelog is written to be **read by humans**. Every release lists exactly 
 
 | Version | Date | Headline |
 | :-- | :-- | :-- |
+| [**0.3.0**](#030--2026-07-16) | 2026-07-16 | 🗂️ Dashboard shell — collapsible app sidebar, workflow empty state |
 | [**0.2.2**](#022--2026-07-16) | 2026-07-16 | 🎨 4 more design mockups synced from upstream |
 | [**0.2.1**](#021--2026-07-16) | 2026-07-16 | 🎨 Reference design mockups · global theme polish |
 | [**0.2.0**](#020--2026-07-16) | 2026-07-16 | 🏢 Clerk Organizations — choose-organization task + switcher |
@@ -46,7 +47,27 @@ This changelog is written to be **read by humans**. Every release lists exactly 
 
 ## [Unreleased]
 
-> _Nothing yet — the working tree is in sync with `v0.2.2`._
+> _Nothing yet — the working tree is in sync with `v0.3.0`._
+
+---
+
+## [0.3.0] — 2026-07-16
+
+> **Highlights** 🗂️ A real dashboard shell — a collapsible sidebar with organization switching and a workflow list, plus an empty state guiding users to create their first workflow.
+
+### ✨ Added
+
+- **`app/(dashboard)/layout.tsx`** — new dashboard layout wrapping every route in `SidebarProvider` + `AppSidebar` + `SidebarInset` (from `components/ui/sidebar`), giving the whole dashboard shared sidebar chrome. Grouped under `(dashboard)` so it applies at the root without adding a URL segment.
+- **`app/(dashboard)/page.tsx`** — replaces the removed `app/page.tsx` as the `/` route (route groups are URL-transparent). Renders an `Empty` state (icon, title, description, and a "New workflow" button) prompting the user to pick or create a workflow.
+- **`components/app-sidebar.tsx`** — the `AppSidebar` component, built on the shadcn `Sidebar` primitives (`variant="inset"`, `collapsible="icon"`):
+  - **Header** — Clerk's `<OrganizationSwitcher hidePersonal />` plus a `SidebarTrigger`, with appearance overrides so the switcher collapses cleanly in icon mode.
+  - **Content** — a "Workflows" group listing placeholder workflow names as `SidebarMenuButton`s, with client-side active-workflow state and a "New workflow" `SidebarGroupAction`.
+  - **Footer** — Clerk's `<UserButton />` with appearance overrides so it also collapses to icon-only.
+
+### ♻️ Changed
+
+- **`app/layout.tsx`** — added `<TooltipProvider>` (from `components/ui/tooltip`) wrapping `{children}` and `<Toaster />`, inside `ThemeProvider`, so any component using shadcn `Tooltip` (e.g. the sidebar's icon-mode tooltips) has a provider in scope. Imports were also reordered (external packages, then local aliases, then the relative CSS import) for readability.
+- **`next.config.ts`** — added `devIndicators: false` to hide Next.js's dev-mode indicator overlay, which was visually colliding with the new sidebar UI.
 
 ---
 
@@ -266,7 +287,8 @@ Added via the Clerk CLI (`clerk init --framework next --pm npm`, linked to the `
 
 </div>
 
-[Unreleased]: https://github.com/RISHII7/Flowbrowse/compare/v0.2.2...HEAD
+[Unreleased]: https://github.com/RISHII7/Flowbrowse/compare/v0.3.0...HEAD
+[0.3.0]: https://github.com/RISHII7/Flowbrowse/compare/v0.2.2...v0.3.0
 [0.2.2]: https://github.com/RISHII7/Flowbrowse/compare/v0.2.1...v0.2.2
 [0.2.1]: https://github.com/RISHII7/Flowbrowse/compare/v0.2.0...v0.2.1
 [0.2.0]: https://github.com/RISHII7/Flowbrowse/compare/v0.1.3...v0.2.0
