@@ -8,7 +8,7 @@ _All notable changes to this project, documented with care._
 
 [![Keep a Changelog](https://img.shields.io/badge/Keep%20a%20Changelog-1.1.0-E05735?style=flat-square&logo=keepachangelog&logoColor=white)](https://keepachangelog.com/en/1.1.0/)
 [![Semantic Versioning](https://img.shields.io/badge/SemVer-2.0.0-3F51B5?style=flat-square&logo=semver&logoColor=white)](https://semver.org/spec/v2.0.0.html)
-[![Latest Release](https://img.shields.io/badge/latest-v0.1.1-2EA043?style=flat-square&logo=github&logoColor=white)](https://github.com/RISHII7/Flowbrowse/releases/tag/v0.1.1)
+[![Latest Release](https://img.shields.io/badge/latest-v0.1.2-2EA043?style=flat-square&logo=github&logoColor=white)](https://github.com/RISHII7/Flowbrowse/releases/tag/v0.1.2)
 
 </div>
 
@@ -33,6 +33,7 @@ This changelog is written to be **read by humans**. Every release lists exactly 
 
 | Version | Date | Headline |
 | :-- | :-- | :-- |
+| [**0.1.2**](#012--2026-07-16) | 2026-07-16 | 🔐 Auth reorganized into an `(auth)` route group · protected home |
 | [**0.1.1**](#011--2026-07-16) | 2026-07-16 | 📝 World-class changelog overhaul |
 | [**0.1.0**](#010--2026-07-15) | 2026-07-15 | 🔐 Clerk authentication · 🔔 Sonner toasts · 🧩 Full shadcn/ui + AI chat-kit |
 | [**0.0.1**](#001--2026-07-15) | 2026-07-15 | 🌱 Initial Next.js + shadcn/ui scaffold |
@@ -41,7 +42,24 @@ This changelog is written to be **read by humans**. Every release lists exactly 
 
 ## [Unreleased]
 
-> _Nothing yet — the working tree is in sync with `v0.1.1`._
+> _Nothing yet — the working tree is in sync with `v0.1.2`._
+
+---
+
+## [0.1.2] — 2026-07-16
+
+> **Highlights** 🔐 The Clerk auth routes are now organized under a single `(auth)` route group, the account control moved to the home page, and **every route now requires authentication**. A committed `.env.example` documents the expected configuration.
+
+### ♻️ Changed
+
+- **Auth routes grouped under `(auth)`** — moved `app/sign-in/[[...sign-in]]/page.tsx` and `app/sign-up/[[...sign-up]]/page.tsx` into `app/(auth)/…`. Route groups (parenthesized folders) are organizational only and **not** part of the URL, so `/sign-in` and `/sign-up` resolve exactly as before — no `proxy.ts` matcher or Clerk `*_URL` env changes needed. Moved with `git mv` (R100 renames), preserving history.
+- **`app/layout.tsx`** — removed the global `<header>` that rendered the `Show`-gated `SignInButton`/`SignUpButton` and `UserButton` (and their now-unused imports). `ClerkProvider` (shadcn theme), `ThemeProvider`, and `Toaster` are unchanged.
+- **`app/page.tsx`** — replaced the toast demo with a minimal home page rendering Clerk's `<UserButton />` (back to a Server Component; no `"use client"`).
+- **`proxy.ts`** — dropped `/` from the public route matcher, so the home page now **requires authentication**; only `/sign-in(.*)` and `/sign-up(.*)` stay public. Signed-out visitors to `/` are redirected to the sign-in page.
+
+### ✨ Added
+
+- **`.env.example`** — a committed template documenting the expected environment variables (the Clerk `*_URL` route configuration plus empty `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY` / `CLERK_SECRET_KEY` placeholders). A `!.env.example` negation was added to `.gitignore` so the template is tracked while all real `.env*` files (including `.env.local`) stay ignored.
 
 ---
 
@@ -181,7 +199,8 @@ Added via the Clerk CLI (`clerk init --framework next --pm npm`, linked to the `
 
 </div>
 
-[Unreleased]: https://github.com/RISHII7/Flowbrowse/compare/v0.1.1...HEAD
+[Unreleased]: https://github.com/RISHII7/Flowbrowse/compare/v0.1.2...HEAD
+[0.1.2]: https://github.com/RISHII7/Flowbrowse/compare/v0.1.1...v0.1.2
 [0.1.1]: https://github.com/RISHII7/Flowbrowse/compare/v0.1.0...v0.1.1
 [0.1.0]: https://github.com/RISHII7/Flowbrowse/compare/v0.0.1...v0.1.0
 [0.0.1]: https://github.com/RISHII7/Flowbrowse/releases/tag/v0.0.1
