@@ -8,7 +8,7 @@ _All notable changes to this project, documented with care._
 
 [![Keep a Changelog](https://img.shields.io/badge/Keep%20a%20Changelog-1.1.0-E05735?style=flat-square&logo=keepachangelog&logoColor=white)](https://keepachangelog.com/en/1.1.0/)
 [![Semantic Versioning](https://img.shields.io/badge/SemVer-2.0.0-3F51B5?style=flat-square&logo=semver&logoColor=white)](https://semver.org/spec/v2.0.0.html)
-[![Latest Release](https://img.shields.io/badge/latest-v0.2.1-2EA043?style=flat-square&logo=github&logoColor=white)](https://github.com/RISHII7/Flowbrowse/releases/tag/v0.2.1)
+[![Latest Release](https://img.shields.io/badge/latest-v0.2.2-2EA043?style=flat-square&logo=github&logoColor=white)](https://github.com/RISHII7/Flowbrowse/releases/tag/v0.2.2)
 
 </div>
 
@@ -33,6 +33,7 @@ This changelog is written to be **read by humans**. Every release lists exactly 
 
 | Version | Date | Headline |
 | :-- | :-- | :-- |
+| [**0.2.2**](#022--2026-07-16) | 2026-07-16 | 🎨 4 more design mockups synced from upstream |
 | [**0.2.1**](#021--2026-07-16) | 2026-07-16 | 🎨 Reference design mockups · global theme polish |
 | [**0.2.0**](#020--2026-07-16) | 2026-07-16 | 🏢 Clerk Organizations — choose-organization task + switcher |
 | [**0.1.3**](#013--2026-07-16) | 2026-07-16 | 🤖 Clerk agent-skills bundle for AI coding tools |
@@ -45,7 +46,22 @@ This changelog is written to be **read by humans**. Every release lists exactly 
 
 ## [Unreleased]
 
-> _Nothing yet — the working tree is in sync with `v0.2.1`._
+> _Nothing yet — the working tree is in sync with `v0.2.2`._
+
+---
+
+## [0.2.2] — 2026-07-16
+
+> **Highlights** 🎨 Synced `design/` with 4 mockups added upstream since the original pull — new sidebar-collapsed states, an alternate canvas view, and a node failure state.
+
+### ✨ Added
+
+- **`design/`** — 4 new reference mockups, checked against [`code-with-antonio/browser-automation-app`](https://github.com/code-with-antonio/browser-automation-app/tree/main/design)'s `main` branch and downloaded verbatim (byte size verified against the source):
+  - `canvas-2.png` — alternate canvas view.
+  - `collapsed-app-sidebar.png` — sidebar in its collapsed state.
+  - `collapsed-app-sidebar-workflow-list.png` — collapsed sidebar showing the workflow list.
+  - `node-fail.png` — a node's failed/error state.
+  - The existing 16 files were checked against upstream `main` too and still match by size — no updates needed there.
 
 ---
 
@@ -250,7 +266,8 @@ Added via the Clerk CLI (`clerk init --framework next --pm npm`, linked to the `
 
 </div>
 
-[Unreleased]: https://github.com/RISHII7/Flowbrowse/compare/v0.2.1...HEAD
+[Unreleased]: https://github.com/RISHII7/Flowbrowse/compare/v0.2.2...HEAD
+[0.2.2]: https://github.com/RISHII7/Flowbrowse/compare/v0.2.1...v0.2.2
 [0.2.1]: https://github.com/RISHII7/Flowbrowse/compare/v0.2.0...v0.2.1
 [0.2.0]: https://github.com/RISHII7/Flowbrowse/compare/v0.1.3...v0.2.0
 [0.1.3]: https://github.com/RISHII7/Flowbrowse/compare/v0.1.2...v0.1.3
