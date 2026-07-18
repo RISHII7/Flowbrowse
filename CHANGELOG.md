@@ -8,7 +8,7 @@ _All notable changes to this project, documented with care._
 
 [![Keep a Changelog](https://img.shields.io/badge/Keep%20a%20Changelog-1.1.0-E05735?style=flat-square&logo=keepachangelog&logoColor=white)](https://keepachangelog.com/en/1.1.0/)
 [![Semantic Versioning](https://img.shields.io/badge/SemVer-2.0.0-3F51B5?style=flat-square&logo=semver&logoColor=white)](https://semver.org/spec/v2.0.0.html)
-[![Latest Release](https://img.shields.io/badge/latest-v0.3.0-2EA043?style=flat-square&logo=github&logoColor=white)](https://github.com/RISHII7/Flowbrowse/releases/tag/v0.3.0)
+[![Latest Release](https://img.shields.io/badge/latest-v0.3.1-2EA043?style=flat-square&logo=github&logoColor=white)](https://github.com/RISHII7/Flowbrowse/releases/tag/v0.3.1)
 
 </div>
 
@@ -33,6 +33,7 @@ This changelog is written to be **read by humans**. Every release lists exactly 
 
 | Version | Date | Headline |
 | :-- | :-- | :-- |
+| [**0.3.1**](#031--2026-07-16) | 2026-07-16 | 🧭 WorkflowNav extracted · always-visible sidebar · hidden-Unicode fix |
 | [**0.3.0**](#030--2026-07-16) | 2026-07-16 | 🗂️ Dashboard shell — collapsible app sidebar, workflow empty state |
 | [**0.2.2**](#022--2026-07-16) | 2026-07-16 | 🎨 4 more design mockups synced from upstream |
 | [**0.2.1**](#021--2026-07-16) | 2026-07-16 | 🎨 Reference design mockups · global theme polish |
@@ -47,7 +48,26 @@ This changelog is written to be **read by humans**. Every release lists exactly 
 
 ## [Unreleased]
 
-> _Nothing yet — the working tree is in sync with `v0.3.0`._
+> _Nothing yet — the working tree is in sync with `v0.3.1`._
+
+---
+
+## [0.3.1] — 2026-07-16
+
+> **Highlights** 🧭 The sidebar's workflow list is now its own `WorkflowNav` component with a proper collapsed-state menu, the sidebar always renders (mobile-responsive hiding removed), and a hidden-Unicode-character bug in an import path was found and fixed.
+
+### ✨ Added
+
+- **`features/workflows/components/workflow-nav.tsx`** — extracted `WorkflowNav` component: the "Workflows" `SidebarGroup`, the workflow list with client-side active-workflow state, and the "New workflow" action, previously inlined in `AppSidebar`. Adds a dedicated collapsed-state view (`state === "collapsed"`): a single `Popover` trigger showing a Workflows icon/tooltip that opens a menu with "New workflow" plus the full workflow list, so the feature stays reachable when the sidebar is icon-only.
+
+### 🐛 Fixed
+
+- **Hidden Unicode character in an import path.** The `WorkflowNav` component previously lived in a directory literally named `\u200Efeatures` — with an invisible `U+200E` LEFT-TO-RIGHT MARK before "features" — which only worked because `components/app-sidebar.tsx`'s import repeated the exact same invisible character (confirmed via hex dump: `e2 80 8e` sitting between `@/` and `features`). This is a classic copy-paste artifact and made the path fragile: any tool or future edit that created a normal `features/` directory would silently fail to resolve. Recreated the component under a clean ASCII `features/` directory and repointed the import in `app-sidebar.tsx` — verified byte-for-byte clean afterward.
+
+### ♻️ Changed
+
+- **`components/app-sidebar.tsx`** — replaced the inline workflow list markup with `<WorkflowNav />`, imported from the corrected `@/features/workflows/components/workflow-nav` path.
+- **`components/ui/sidebar.tsx`** — the sidebar is now always visible instead of hiding below the `md` breakpoint: `isMobile` is hardcoded to `false` instead of calling `useIsMobile()` (dropping the now-unused `hooks/use-mobile` import), and the `hidden ... md:block` / `hidden ... md:flex` wrapper classes became plain `block` / `flex`. Also two Tailwind v4 syntax touch-ups: negative-offset classes now use the shorthand arbitrary-property form (`-left-(--sidebar-width)` instead of `left-[calc(var(--sidebar-width)*-1)]`, same for the right side), and the rail's `after:start-1/2` became the logical-property `after:inset-s-1/2`.
 
 ---
 
@@ -287,7 +307,8 @@ Added via the Clerk CLI (`clerk init --framework next --pm npm`, linked to the `
 
 </div>
 
-[Unreleased]: https://github.com/RISHII7/Flowbrowse/compare/v0.3.0...HEAD
+[Unreleased]: https://github.com/RISHII7/Flowbrowse/compare/v0.3.1...HEAD
+[0.3.1]: https://github.com/RISHII7/Flowbrowse/compare/v0.3.0...v0.3.1
 [0.3.0]: https://github.com/RISHII7/Flowbrowse/compare/v0.2.2...v0.3.0
 [0.2.2]: https://github.com/RISHII7/Flowbrowse/compare/v0.2.1...v0.2.2
 [0.2.1]: https://github.com/RISHII7/Flowbrowse/compare/v0.2.0...v0.2.1
