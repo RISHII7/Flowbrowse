@@ -8,7 +8,7 @@ _All notable changes to this project, documented with care._
 
 [![Keep a Changelog](https://img.shields.io/badge/Keep%20a%20Changelog-1.1.0-E05735?style=flat-square&logo=keepachangelog&logoColor=white)](https://keepachangelog.com/en/1.1.0/)
 [![Semantic Versioning](https://img.shields.io/badge/SemVer-2.0.0-3F51B5?style=flat-square&logo=semver&logoColor=white)](https://semver.org/spec/v2.0.0.html)
-[![Latest Release](https://img.shields.io/badge/latest-v0.3.1-2EA043?style=flat-square&logo=github&logoColor=white)](https://github.com/RISHII7/Flowbrowse/releases/tag/v0.3.1)
+[![Latest Release](https://img.shields.io/badge/latest-v0.4.0-2EA043?style=flat-square&logo=github&logoColor=white)](https://github.com/RISHII7/Flowbrowse/releases/tag/v0.4.0)
 
 </div>
 
@@ -33,6 +33,7 @@ This changelog is written to be **read by humans**. Every release lists exactly 
 
 | Version | Date | Headline |
 | :-- | :-- | :-- |
+| [**0.4.0**](#040--2026-07-19) | 2026-07-19 | 🗄️ Neon Postgres + Drizzle ORM database layer |
 | [**0.3.1**](#031--2026-07-16) | 2026-07-16 | 🧭 WorkflowNav extracted · always-visible sidebar · hidden-Unicode fix |
 | [**0.3.0**](#030--2026-07-16) | 2026-07-16 | 🗂️ Dashboard shell — collapsible app sidebar, workflow empty state |
 | [**0.2.2**](#022--2026-07-16) | 2026-07-16 | 🎨 4 more design mockups synced from upstream |
@@ -48,7 +49,24 @@ This changelog is written to be **read by humans**. Every release lists exactly 
 
 ## [Unreleased]
 
-> _Nothing yet — the working tree is in sync with `v0.3.1`._
+> _Nothing yet — the working tree is in sync with `v0.4.0`._
+
+---
+
+## [0.4.0] — 2026-07-19
+
+> **Highlights** 🗄️ The app now has a database — Neon serverless Postgres wired up with Drizzle ORM, an initial `users` schema, and a generated + applied migration.
+
+### ✨ Added
+
+- **Neon Postgres + Drizzle ORM** — the database layer, connected to the `flowbrowse` Neon project provisioned via `neon init`.
+  - **Dependencies** — `@neondatabase/serverless` (`^1.1.0`, HTTP driver), `drizzle-orm` (`^0.45.2`), `drizzle-kit` (`^0.31.10`, dev), `dotenv` (`^17.4.2`).
+  - **`.neon`** — Neon project context (`orgId` + `projectId`). Safe to commit; connection strings live only in the gitignored `.env.local` (`DATABASE_URL` / `DATABASE_URL_UNPOOLED`, pulled by `neon env pull`).
+  - **`drizzle.config.ts`** — schema at `lib/db/schema.ts`, migrations to `lib/db/migrations`, DDL over `DATABASE_URL_UNPOOLED` (direct/unpooled), `casing: "snake_case"`, `verbose` + `strict`; loads env from `.env.local`.
+  - **`lib/db/schema.ts`** — starter `users` table (`uuid` id, unique `clerk_id`, `email`, `name`, `created_at`/`updated_at` timestamptz with an auto-touched `updated_at`), exporting `User` / `NewUser` inferred types.
+  - **`lib/db/index.ts`** — the `db` client over `drizzle-orm/neon-http` + `neon()`, with schema and snake_case casing; re-exports `schema`. Safe for serverless/edge and Next.js Server Components.
+  - **`lib/db/migrations/`** — initial migration (`0000`) creating the `users` table, generated with `drizzle-kit generate` and applied to Neon with `drizzle-kit migrate`. Verified end-to-end (all 6 columns present; one row in `drizzle.__drizzle_migrations`).
+- **Neon agent-skills bundle** — the Neon skills suite (`neon`, `neon-postgres`, `neon-postgres-branches`, `neon-postgres-egress-optimizer`, `neon-ai-gateway`, `neon-functions`, `neon-object-storage`, `claimable-postgres`) installed from `neondatabase/agent-skills` into `.agents/skills/` and `.claude/skills/`, with `skills-lock.json` recording sources and content hashes. As with the Clerk bundle, the `.claude/skills/*` symlinks were committed as duplicate copies because this environment's `git config core.symlinks` is `false`.
 
 ---
 
@@ -97,7 +115,7 @@ This changelog is written to be **read by humans**. Every release lists exactly 
 
 ### ✨ Added
 
-- **`design/`** — 4 new reference mockups, checked against [`code-with-antonio/browser-automation-app`](https://github.com/code-with-antonio/browser-automation-app/tree/main/design)'s `main` branch and downloaded verbatim (byte size verified against the source):
+- **`design/`** — 4 new reference mockups, checked against the upstream design reference and downloaded verbatim (byte size verified against the source):
   - `canvas-2.png` — alternate canvas view.
   - `collapsed-app-sidebar.png` — sidebar in its collapsed state.
   - `collapsed-app-sidebar-workflow-list.png` — collapsed sidebar showing the workflow list.
@@ -112,7 +130,7 @@ This changelog is written to be **read by humans**. Every release lists exactly 
 
 ### ✨ Added
 
-- **`design/`** _(new, 16 PNGs)_ — reference screenshots/mockups downloaded verbatim from [`code-with-antonio/browser-automation-app`](https://github.com/code-with-antonio/browser-automation-app/tree/e30bdfdc2e0964e013382e77da5187c89b058f3e/design) (fetched via the GitHub Contents API so byte content matches the source exactly). Covers the app shell and workflow editor: `action-node`, `app-sidebar`, `canvas`, `empty-editor`, `logs-panel`, `logs-with-output-panel`, `no-workflow-selected`, `node-data-1/2/3`, `node-editor-1/2/3`, `node-in-progress`, `right-sidebar`, `trigger-node`. Serves as the visual reference for upcoming UI work.
+- **`design/`** _(new, 16 PNGs)_ — reference screenshots/mockups downloaded verbatim from the upstream design reference (fetched via the GitHub Contents API so byte content matches the source exactly). Covers the app shell and workflow editor: `action-node`, `app-sidebar`, `canvas`, `empty-editor`, `logs-panel`, `logs-with-output-panel`, `no-workflow-selected`, `node-data-1/2/3`, `node-editor-1/2/3`, `node-in-progress`, `right-sidebar`, `trigger-node`. Serves as the visual reference for upcoming UI work.
 
 ### ♻️ Changed
 
@@ -242,7 +260,7 @@ Wired the `sonner` toast system into the app shell, making the pre-installed `co
 
 #### 🔐 Clerk authentication
 
-Added via the Clerk CLI (`clerk init --framework next --pm npm`, linked to the `flowbrowse` Clerk application) and finished by hand to match the [reference implementation](https://github.com/code-with-antonio/browser-automation-app/commit/80acac26b81efad23c1ef5e6bafe3a812ce2ae55).
+Added via the Clerk CLI (`clerk init --framework next --pm npm`, linked to the `flowbrowse` Clerk application) and finished by hand to match a reference implementation.
 
 - **`proxy.ts`** _(new)_ — root proxy (Next.js 16 renamed Middleware → **Proxy**; same functionality) wiring up `clerkMiddleware()`. Uses `createRouteMatcher` to keep `/`, `/sign-in(.*)`, and `/sign-up(.*)` **public** and calls `auth.protect()` on every other request — the landing and auth pages stay reachable while all other routes require authentication. `config.matcher` skips `_next` and static assets while covering app routes and `/api|/trpc`.
 - **`app/sign-in/[[...sign-in]]/page.tsx`** & **`app/sign-up/[[...sign-up]]/page.tsx`** _(new)_ — Clerk catch-all auth routes, each rendering the prebuilt `<SignIn />` / `<SignUp />` component centered on a full-height page.
@@ -307,7 +325,8 @@ Added via the Clerk CLI (`clerk init --framework next --pm npm`, linked to the `
 
 </div>
 
-[Unreleased]: https://github.com/RISHII7/Flowbrowse/compare/v0.3.1...HEAD
+[Unreleased]: https://github.com/RISHII7/Flowbrowse/compare/v0.4.0...HEAD
+[0.4.0]: https://github.com/RISHII7/Flowbrowse/compare/v0.3.1...v0.4.0
 [0.3.1]: https://github.com/RISHII7/Flowbrowse/compare/v0.3.0...v0.3.1
 [0.3.0]: https://github.com/RISHII7/Flowbrowse/compare/v0.2.2...v0.3.0
 [0.2.2]: https://github.com/RISHII7/Flowbrowse/compare/v0.2.1...v0.2.2
