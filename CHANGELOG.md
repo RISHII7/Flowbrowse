@@ -8,7 +8,7 @@ _All notable changes to this project, documented with care._
 
 [![Keep a Changelog](https://img.shields.io/badge/Keep%20a%20Changelog-1.1.0-E05735?style=flat-square&logo=keepachangelog&logoColor=white)](https://keepachangelog.com/en/1.1.0/)
 [![Semantic Versioning](https://img.shields.io/badge/SemVer-2.0.0-3F51B5?style=flat-square&logo=semver&logoColor=white)](https://semver.org/spec/v2.0.0.html)
-[![Latest Release](https://img.shields.io/badge/latest-v0.5.0-2EA043?style=flat-square&logo=github&logoColor=white)](https://github.com/RISHII7/Flowbrowse/releases/tag/v0.5.0)
+[![Latest Release](https://img.shields.io/badge/latest-v0.5.1-2EA043?style=flat-square&logo=github&logoColor=white)](https://github.com/RISHII7/Flowbrowse/releases/tag/v0.5.1)
 
 </div>
 
@@ -33,6 +33,7 @@ This changelog is written to be **read by humans**. Every release lists exactly 
 
 | Version | Date | Headline |
 | :-- | :-- | :-- |
+| [**0.5.1**](#051--2026-07-19) | 2026-07-19 | 🔑 Document Neon database vars in `.env.example` |
 | [**0.5.0**](#050--2026-07-19) | 2026-07-19 | ⚙️ Workflows — schema, data layer, and server actions wired to the sidebar |
 | [**0.4.0**](#040--2026-07-19) | 2026-07-19 | 🗄️ Neon Postgres + Drizzle ORM database layer |
 | [**0.3.1**](#031--2026-07-16) | 2026-07-16 | 🧭 WorkflowNav extracted · always-visible sidebar · hidden-Unicode fix |
@@ -50,7 +51,20 @@ This changelog is written to be **read by humans**. Every release lists exactly 
 
 ## [Unreleased]
 
-> _Nothing yet — the working tree is in sync with `v0.5.0`._
+> _Nothing yet — the working tree is in sync with `v0.5.1`._
+
+---
+
+## [0.5.1] — 2026-07-19
+
+> **Highlights** 🔑 The `.env.example` template now documents the Neon Postgres variables, so a fresh clone knows exactly which database env vars to provide.
+
+### ✨ Added
+
+- **`.env.example`** — added the Neon Postgres variables (empty placeholders; real values live only in the gitignored `.env.local`, pulled via `neon env pull`):
+  - `DATABASE_URL` — pooled connection used by the app at runtime.
+  - `DATABASE_URL_UNPOOLED` — direct/unpooled connection used for migrations and DDL (`drizzle-kit`).
+  - `NEON_BRANCH` — the Neon branch the local env is pulled from.
 
 ---
 
@@ -350,7 +364,8 @@ Added via the Clerk CLI (`clerk init --framework next --pm npm`, linked to the `
 
 </div>
 
-[Unreleased]: https://github.com/RISHII7/Flowbrowse/compare/v0.5.0...HEAD
+[Unreleased]: https://github.com/RISHII7/Flowbrowse/compare/v0.5.1...HEAD
+[0.5.1]: https://github.com/RISHII7/Flowbrowse/compare/v0.5.0...v0.5.1
 [0.5.0]: https://github.com/RISHII7/Flowbrowse/compare/v0.4.0...v0.5.0
 [0.4.0]: https://github.com/RISHII7/Flowbrowse/compare/v0.3.1...v0.4.0
 [0.3.1]: https://github.com/RISHII7/Flowbrowse/compare/v0.3.0...v0.3.1
