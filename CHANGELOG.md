@@ -8,7 +8,7 @@ _All notable changes to this project, documented with care._
 
 [![Keep a Changelog](https://img.shields.io/badge/Keep%20a%20Changelog-1.1.0-E05735?style=flat-square&logo=keepachangelog&logoColor=white)](https://keepachangelog.com/en/1.1.0/)
 [![Semantic Versioning](https://img.shields.io/badge/SemVer-2.0.0-3F51B5?style=flat-square&logo=semver&logoColor=white)](https://semver.org/spec/v2.0.0.html)
-[![Latest Release](https://img.shields.io/badge/latest-v0.4.0-2EA043?style=flat-square&logo=github&logoColor=white)](https://github.com/RISHII7/Flowbrowse/releases/tag/v0.4.0)
+[![Latest Release](https://img.shields.io/badge/latest-v0.5.0-2EA043?style=flat-square&logo=github&logoColor=white)](https://github.com/RISHII7/Flowbrowse/releases/tag/v0.5.0)
 
 </div>
 
@@ -33,6 +33,7 @@ This changelog is written to be **read by humans**. Every release lists exactly 
 
 | Version | Date | Headline |
 | :-- | :-- | :-- |
+| [**0.5.0**](#050--2026-07-19) | 2026-07-19 | ⚙️ Workflows — schema, data layer, and server actions wired to the sidebar |
 | [**0.4.0**](#040--2026-07-19) | 2026-07-19 | 🗄️ Neon Postgres + Drizzle ORM database layer |
 | [**0.3.1**](#031--2026-07-16) | 2026-07-16 | 🧭 WorkflowNav extracted · always-visible sidebar · hidden-Unicode fix |
 | [**0.3.0**](#030--2026-07-16) | 2026-07-16 | 🗂️ Dashboard shell — collapsible app sidebar, workflow empty state |
@@ -49,7 +50,31 @@ This changelog is written to be **read by humans**. Every release lists exactly 
 
 ## [Unreleased]
 
-> _Nothing yet — the working tree is in sync with `v0.4.0`._
+> _Nothing yet — the working tree is in sync with `v0.5.0`._
+
+---
+
+## [0.5.0] — 2026-07-19
+
+> **Highlights** ⚙️ The first real domain feature — **workflows**. The placeholder `users` schema is replaced by an organization-scoped `workflows` model, with a data layer, a "create workflow" server action, and the sidebar wired to list and create workflows backed by Neon Postgres.
+
+### ✨ Added
+
+- **`features/workflows/data.ts`** — the workflows data layer: `listWorkflows(orgId)` (the org's workflows, newest first) and `createWorkflow(orgId, name)` (insert and return the row).
+- **`features/workflows/actions.ts`** — `createWorkflowAction(name)`, a `"use server"` action that resolves the active org via Clerk `auth()`, creates the workflow, revalidates the workflows layout, and redirects to the new workflow's page.
+- **`features/workflows/lib/generate-slug.ts`** — `generateSlug()`, an adjective-animal name generator (via `unique-names-generator`) used as the default workflow name.
+- **Dependency** — `unique-names-generator` (`^4.7.1`).
+
+### ♻️ Changed
+
+- **`lib/db/schema.ts`** — replaced the starter `users` table with a `workflows` table: `uuid` id, `org_id` (Clerk organization), `name`, `graph` (`jsonb`, for the node editor to come), and `created_at`/`updated_at`. Exports the inferred `Workflow` row type.
+- **`features/workflows/components/workflow-nav.tsx`** — now takes `workflows` and `onCreateWorkflow` as props instead of a hardcoded list; "New workflow" calls the server action with a generated slug inside a `useTransition` (disabled while pending), in both the expanded and icon-collapsed (popover) layouts.
+- **`components/app-sidebar.tsx`** — became an async server component: resolves `orgId` via `auth()`, fetches the org's workflows with `listWorkflows`, and passes them plus `createWorkflowAction` down to `WorkflowNav`.
+- **`AGENTS.md`** — added a "Database types" rule: derive row types from the Drizzle schema (`typeof table.$inferSelect` / `$inferInsert` from `lib/db/schema.ts`), narrowing with `Pick`/`Omit` rather than hand-writing shapes.
+
+### 🗑️ Removed
+
+- **`lib/db/migrations/` (initial `users` migration)** — dropped the generated migration and reset the folder to a `.gitkeep`. Schema is now synced to Neon via `drizzle-kit push` (verified: the `workflows` table is live and push reports no changes).
 
 ---
 
@@ -325,7 +350,8 @@ Added via the Clerk CLI (`clerk init --framework next --pm npm`, linked to the `
 
 </div>
 
-[Unreleased]: https://github.com/RISHII7/Flowbrowse/compare/v0.4.0...HEAD
+[Unreleased]: https://github.com/RISHII7/Flowbrowse/compare/v0.5.0...HEAD
+[0.5.0]: https://github.com/RISHII7/Flowbrowse/compare/v0.4.0...v0.5.0
 [0.4.0]: https://github.com/RISHII7/Flowbrowse/compare/v0.3.1...v0.4.0
 [0.3.1]: https://github.com/RISHII7/Flowbrowse/compare/v0.3.0...v0.3.1
 [0.3.0]: https://github.com/RISHII7/Flowbrowse/compare/v0.2.2...v0.3.0
