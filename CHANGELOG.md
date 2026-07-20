@@ -8,7 +8,7 @@ _All notable changes to this project, documented with care._
 
 [![Keep a Changelog](https://img.shields.io/badge/Keep%20a%20Changelog-1.1.0-E05735?style=flat-square&logo=keepachangelog&logoColor=white)](https://keepachangelog.com/en/1.1.0/)
 [![Semantic Versioning](https://img.shields.io/badge/SemVer-2.0.0-3F51B5?style=flat-square&logo=semver&logoColor=white)](https://semver.org/spec/v2.0.0.html)
-[![Latest Release](https://img.shields.io/badge/latest-v0.5.1-2EA043?style=flat-square&logo=github&logoColor=white)](https://github.com/RISHII7/Flowbrowse/releases/tag/v0.5.1)
+[![Latest Release](https://img.shields.io/badge/latest-v0.6.0-2EA043?style=flat-square&logo=github&logoColor=white)](https://github.com/RISHII7/Flowbrowse/releases/tag/v0.6.0)
 
 </div>
 
@@ -33,6 +33,7 @@ This changelog is written to be **read by humans**. Every release lists exactly 
 
 | Version | Date | Headline |
 | :-- | :-- | :-- |
+| [**0.6.0**](#060--2026-07-20) | 2026-07-20 | 🧭 Individual workflow detail route (`/workflows/[id]`) |
 | [**0.5.1**](#051--2026-07-19) | 2026-07-19 | 🔑 Document Neon database vars in `.env.example` |
 | [**0.5.0**](#050--2026-07-19) | 2026-07-19 | ⚙️ Workflows — schema, data layer, and server actions wired to the sidebar |
 | [**0.4.0**](#040--2026-07-19) | 2026-07-19 | 🗄️ Neon Postgres + Drizzle ORM database layer |
@@ -51,7 +52,26 @@ This changelog is written to be **read by humans**. Every release lists exactly 
 
 ## [Unreleased]
 
-> _Nothing yet — the working tree is in sync with `v0.5.1`._
+> _Nothing yet — the working tree is in sync with `v0.6.0`._
+
+---
+
+## [0.6.0] — 2026-07-20
+
+> **Highlights** 🧭 Workflows are now navigable — selecting one in the sidebar opens its own `/workflows/[id]` page, with the active workflow highlighted and full loading/error/not-found states.
+
+### ✨ Added
+
+- **`app/(dashboard)/workflows/[id]/` route** (under the `(dashboard)` group):
+  - `page.tsx` — async page that awaits the route params and renders the workflow id (placeholder for the node editor to come).
+  - `loading.tsx` — route-level loading UI while the segment streams in.
+  - `error.tsx` — error boundary with a reset action.
+  - `not-found.tsx` — UI for missing/invalid workflow ids.
+
+### ♻️ Changed
+
+- **`features/workflows/components/workflow-nav.tsx`** — each workflow now renders as a `<Link>` to `/workflows/[id]` (`SidebarMenuButton asChild`), with the active workflow highlighted via `usePathname()` (`isActive`).
+- **`AGENTS.md`** — added a "JSX text escaping" rule: escape apostrophes/quotes in JSX text content (`&apos;` / `&quot;`) to satisfy `react/no-unescaped-entities`.
 
 ---
 
@@ -364,7 +384,8 @@ Added via the Clerk CLI (`clerk init --framework next --pm npm`, linked to the `
 
 </div>
 
-[Unreleased]: https://github.com/RISHII7/Flowbrowse/compare/v0.5.1...HEAD
+[Unreleased]: https://github.com/RISHII7/Flowbrowse/compare/v0.6.0...HEAD
+[0.6.0]: https://github.com/RISHII7/Flowbrowse/compare/v0.5.1...v0.6.0
 [0.5.1]: https://github.com/RISHII7/Flowbrowse/compare/v0.5.0...v0.5.1
 [0.5.0]: https://github.com/RISHII7/Flowbrowse/compare/v0.4.0...v0.5.0
 [0.4.0]: https://github.com/RISHII7/Flowbrowse/compare/v0.3.1...v0.4.0
