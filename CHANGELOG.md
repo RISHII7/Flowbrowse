@@ -8,7 +8,7 @@ _All notable changes to this project, documented with care._
 
 [![Keep a Changelog](https://img.shields.io/badge/Keep%20a%20Changelog-1.1.0-E05735?style=flat-square&logo=keepachangelog&logoColor=white)](https://keepachangelog.com/en/1.1.0/)
 [![Semantic Versioning](https://img.shields.io/badge/SemVer-2.0.0-3F51B5?style=flat-square&logo=semver&logoColor=white)](https://semver.org/spec/v2.0.0.html)
-[![Latest Release](https://img.shields.io/badge/latest-v0.7.0-2EA043?style=flat-square&logo=github&logoColor=white)](https://github.com/RISHII7/Flowbrowse/releases/tag/v0.7.0)
+[![Latest Release](https://img.shields.io/badge/latest-v0.8.0-2EA043?style=flat-square&logo=github&logoColor=white)](https://github.com/RISHII7/Flowbrowse/releases/tag/v0.8.0)
 
 </div>
 
@@ -33,6 +33,7 @@ This changelog is written to be **read by humans**. Every release lists exactly 
 
 | Version | Date | Headline |
 | :-- | :-- | :-- |
+| [**0.8.0**](#080--2026-07-20) | 2026-07-20 | ⏱️ Trigger.dev — background task infrastructure |
 | [**0.7.0**](#070--2026-07-20) | 2026-07-20 | 🧱 WorkflowShell — resizable editor layout (canvas / logs / inspector) |
 | [**0.6.1**](#061--2026-07-20) | 2026-07-20 | 📄 Workflow-shell spec |
 | [**0.6.0**](#060--2026-07-20) | 2026-07-20 | 🧭 Individual workflow detail route (`/workflows/[id]`) |
@@ -54,7 +55,24 @@ This changelog is written to be **read by humans**. Every release lists exactly 
 
 ## [Unreleased]
 
-> _Nothing yet — the working tree is in sync with `v0.7.0`._
+> _Nothing yet — the working tree is in sync with `v0.8.0`._
+
+---
+
+## [0.8.0] — 2026-07-20
+
+> **Highlights** ⏱️ Background-job infrastructure — **Trigger.dev** (v4) is wired in with a Hello World task, its MCP server, and agent skills, ready for durable async work (workflow runs, scheduled jobs, long-running automation).
+
+### ✨ Added
+
+- **Trigger.dev (v4) setup** for background/async task execution.
+  - **Dependencies** — `@trigger.dev/sdk` (`^4.5.5`, the task SDK) and `@trigger.dev/build` (`^4.5.5`, build extensions for deploys).
+  - **`trigger.config.ts`** — `defineConfig` from `@trigger.dev/sdk` (the v4 entry, not the deprecated `/v3` subpath): the `trigger` task dir, node runtime, 3600s max duration, and a default retry policy (enabled in dev).
+  - **`trigger/example.ts`** — the Hello World example task (`id: "hello-world"`) using the v4 `task()` API, with a typed `unknown` payload.
+  - **`tsconfig.json`** — includes `trigger.config.ts` for type-checking.
+  - **`.gitignore`** — ignores the `.trigger` build/dev artifacts directory.
+  - **`.env.example`** — documents `TRIGGER_SECRET_KEY` (the real `tr_dev_*` key lives only in the gitignored `.env.local`, from the dashboard API Keys page).
+- **MCP server + agent skills** — `.mcp.json` registers the Trigger.dev MCP server (docs, deploys, run monitoring from the agent), and `.agents/skills/` + `.claude/skills/` add six Trigger.dev skills (`authoring-tasks`, `authoring-chat-agent`, `chat-agent-advanced`, `cost-savings`, `getting-started`, `realtime-and-frontend`), with `AGENTS.md`/`CLAUDE.md` noting them. As with earlier skill bundles, the `.claude/skills/*` symlinks were committed as duplicate copies because `core.symlinks` is `false` here.
 
 ---
 
@@ -413,7 +431,8 @@ Added via the Clerk CLI (`clerk init --framework next --pm npm`, linked to the `
 
 </div>
 
-[Unreleased]: https://github.com/RISHII7/Flowbrowse/compare/v0.7.0...HEAD
+[Unreleased]: https://github.com/RISHII7/Flowbrowse/compare/v0.8.0...HEAD
+[0.8.0]: https://github.com/RISHII7/Flowbrowse/compare/v0.7.0...v0.8.0
 [0.7.0]: https://github.com/RISHII7/Flowbrowse/compare/v0.6.1...v0.7.0
 [0.6.1]: https://github.com/RISHII7/Flowbrowse/compare/v0.6.0...v0.6.1
 [0.6.0]: https://github.com/RISHII7/Flowbrowse/compare/v0.5.1...v0.6.0
