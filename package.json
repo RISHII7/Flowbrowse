@@ -1,6 +1,6 @@
 {
   "name": "flowbrowse",
-  "version": "0.8.0",
+  "version": "0.9.0",
   "type": "module",
   "private": true,
   "scripts": {
@@ -17,6 +17,7 @@
     "@clerk/ui": "^1.24.1",
     "@neondatabase/serverless": "^1.1.0",
     "@shadcn/react": "^0.2.1",
+    "@trigger.dev/react-hooks": "4.5.5",
     "@trigger.dev/sdk": "4.5.5",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",

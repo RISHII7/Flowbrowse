@@ -8,7 +8,7 @@ _All notable changes to this project, documented with care._
 
 [![Keep a Changelog](https://img.shields.io/badge/Keep%20a%20Changelog-1.1.0-E05735?style=flat-square&logo=keepachangelog&logoColor=white)](https://keepachangelog.com/en/1.1.0/)
 [![Semantic Versioning](https://img.shields.io/badge/SemVer-2.0.0-3F51B5?style=flat-square&logo=semver&logoColor=white)](https://semver.org/spec/v2.0.0.html)
-[![Latest Release](https://img.shields.io/badge/latest-v0.8.0-2EA043?style=flat-square&logo=github&logoColor=white)](https://github.com/RISHII7/Flowbrowse/releases/tag/v0.8.0)
+[![Latest Release](https://img.shields.io/badge/latest-v0.9.0-2EA043?style=flat-square&logo=github&logoColor=white)](https://github.com/RISHII7/Flowbrowse/releases/tag/v0.9.0)
 
 </div>
 
@@ -33,6 +33,7 @@ This changelog is written to be **read by humans**. Every release lists exactly 
 
 | Version | Date | Headline |
 | :-- | :-- | :-- |
+| [**0.9.0**](#090--2026-07-20) | 2026-07-20 | ▶️ Right-sidebar Run button — trigger a task with realtime status |
 | [**0.8.0**](#080--2026-07-20) | 2026-07-20 | ⏱️ Trigger.dev — background task infrastructure |
 | [**0.7.0**](#070--2026-07-20) | 2026-07-20 | 🧱 WorkflowShell — resizable editor layout (canvas / logs / inspector) |
 | [**0.6.1**](#061--2026-07-20) | 2026-07-20 | 📄 Workflow-shell spec |
@@ -55,7 +56,23 @@ This changelog is written to be **read by humans**. Every release lists exactly 
 
 ## [Unreleased]
 
-> _Nothing yet — the working tree is in sync with `v0.8.0`._
+> _Nothing yet — the working tree is in sync with `v0.9.0`._
+
+---
+
+## [0.9.0] — 2026-07-20
+
+> **Highlights** ▶️ The workflow editor's inspector gets a **Run** button that fires a Trigger.dev task and streams its status live — the first end-to-end task trigger from the app.
+
+### ✨ Added
+
+- **`features/workflows/components/right-sidebar.tsx`** — `RightSidebar` with a **Run** button that calls the trigger action in a transition (spinner while pending) and stores the returned run handle. A nested `RunStatus` subscribes to the run in realtime via `useRealtimeRun` (from `@trigger.dev/react-hooks`), authorized by the run's `publicAccessToken`, showing the live status and the task's output message on completion.
+- **Dependency** — `@trigger.dev/react-hooks` (`^4.5.5`) for the realtime run hook.
+
+### ♻️ Changed
+
+- **`features/workflows/actions.ts`** — added `runWorkflowAction()`: resolves the active org via Clerk `auth()` and triggers the `hello-world` task with `tasks.trigger`, returning the run handle (`id` + `publicAccessToken`). Uses the type-only import of `helloWorldTask` (`import type … from "@/trigger/example"`) so task code isn't bundled into the app.
+- **`features/workflows/components/workflow-shell.tsx`** — renders `<RightSidebar />` in the inspector panel.
 
 ---
 
@@ -431,7 +448,8 @@ Added via the Clerk CLI (`clerk init --framework next --pm npm`, linked to the `
 
 </div>
 
-[Unreleased]: https://github.com/RISHII7/Flowbrowse/compare/v0.8.0...HEAD
+[Unreleased]: https://github.com/RISHII7/Flowbrowse/compare/v0.9.0...HEAD
+[0.9.0]: https://github.com/RISHII7/Flowbrowse/compare/v0.8.0...v0.9.0
 [0.8.0]: https://github.com/RISHII7/Flowbrowse/compare/v0.7.0...v0.8.0
 [0.7.0]: https://github.com/RISHII7/Flowbrowse/compare/v0.6.1...v0.7.0
 [0.6.1]: https://github.com/RISHII7/Flowbrowse/compare/v0.6.0...v0.6.1
