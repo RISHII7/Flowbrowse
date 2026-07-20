@@ -8,7 +8,7 @@ _All notable changes to this project, documented with care._
 
 [![Keep a Changelog](https://img.shields.io/badge/Keep%20a%20Changelog-1.1.0-E05735?style=flat-square&logo=keepachangelog&logoColor=white)](https://keepachangelog.com/en/1.1.0/)
 [![Semantic Versioning](https://img.shields.io/badge/SemVer-2.0.0-3F51B5?style=flat-square&logo=semver&logoColor=white)](https://semver.org/spec/v2.0.0.html)
-[![Latest Release](https://img.shields.io/badge/latest-v0.9.1-2EA043?style=flat-square&logo=github&logoColor=white)](https://github.com/RISHII7/Flowbrowse/releases/tag/v0.9.1)
+[![Latest Release](https://img.shields.io/badge/latest-v0.10.0-2EA043?style=flat-square&logo=github&logoColor=white)](https://github.com/RISHII7/Flowbrowse/releases/tag/v0.10.0)
 
 </div>
 
@@ -33,6 +33,7 @@ This changelog is written to be **read by humans**. Every release lists exactly 
 
 | Version | Date | Headline |
 | :-- | :-- | :-- |
+| [**0.10.0**](#0100--2026-07-20) | 2026-07-20 | 🎨 React Flow canvas in the workflow editor |
 | [**0.9.1**](#091--2026-07-20) | 2026-07-20 | 📄 Canvas-theme spec + spec heading lint fix |
 | [**0.9.0**](#090--2026-07-20) | 2026-07-20 | ▶️ Right-sidebar Run button — trigger a task with realtime status |
 | [**0.8.0**](#080--2026-07-20) | 2026-07-20 | ⏱️ Trigger.dev — background task infrastructure |
@@ -57,7 +58,26 @@ This changelog is written to be **read by humans**. Every release lists exactly 
 
 ## [Unreleased]
 
-> _Nothing yet — the working tree is in sync with `v0.9.1`._
+> _Nothing yet — the working tree is in sync with `v0.10.0`._
+
+---
+
+## [0.10.0] — 2026-07-20
+
+> **Highlights** 🎨 The workflow editor's canvas is real — an interactive **React Flow** graph now fills the shell's canvas panel, with hydration-safe theming and no attribution watermark.
+
+### ✨ Added
+
+- **`features/workflows/components/canvas.tsx`** — a `Canvas` built on `@xyflow/react` (React Flow): a small two-node / one-edge starter graph with node/edge change handlers and connect support (smoothstep edges styled with the theme border color), plus `Controls`. CSS-variable overrides map React Flow's background/edge styling onto the app's theme tokens, and `proOptions={{ hideAttribution: true }}` hides the attribution watermark.
+- **Dependency** — `@xyflow/react` (`^12.11.2`).
+
+### ♻️ Changed
+
+- **`features/workflows/components/workflow-shell.tsx`** — renders `<Canvas />` in the top-left resizable panel, replacing the "Canvas" placeholder label.
+
+### 🐛 Fixed
+
+- **Canvas theme hydration mismatch** (implementing [`specs/canvas-theme.md`](specs/canvas-theme.md)) — a `useMounted()` flag built on `useSyncExternalStore` stays `false` during server render and initial hydration and `true` after mount; `colorMode` uses `"light"` until mounted, then switches to `next-themes`' `resolvedTheme`. This keeps the server and first client render identical, avoiding the light/dark React Flow hydration error.
 
 ---
 
@@ -463,7 +483,8 @@ Added via the Clerk CLI (`clerk init --framework next --pm npm`, linked to the `
 
 </div>
 
-[Unreleased]: https://github.com/RISHII7/Flowbrowse/compare/v0.9.1...HEAD
+[Unreleased]: https://github.com/RISHII7/Flowbrowse/compare/v0.10.0...HEAD
+[0.10.0]: https://github.com/RISHII7/Flowbrowse/compare/v0.9.1...v0.10.0
 [0.9.1]: https://github.com/RISHII7/Flowbrowse/compare/v0.9.0...v0.9.1
 [0.9.0]: https://github.com/RISHII7/Flowbrowse/compare/v0.8.0...v0.9.0
 [0.8.0]: https://github.com/RISHII7/Flowbrowse/compare/v0.7.0...v0.8.0
