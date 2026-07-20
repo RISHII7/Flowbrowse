@@ -1,3 +1,5 @@
+# Workflow shell
+
 Create a WorkflowShell component in features/workflows/components/ that takes a workflowId and is the layout shell for the workflow editor, then render it from the workflow page.tsx at app/(dashboard)/workflows/[id]/page.tsx.
 
 Build it in this one file with the Resizable components from components/ui/resizable.tsx, using rem values for every size (this component sizes in rem, not percentages). The layout is a horizontal ResizablePanelGroup that fills the space (size-full) with two panels and a handle between them.
