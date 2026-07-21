@@ -1,7 +1,8 @@
 "use client"
 
-import { useCallback, useSyncExternalStore } from "react"
 import { useTheme } from "next-themes"
+import { useCallback, useSyncExternalStore } from "react"
+
 import {
   addEdge,
   Controls,
@@ -14,7 +15,6 @@ import {
   type Edge,
   type Node,
 } from "@xyflow/react"
-
 import "@xyflow/react/dist/style.css"
 
 const initialNodes: Node[] = [
