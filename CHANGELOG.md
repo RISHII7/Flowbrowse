@@ -8,7 +8,7 @@ _All notable changes to this project, documented with care._
 
 [![Keep a Changelog](https://img.shields.io/badge/Keep%20a%20Changelog-1.1.0-E05735?style=flat-square&logo=keepachangelog&logoColor=white)](https://keepachangelog.com/en/1.1.0/)
 [![Semantic Versioning](https://img.shields.io/badge/SemVer-2.0.0-3F51B5?style=flat-square&logo=semver&logoColor=white)](https://semver.org/spec/v2.0.0.html)
-[![Latest Release](https://img.shields.io/badge/latest-v0.10.1-2EA043?style=flat-square&logo=github&logoColor=white)](https://github.com/RISHII7/Flowbrowse/releases/tag/v0.10.1)
+[![Latest Release](https://img.shields.io/badge/latest-v0.11.0-2EA043?style=flat-square&logo=github&logoColor=white)](https://github.com/RISHII7/Flowbrowse/releases/tag/v0.11.0)
 
 </div>
 
@@ -33,6 +33,7 @@ This changelog is written to be **read by humans**. Every release lists exactly 
 
 | Version | Date | Headline |
 | :-- | :-- | :-- |
+| [**0.11.0**](#0110--2026-07-22) | 2026-07-22 | 🧩 Registry-driven step nodes on the canvas |
 | [**0.10.1**](#0101--2026-07-20) | 2026-07-20 | 📄 Node registry spec + step-node templates |
 | [**0.10.0**](#0100--2026-07-20) | 2026-07-20 | 🎨 React Flow canvas in the workflow editor |
 | [**0.9.1**](#091--2026-07-20) | 2026-07-20 | 📄 Canvas-theme spec + spec heading lint fix |
@@ -59,7 +60,26 @@ This changelog is written to be **read by humans**. Every release lists exactly 
 
 ## [Unreleased]
 
-> _Nothing yet — the working tree is in sync with `v0.10.1`._
+> _Nothing yet — the working tree is in sync with `v0.11.0`._
+
+---
+
+## [0.11.0] — 2026-07-22
+
+> **Highlights** 🧩 The canvas now renders real, registry-driven **step nodes** instead of React Flow's default placeholders — the node registry and `StepNode` component graduated from `templates/` into the codebase, and the canvas seeds a proper `Start` trigger node.
+
+### ✨ Added
+
+- **`features/workflows/nodes/node-registry.ts`** — the node manifest, promoted from `templates/`: `NodeDefinition` / `NodeField` / `StepNodeKind` types plus a `nodeRegistry` with the first two entries (`start` trigger, `open-url` action), each carrying a label, lucide icon, Tailwind accent classes, and the editable fields the inspector will render. Also exports `NodeType`, the plain-JSON `StepNodeData` shape (`type`/`kind`/`title` denormalized so the server can read a node without the registry), and `StepNodeType`.
+- **`features/workflows/components/step-node.tsx`** — the `StepNode` component, promoted from `templates/` and repointed at `@/features/workflows/nodes/node-registry` now that the registry lives at its real path. A memoized card that looks its definition up in the registry, renders the accent icon chip and title, and draws source/target handles — omitting the target handle for trigger nodes, which start the flow and take no input.
+
+### ♻️ Changed
+
+- **`features/workflows/components/canvas.tsx`** (implements [`specs/wire-nodes-into-canvas.md`](specs/wire-nodes-into-canvas.md)):
+  - Registers `StepNode` as the `"step"` node type via a **module-scope** `nodeTypes` map, so its reference stays stable across renders as React Flow requires, and passes it to `<ReactFlow nodeTypes={nodeTypes} />`.
+  - Seeds the canvas with a single fixed-id `start` node (`type: "step"`; data `type: "start"`, `kind: "trigger"`, `title: "Start"`, empty `values`), written as a plain object so it renders identically every time.
+  - Clears `initialEdges` — the only edge referenced the placeholder nodes that are now gone. Swaps the `Node` type import for `NodeTypes`.
+- **`AGENTS.md`** — added a "ReactFlow — don't trust training data" rule: consult <https://reactflow.dev/llms.txt> before writing or changing ReactFlow code, since its APIs, props, and hook signatures shift across versions.
 
 ---
 
@@ -502,7 +522,8 @@ Added via the Clerk CLI (`clerk init --framework next --pm npm`, linked to the `
 
 </div>
 
-[Unreleased]: https://github.com/RISHII7/Flowbrowse/compare/v0.10.1...HEAD
+[Unreleased]: https://github.com/RISHII7/Flowbrowse/compare/v0.11.0...HEAD
+[0.11.0]: https://github.com/RISHII7/Flowbrowse/compare/v0.10.1...v0.11.0
 [0.10.1]: https://github.com/RISHII7/Flowbrowse/compare/v0.10.0...v0.10.1
 [0.10.0]: https://github.com/RISHII7/Flowbrowse/compare/v0.9.1...v0.10.0
 [0.9.1]: https://github.com/RISHII7/Flowbrowse/compare/v0.9.0...v0.9.1
