@@ -8,7 +8,7 @@ _All notable changes to this project, documented with care._
 
 [![Keep a Changelog](https://img.shields.io/badge/Keep%20a%20Changelog-1.1.0-E05735?style=flat-square&logo=keepachangelog&logoColor=white)](https://keepachangelog.com/en/1.1.0/)
 [![Semantic Versioning](https://img.shields.io/badge/SemVer-2.0.0-3F51B5?style=flat-square&logo=semver&logoColor=white)](https://semver.org/spec/v2.0.0.html)
-[![Latest Release](https://img.shields.io/badge/latest-v0.11.0-2EA043?style=flat-square&logo=github&logoColor=white)](https://github.com/RISHII7/Flowbrowse/releases/tag/v0.11.0)
+[![Latest Release](https://img.shields.io/badge/latest-v0.12.0-2EA043?style=flat-square&logo=github&logoColor=white)](https://github.com/RISHII7/Flowbrowse/releases/tag/v0.12.0)
 
 </div>
 
@@ -33,6 +33,7 @@ This changelog is written to be **read by humans**. Every release lists exactly 
 
 | Version | Date | Headline |
 | :-- | :-- | :-- |
+| [**0.12.0**](#0120--2026-07-23) | 2026-07-23 | 🗃️ `getWorkflow` data function (org-scoped single fetch) |
 | [**0.11.0**](#0110--2026-07-22) | 2026-07-22 | 🧩 Registry-driven step nodes on the canvas |
 | [**0.10.1**](#0101--2026-07-20) | 2026-07-20 | 📄 Node registry spec + step-node templates |
 | [**0.10.0**](#0100--2026-07-20) | 2026-07-20 | 🎨 React Flow canvas in the workflow editor |
@@ -60,7 +61,17 @@ This changelog is written to be **read by humans**. Every release lists exactly 
 
 ## [Unreleased]
 
-> _Nothing yet — the working tree is in sync with `v0.11.0`._
+> _Nothing yet — the working tree is in sync with `v0.12.0`._
+
+---
+
+## [0.12.0] — 2026-07-23
+
+> **Highlights** 🗃️ Data-layer groundwork for the workflow detail page — a `getWorkflow` function that loads a single workflow, scoped to the organization.
+
+### ✨ Added
+
+- **`features/workflows/data.ts`** — `getWorkflow(orgId, id)`: fetches a single workflow by id, scoped to the organization so one org can't read another's workflow (filters on both `workflows.id` and `workflows.orgId` via `and(...)`), returning the row or `undefined` when not found. Imports `and` from `drizzle-orm` alongside the existing `desc`/`eq`.
 
 ---
 
@@ -522,7 +533,8 @@ Added via the Clerk CLI (`clerk init --framework next --pm npm`, linked to the `
 
 </div>
 
-[Unreleased]: https://github.com/RISHII7/Flowbrowse/compare/v0.11.0...HEAD
+[Unreleased]: https://github.com/RISHII7/Flowbrowse/compare/v0.12.0...HEAD
+[0.12.0]: https://github.com/RISHII7/Flowbrowse/compare/v0.11.0...v0.12.0
 [0.11.0]: https://github.com/RISHII7/Flowbrowse/compare/v0.10.1...v0.11.0
 [0.10.1]: https://github.com/RISHII7/Flowbrowse/compare/v0.10.0...v0.10.1
 [0.10.0]: https://github.com/RISHII7/Flowbrowse/compare/v0.9.1...v0.10.0
