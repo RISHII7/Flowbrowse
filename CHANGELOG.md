@@ -8,7 +8,7 @@ _All notable changes to this project, documented with care._
 
 [![Keep a Changelog](https://img.shields.io/badge/Keep%20a%20Changelog-1.1.0-E05735?style=flat-square&logo=keepachangelog&logoColor=white)](https://keepachangelog.com/en/1.1.0/)
 [![Semantic Versioning](https://img.shields.io/badge/SemVer-2.0.0-3F51B5?style=flat-square&logo=semver&logoColor=white)](https://semver.org/spec/v2.0.0.html)
-[![Latest Release](https://img.shields.io/badge/latest-v0.12.1-2EA043?style=flat-square&logo=github&logoColor=white)](https://github.com/RISHII7/Flowbrowse/releases/tag/v0.12.1)
+[![Latest Release](https://img.shields.io/badge/latest-v0.13.0-2EA043?style=flat-square&logo=github&logoColor=white)](https://github.com/RISHII7/Flowbrowse/releases/tag/v0.13.0)
 
 </div>
 
@@ -33,6 +33,7 @@ This changelog is written to be **read by humans**. Every release lists exactly 
 
 | Version | Date | Headline |
 | :-- | :-- | :-- |
+| [**0.13.0**](#0130--2026-07-23) | 2026-07-23 | 👥 Liveblocks realtime collaborative canvas |
 | [**0.12.1**](#0121--2026-07-23) | 2026-07-23 | 🧩 Liveblocks best-practices agent skill |
 | [**0.12.0**](#0120--2026-07-23) | 2026-07-23 | 🗃️ `getWorkflow` data function (org-scoped single fetch) |
 | [**0.11.0**](#0110--2026-07-22) | 2026-07-22 | 🧩 Registry-driven step nodes on the canvas |
@@ -62,7 +63,26 @@ This changelog is written to be **read by humans**. Every release lists exactly 
 
 ## [Unreleased]
 
-> _Nothing yet — the working tree is in sync with `v0.12.1`._
+> _Nothing yet — the working tree is in sync with `v0.13.0`._
+
+---
+
+## [0.13.0] — 2026-07-23
+
+> **Highlights** 👥 The workflow canvas is now realtime-collaborative — wrapped in a Liveblocks Room, with React Flow's nodes and edges driven from shared Liveblocks storage so edits sync live across clients.
+
+### ✨ Added
+
+- **Liveblocks realtime collaboration** for the workflow canvas.
+  - **Dependencies** — `@liveblocks/client`, `@liveblocks/react`, `@liveblocks/react-flow`, `@liveblocks/react-ui` (all `^3.22.0`).
+  - **`liveblocks.config.ts`** — global Liveblocks type declaration (`UserMeta`: `id` + `info` with `name`/optional `avatar`), typing presence/user data across the app.
+  - **`features/workflows/components/room.tsx`** — `Room` component wrapping children in `LiveblocksProvider` (throttle 16, authed via `NEXT_PUBLIC_LIVEBLOCKS_PUBLIC_KEY`) + `RoomProvider` (id = `roomId`) + `ClientSideSuspense` with a loading fallback.
+  - **`.env.example`** — documents `NEXT_PUBLIC_LIVEBLOCKS_PUBLIC_KEY` (public `pk_dev_*` key, used client-side; the real value lives only in the gitignored `.env.local`).
+
+### ♻️ Changed
+
+- **`features/workflows/components/canvas.tsx`** — replaced the local `useNodesState`/`useEdgesState` with `useLiveblocksFlow` (suspense) from `@liveblocks/react-flow`, seeded from the existing initial nodes/edges so the graph lives in shared storage; wired `onDelete` and imported the Liveblocks React UI / React Flow stylesheets. Keeps `proOptions={{ hideAttribution: true }}`.
+- **`app/(dashboard)/workflows/[id]/page.tsx`** — wraps the `WorkflowShell` in `<Room roomId={…}>` so the canvas joins the workflow's realtime room.
 
 ---
 
@@ -544,7 +564,8 @@ Added via the Clerk CLI (`clerk init --framework next --pm npm`, linked to the `
 
 </div>
 
-[Unreleased]: https://github.com/RISHII7/Flowbrowse/compare/v0.12.1...HEAD
+[Unreleased]: https://github.com/RISHII7/Flowbrowse/compare/v0.13.0...HEAD
+[0.13.0]: https://github.com/RISHII7/Flowbrowse/compare/v0.12.1...v0.13.0
 [0.12.1]: https://github.com/RISHII7/Flowbrowse/compare/v0.12.0...v0.12.1
 [0.12.0]: https://github.com/RISHII7/Flowbrowse/compare/v0.11.0...v0.12.0
 [0.11.0]: https://github.com/RISHII7/Flowbrowse/compare/v0.10.1...v0.11.0
