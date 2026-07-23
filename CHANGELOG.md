@@ -8,7 +8,7 @@ _All notable changes to this project, documented with care._
 
 [![Keep a Changelog](https://img.shields.io/badge/Keep%20a%20Changelog-1.1.0-E05735?style=flat-square&logo=keepachangelog&logoColor=white)](https://keepachangelog.com/en/1.1.0/)
 [![Semantic Versioning](https://img.shields.io/badge/SemVer-2.0.0-3F51B5?style=flat-square&logo=semver&logoColor=white)](https://semver.org/spec/v2.0.0.html)
-[![Latest Release](https://img.shields.io/badge/latest-v0.12.0-2EA043?style=flat-square&logo=github&logoColor=white)](https://github.com/RISHII7/Flowbrowse/releases/tag/v0.12.0)
+[![Latest Release](https://img.shields.io/badge/latest-v0.12.1-2EA043?style=flat-square&logo=github&logoColor=white)](https://github.com/RISHII7/Flowbrowse/releases/tag/v0.12.1)
 
 </div>
 
@@ -33,6 +33,7 @@ This changelog is written to be **read by humans**. Every release lists exactly 
 
 | Version | Date | Headline |
 | :-- | :-- | :-- |
+| [**0.12.1**](#0121--2026-07-23) | 2026-07-23 | 🧩 Liveblocks best-practices agent skill |
 | [**0.12.0**](#0120--2026-07-23) | 2026-07-23 | 🗃️ `getWorkflow` data function (org-scoped single fetch) |
 | [**0.11.0**](#0110--2026-07-22) | 2026-07-22 | 🧩 Registry-driven step nodes on the canvas |
 | [**0.10.1**](#0101--2026-07-20) | 2026-07-20 | 📄 Node registry spec + step-node templates |
@@ -61,7 +62,17 @@ This changelog is written to be **read by humans**. Every release lists exactly 
 
 ## [Unreleased]
 
-> _Nothing yet — the working tree is in sync with `v0.12.0`._
+> _Nothing yet — the working tree is in sync with `v0.12.1`._
+
+---
+
+## [0.12.1] — 2026-07-23
+
+> **Highlights** 🧩 Installed the Liveblocks best-practices agent skill, ahead of adding realtime collaboration to the workflow canvas.
+
+### ✨ Added
+
+- **Liveblocks best-practices agent skill** — installed from `liveblocks/skills` into `.agents/skills/liveblocks-best-practices/` and `.claude/skills/liveblocks-best-practices/`, with `skills-lock.json` recording its source and content hash. The skill is a `SKILL.md` plus ~45 reference docs covering auth (ID vs access tokens), rooms/organizations, storage and presence hooks, comments/threads, text editors (Tiptap/Yjs/Lexical), the multiplayer React Flow integration, and error/loading handling. As with the earlier Clerk, Neon, and Trigger.dev bundles, the `.claude/skills/*` symlinks were committed as duplicate copies because `core.symlinks` is `false` here.
 
 ---
 
@@ -533,7 +544,8 @@ Added via the Clerk CLI (`clerk init --framework next --pm npm`, linked to the `
 
 </div>
 
-[Unreleased]: https://github.com/RISHII7/Flowbrowse/compare/v0.12.0...HEAD
+[Unreleased]: https://github.com/RISHII7/Flowbrowse/compare/v0.12.1...HEAD
+[0.12.1]: https://github.com/RISHII7/Flowbrowse/compare/v0.12.0...v0.12.1
 [0.12.0]: https://github.com/RISHII7/Flowbrowse/compare/v0.11.0...v0.12.0
 [0.11.0]: https://github.com/RISHII7/Flowbrowse/compare/v0.10.1...v0.11.0
 [0.10.1]: https://github.com/RISHII7/Flowbrowse/compare/v0.10.0...v0.10.1
