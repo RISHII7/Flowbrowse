@@ -8,7 +8,7 @@ _All notable changes to this project, documented with care._
 
 [![Keep a Changelog](https://img.shields.io/badge/Keep%20a%20Changelog-1.1.0-E05735?style=flat-square&logo=keepachangelog&logoColor=white)](https://keepachangelog.com/en/1.1.0/)
 [![Semantic Versioning](https://img.shields.io/badge/SemVer-2.0.0-3F51B5?style=flat-square&logo=semver&logoColor=white)](https://semver.org/spec/v2.0.0.html)
-[![Latest Release](https://img.shields.io/badge/latest-v0.13.0-2EA043?style=flat-square&logo=github&logoColor=white)](https://github.com/RISHII7/Flowbrowse/releases/tag/v0.13.0)
+[![Latest Release](https://img.shields.io/badge/latest-v0.14.0-2EA043?style=flat-square&logo=github&logoColor=white)](https://github.com/RISHII7/Flowbrowse/releases/tag/v0.14.0)
 
 </div>
 
@@ -33,6 +33,7 @@ This changelog is written to be **read by humans**. Every release lists exactly 
 
 | Version | Date | Headline |
 | :-- | :-- | :-- |
+| [**0.14.0**](#0140--2026-07-23) | 2026-07-23 | 🔒 Liveblocks ID-token auth — org-scoped private rooms |
 | [**0.13.0**](#0130--2026-07-23) | 2026-07-23 | 👥 Liveblocks realtime collaborative canvas |
 | [**0.12.1**](#0121--2026-07-23) | 2026-07-23 | 🧩 Liveblocks best-practices agent skill |
 | [**0.12.0**](#0120--2026-07-23) | 2026-07-23 | 🗃️ `getWorkflow` data function (org-scoped single fetch) |
@@ -63,7 +64,25 @@ This changelog is written to be **read by humans**. Every release lists exactly 
 
 ## [Unreleased]
 
-> _Nothing yet — the working tree is in sync with `v0.13.0`._
+> _Nothing yet — the working tree is in sync with `v0.14.0`._
+
+---
+
+## [0.14.0] — 2026-07-23
+
+> **Highlights** 🔒 Replaced the public-key Liveblocks connection with proper **ID-token auth** — workflow rooms are now private by default, with access scoped to the Clerk organization that owns the workflow.
+
+### ✨ Added
+
+- **`lib/liveblocks.ts`** — a shared server-side Liveblocks client built from `LIVEBLOCKS_SECRET_KEY`, for Route Handlers / Server Components that call the Liveblocks REST API (room creation, permissions, etc.).
+- **`app/api/liveblocks/auth/route.ts`** — `POST` handler backing Liveblocks' `authEndpoint`. Resolves the current Clerk user and org via `auth()`/`currentUser()` (401 if either is missing), then calls `liveblocks.identifyUser` with an ID token: the user's Clerk `orgId` becomes their Liveblocks `groupId`, and `userInfo` (name, avatar) comes from the Clerk profile. Room permissions now resolve per-room from group membership instead of a shared public key.
+- **Dependency** — `@liveblocks/node` (`^3.22.0`), the server-side SDK backing the client above and the auth route.
+
+### ♻️ Changed
+
+- **`features/workflows/components/room.tsx`** — swapped `LiveblocksProvider`'s `publicApiKey` prop for `authEndpoint="/api/liveblocks/auth"`, so every client authenticates through the new route.
+- **`app/(dashboard)/workflows/[id]/page.tsx`** — resolves `orgId` via `auth()` and the workflow via `getWorkflow(orgId, id)`, calling `notFound()` when either is missing (no active org, or the workflow doesn't exist / isn't in this org). Ensures the Liveblocks room exists via `liveblocks.getOrCreateRoom`, with `defaultAccesses: []` (private by default) and `groupsAccesses` granting `"room:write"` to the owning org's group — matching the `groupIds` issued by the auth endpoint — plus `metadata.title` set to the workflow's name.
+- **`.env.example`** — replaced the now-unused `NEXT_PUBLIC_LIVEBLOCKS_PUBLIC_KEY` with `LIVEBLOCKS_SECRET_KEY` (the real value lives only in the gitignored `.env.local`).
 
 ---
 
@@ -564,7 +583,8 @@ Added via the Clerk CLI (`clerk init --framework next --pm npm`, linked to the `
 
 </div>
 
-[Unreleased]: https://github.com/RISHII7/Flowbrowse/compare/v0.13.0...HEAD
+[Unreleased]: https://github.com/RISHII7/Flowbrowse/compare/v0.14.0...HEAD
+[0.14.0]: https://github.com/RISHII7/Flowbrowse/compare/v0.13.0...v0.14.0
 [0.13.0]: https://github.com/RISHII7/Flowbrowse/compare/v0.12.1...v0.13.0
 [0.12.1]: https://github.com/RISHII7/Flowbrowse/compare/v0.12.0...v0.12.1
 [0.12.0]: https://github.com/RISHII7/Flowbrowse/compare/v0.11.0...v0.12.0
