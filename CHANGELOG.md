@@ -8,7 +8,7 @@ _All notable changes to this project, documented with care._
 
 [![Keep a Changelog](https://img.shields.io/badge/Keep%20a%20Changelog-1.1.0-E05735?style=flat-square&logo=keepachangelog&logoColor=white)](https://keepachangelog.com/en/1.1.0/)
 [![Semantic Versioning](https://img.shields.io/badge/SemVer-2.0.0-3F51B5?style=flat-square&logo=semver&logoColor=white)](https://semver.org/spec/v2.0.0.html)
-[![Latest Release](https://img.shields.io/badge/latest-v0.14.0-2EA043?style=flat-square&logo=github&logoColor=white)](https://github.com/RISHII7/Flowbrowse/releases/tag/v0.14.0)
+[![Latest Release](https://img.shields.io/badge/latest-v0.14.1-2EA043?style=flat-square&logo=github&logoColor=white)](https://github.com/RISHII7/Flowbrowse/releases/tag/v0.14.1)
 
 </div>
 
@@ -33,6 +33,7 @@ This changelog is written to be **read by humans**. Every release lists exactly 
 
 | Version | Date | Headline |
 | :-- | :-- | :-- |
+| [**0.14.1**](#0141--2026-07-24) | 2026-07-24 | 🏢 Liveblocks org compartmentalization + room loading spinner |
 | [**0.14.0**](#0140--2026-07-23) | 2026-07-23 | 🔒 Liveblocks ID-token auth — org-scoped private rooms |
 | [**0.13.0**](#0130--2026-07-23) | 2026-07-23 | 👥 Liveblocks realtime collaborative canvas |
 | [**0.12.1**](#0121--2026-07-23) | 2026-07-23 | 🧩 Liveblocks best-practices agent skill |
@@ -64,7 +65,20 @@ This changelog is written to be **read by humans**. Every release lists exactly 
 
 ## [Unreleased]
 
-> _Nothing yet — the working tree is in sync with `v0.14.0`._
+> _Nothing yet — the working tree is in sync with `v0.14.1`._
+
+---
+
+## [0.14.1] — 2026-07-24
+
+> **Highlights** 🏢 Liveblocks resources (identified users and rooms) are now compartmentalized by Clerk organization instead of sharing the `"default"` organization, and the room's loading state got a proper spinner.
+
+### ♻️ Changed
+
+- **`app/api/liveblocks/auth/route.ts`** — pass `organizationId: orgId` alongside `groupIds` in `liveblocks.identifyUser`, so the identified user is compartmentalized to their Clerk organization.
+- **`app/(dashboard)/workflows/[id]/page.tsx`** — pass `organizationId: orgId` in `liveblocks.getOrCreateRoom`, so the room is created under the owning org rather than the `"default"` organization.
+- **`components/app-sidebar.tsx`** — added `afterCreateOrganizationUrl`, `afterSelectOrganizationUrl`, and `afterLeaveOrganizationUrl` (all `"/"`) to `OrganizationSwitcher`, so creating, switching, or leaving an organization returns the user to the workflows home instead of Clerk's default redirect.
+- **`features/workflows/components/room.tsx`** — replaced the plain "Loading…" text fallback with a centered `Spinner`, matching the app's loading UI elsewhere.
 
 ---
 
@@ -583,7 +597,8 @@ Added via the Clerk CLI (`clerk init --framework next --pm npm`, linked to the `
 
 </div>
 
-[Unreleased]: https://github.com/RISHII7/Flowbrowse/compare/v0.14.0...HEAD
+[Unreleased]: https://github.com/RISHII7/Flowbrowse/compare/v0.14.1...HEAD
+[0.14.1]: https://github.com/RISHII7/Flowbrowse/compare/v0.14.0...v0.14.1
 [0.14.0]: https://github.com/RISHII7/Flowbrowse/compare/v0.13.0...v0.14.0
 [0.13.0]: https://github.com/RISHII7/Flowbrowse/compare/v0.12.1...v0.13.0
 [0.12.1]: https://github.com/RISHII7/Flowbrowse/compare/v0.12.0...v0.12.1
