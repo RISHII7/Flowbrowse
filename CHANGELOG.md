@@ -8,7 +8,7 @@ _All notable changes to this project, documented with care._
 
 [![Keep a Changelog](https://img.shields.io/badge/Keep%20a%20Changelog-1.1.0-E05735?style=flat-square&logo=keepachangelog&logoColor=white)](https://keepachangelog.com/en/1.1.0/)
 [![Semantic Versioning](https://img.shields.io/badge/SemVer-2.0.0-3F51B5?style=flat-square&logo=semver&logoColor=white)](https://semver.org/spec/v2.0.0.html)
-[![Latest Release](https://img.shields.io/badge/latest-v0.24.2-2EA043?style=flat-square&logo=github&logoColor=white)](https://github.com/RISHII7/Flowbrowse/releases/tag/v0.24.2)
+[![Latest Release](https://img.shields.io/badge/latest-v0.25.0-2EA043?style=flat-square&logo=github&logoColor=white)](https://github.com/RISHII7/Flowbrowse/releases/tag/v0.25.0)
 
 </div>
 
@@ -33,6 +33,7 @@ This changelog is written to be **read by humans**. Every release lists exactly 
 
 | Version | Date | Headline |
 | :-- | :-- | :-- |
+| [**0.25.0**](#0250--2026-07-25) | 2026-07-25 | 🔗 Data passthrough — `{{nodeId.path}}` interpolation + connection chips |
 | [**0.24.2**](#0242--2026-07-25) | 2026-07-25 | 📄 Data-passthrough spec — `{{nodeId.path}}` field interpolation |
 | [**0.24.1**](#0241--2026-07-25) | 2026-07-25 | 🔑 Document Browserbase key in `.env.example` |
 | [**0.24.0**](#0240--2026-07-25) | 2026-07-25 | 🖱️ Open URL node executor — workflows drive a real browser |
@@ -79,7 +80,24 @@ This changelog is written to be **read by humans**. Every release lists exactly 
 
 ## [Unreleased]
 
-> _Nothing yet — the working tree is in sync with `v0.24.2`._
+> _Nothing yet — the working tree is in sync with `v0.25.0`._
+
+---
+
+## [0.25.0] — 2026-07-25
+
+> **Highlights** 🔗 Workflow fields can now reference an upstream node's output via `{{nodeId.path}}` placeholders, resolved at run time — with clickable "Connections" chips in the inspector so you never have to type a token by hand. Implements [`specs/data-passthrough.md`](specs/data-passthrough.md).
+
+### ✨ Added
+
+- **`features/workflows/lib/interpolate.ts`** — `interpolate({ text, outputs })`: replaces every `{{ nodeId.path }}` placeholder in `text` with the value found by walking a dotted/bracketed path (e.g. `items[0].name`) off the `outputs` map, treating the first segment as the node id. A placeholder resolving to nothing becomes `""`; one resolving to an object/array drops in its JSON. Pure — the caller supplies the outputs map.
+- **`features/workflows/hooks/use-upstream-connections.ts`** — `useUpstreamConnections()`: for the currently selected node, breadth-first walks `getIncomers` back through the graph (not just direct parents) to collect every ancestor once, then flat-maps each ancestor's registry outputs into a ready-to-insert `{ token, label, nodeType }` entry. Reads live graph state via `useStore`, so it re-computes as edges connect/disconnect and as the selection changes.
+
+### ♻️ Changed
+
+- **`features/workflows/nodes/node-registry.ts`** — added `NodeOutput` (`{ path, label }`) and an `outputs: NodeOutput[]` field on `NodeDefinition`. `start` exposes nothing; `open-url` exposes `url` and `title`.
+- **`features/workflows/tasks/run-workflow.ts`** — tracks each node's result in an `outputs` map keyed by id as the run walks the graph in dependency order, so later nodes can reference earlier ones. Before running a node, interpolates `{{ }}` placeholders in its field values against the outputs collected so far, then passes the interpolated values to its executor.
+- **`features/workflows/components/right-sidebar.tsx`** — `Field` now takes an `onFocus` prop so `Inspector` can track which field was last focused (`activeFieldKey`, falling back to the first field). `Inspector` calls `useUpstreamConnections` and renders a "Connections" section of clickable chips (icon + label) below the fields whenever any exist; clicking one appends its token onto the target field's value. `<Inspector key={selected?.id} .../>` so per-node focus state resets when the selection changes.
 
 ---
 
@@ -823,7 +841,8 @@ Added via the Clerk CLI (`clerk init --framework next --pm npm`, linked to the `
 
 </div>
 
-[Unreleased]: https://github.com/RISHII7/Flowbrowse/compare/v0.24.2...HEAD
+[Unreleased]: https://github.com/RISHII7/Flowbrowse/compare/v0.25.0...HEAD
+[0.25.0]: https://github.com/RISHII7/Flowbrowse/compare/v0.24.2...v0.25.0
 [0.24.2]: https://github.com/RISHII7/Flowbrowse/compare/v0.24.1...v0.24.2
 [0.24.1]: https://github.com/RISHII7/Flowbrowse/compare/v0.24.0...v0.24.1
 [0.24.0]: https://github.com/RISHII7/Flowbrowse/compare/v0.23.0...v0.24.0
