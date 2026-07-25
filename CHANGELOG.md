@@ -8,7 +8,7 @@ _All notable changes to this project, documented with care._
 
 [![Keep a Changelog](https://img.shields.io/badge/Keep%20a%20Changelog-1.1.0-E05735?style=flat-square&logo=keepachangelog&logoColor=white)](https://keepachangelog.com/en/1.1.0/)
 [![Semantic Versioning](https://img.shields.io/badge/SemVer-2.0.0-3F51B5?style=flat-square&logo=semver&logoColor=white)](https://semver.org/spec/v2.0.0.html)
-[![Latest Release](https://img.shields.io/badge/latest-v0.23.0-2EA043?style=flat-square&logo=github&logoColor=white)](https://github.com/RISHII7/Flowbrowse/releases/tag/v0.23.0)
+[![Latest Release](https://img.shields.io/badge/latest-v0.24.0-2EA043?style=flat-square&logo=github&logoColor=white)](https://github.com/RISHII7/Flowbrowse/releases/tag/v0.24.0)
 
 </div>
 
@@ -33,6 +33,7 @@ This changelog is written to be **read by humans**. Every release lists exactly 
 
 | Version | Date | Headline |
 | :-- | :-- | :-- |
+| [**0.24.0**](#0240--2026-07-25) | 2026-07-25 | 🖱️ Open URL node executor — workflows drive a real browser |
 | [**0.23.0**](#0230--2026-07-25) | 2026-07-25 | 🌐 Browserbase + Stagehand initialized |
 | [**0.22.0**](#0220--2026-07-24) | 2026-07-24 | ▶️ Run button triggers the real run-workflow task |
 | [**0.21.0**](#0210--2026-07-24) | 2026-07-24 | ✅ Graph validation and persistence for workflow runs |
@@ -76,7 +77,23 @@ This changelog is written to be **read by humans**. Every release lists exactly 
 
 ## [Unreleased]
 
-> _Nothing yet — the working tree is in sync with `v0.23.0`._
+> _Nothing yet — the working tree is in sync with `v0.24.0`._
+
+---
+
+## [0.24.0] — 2026-07-25
+
+> **Highlights** 🖱️ Running a workflow now actually drives a browser — the `run-workflow` task opens a Browserbase/Stagehand session and executes each step's node, starting with an `open-url` executor.
+
+### ✨ Added
+
+- **`features/workflows/nodes/open-url.ts`** — `openUrl({ stagehand, url })`: navigates the run's first page to `url` (`waitUntil: "load"`, 30s timeout) and returns `{ url, title }` from the loaded page.
+- **`features/workflows/nodes/node-executors.ts`** — `NodeContext` (`{ values, getStagehand }`) and `NodeExecutor` types, and `nodeExecutors: Partial<Record<NodeType, NodeExecutor>>`, currently wiring `"open-url"` to the `openUrl` executor. `satisfies Record<ActionNodeType, NodeExecutor>` enforces every action node type has an entry at compile time.
+
+### ♻️ Changed
+
+- **`features/workflows/nodes/node-registry.ts`** — added `ActionNodeType`: a mapped type extracting only the node types whose registry `kind` is `"action"` (excludes triggers).
+- **`features/workflows/tasks/run-workflow.ts`** — added a lazy `getStagehand()`: creates one Stagehand session per run on the first browser step and reuses it for every later one, so a run's recording spans the whole flow. `env: "BROWSERBASE"`, routed through Browserbase's Model Gateway via `BROWSERBASE_API_KEY` (no separate provider key needed). `disablePino: true` works around Pino's thread-stream worker not resolving inside Trigger.dev's bundled output. Each step now looks up and awaits its executor instead of only logging, and the Stagehand session is closed after the run.
 
 ---
 
@@ -784,7 +801,8 @@ Added via the Clerk CLI (`clerk init --framework next --pm npm`, linked to the `
 
 </div>
 
-[Unreleased]: https://github.com/RISHII7/Flowbrowse/compare/v0.23.0...HEAD
+[Unreleased]: https://github.com/RISHII7/Flowbrowse/compare/v0.24.0...HEAD
+[0.24.0]: https://github.com/RISHII7/Flowbrowse/compare/v0.23.0...v0.24.0
 [0.23.0]: https://github.com/RISHII7/Flowbrowse/compare/v0.22.0...v0.23.0
 [0.22.0]: https://github.com/RISHII7/Flowbrowse/compare/v0.21.0...v0.22.0
 [0.21.0]: https://github.com/RISHII7/Flowbrowse/compare/v0.20.0...v0.21.0
