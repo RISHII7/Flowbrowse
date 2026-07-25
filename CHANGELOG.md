@@ -8,7 +8,7 @@ _All notable changes to this project, documented with care._
 
 [![Keep a Changelog](https://img.shields.io/badge/Keep%20a%20Changelog-1.1.0-E05735?style=flat-square&logo=keepachangelog&logoColor=white)](https://keepachangelog.com/en/1.1.0/)
 [![Semantic Versioning](https://img.shields.io/badge/SemVer-2.0.0-3F51B5?style=flat-square&logo=semver&logoColor=white)](https://semver.org/spec/v2.0.0.html)
-[![Latest Release](https://img.shields.io/badge/latest-v0.22.0-2EA043?style=flat-square&logo=github&logoColor=white)](https://github.com/RISHII7/Flowbrowse/releases/tag/v0.22.0)
+[![Latest Release](https://img.shields.io/badge/latest-v0.23.0-2EA043?style=flat-square&logo=github&logoColor=white)](https://github.com/RISHII7/Flowbrowse/releases/tag/v0.23.0)
 
 </div>
 
@@ -33,6 +33,7 @@ This changelog is written to be **read by humans**. Every release lists exactly 
 
 | Version | Date | Headline |
 | :-- | :-- | :-- |
+| [**0.23.0**](#0230--2026-07-25) | 2026-07-25 | 🌐 Browserbase + Stagehand initialized |
 | [**0.22.0**](#0220--2026-07-24) | 2026-07-24 | ▶️ Run button triggers the real run-workflow task |
 | [**0.21.0**](#0210--2026-07-24) | 2026-07-24 | ✅ Graph validation and persistence for workflow runs |
 | [**0.20.0**](#0200--2026-07-24) | 2026-07-24 | 🗑️ Delete workflow — DB row + Liveblocks room cleanup |
@@ -75,7 +76,20 @@ This changelog is written to be **read by humans**. Every release lists exactly 
 
 ## [Unreleased]
 
-> _Nothing yet — the working tree is in sync with `v0.22.0`._
+> _Nothing yet — the working tree is in sync with `v0.23.0`._
+
+---
+
+## [0.23.0] — 2026-07-25
+
+> **Highlights** 🌐 Browserbase (cloud browser infrastructure) and Stagehand V3 (AI-powered browser automation) are wired into the project, ahead of building real per-node execution for workflow runs.
+
+### ✨ Added
+
+- **Dependencies** — `@browserbasehq/sdk` (`^2.15.0`, the Browserbase API client) and `@browserbasehq/stagehand` (`^3.6.0`, Stagehand V3, providing `act`/`extract`/`observe`/`agent` methods on top of a managed or local browser).
+- **`AGENTS.md`** — a "Stagehand Project" section: how to import and initialize Stagehand (`LOCAL` or `BROWSERBASE` env, model, verbose level), the `act`/`extract`/`observe`/`agent` APIs with atomic-instruction guidance and the observe-then-act caching pattern, schema- and selector-targeted extraction, the two agent modes (standard and Computer Use Agent) with model/integration configuration, and advanced features (`DeepLocator` XPath targeting across shadow DOM/iframes, multi-page workflows).
+
+Setup was verified end-to-end via the `browse` CLI (`npx browse`, v0.9.5): `browse doctor` reported a healthy runtime, `browse open`/`browse snapshot` confirmed local browsing against a live page, and `browse cloud projects list` confirmed the `BROWSERBASE_API_KEY` credential against the account's Production project.
 
 ---
 
@@ -770,7 +784,8 @@ Added via the Clerk CLI (`clerk init --framework next --pm npm`, linked to the `
 
 </div>
 
-[Unreleased]: https://github.com/RISHII7/Flowbrowse/compare/v0.22.0...HEAD
+[Unreleased]: https://github.com/RISHII7/Flowbrowse/compare/v0.23.0...HEAD
+[0.23.0]: https://github.com/RISHII7/Flowbrowse/compare/v0.22.0...v0.23.0
 [0.22.0]: https://github.com/RISHII7/Flowbrowse/compare/v0.21.0...v0.22.0
 [0.21.0]: https://github.com/RISHII7/Flowbrowse/compare/v0.20.0...v0.21.0
 [0.20.0]: https://github.com/RISHII7/Flowbrowse/compare/v0.19.0...v0.20.0
