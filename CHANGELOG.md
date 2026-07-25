@@ -8,7 +8,7 @@ _All notable changes to this project, documented with care._
 
 [![Keep a Changelog](https://img.shields.io/badge/Keep%20a%20Changelog-1.1.0-E05735?style=flat-square&logo=keepachangelog&logoColor=white)](https://keepachangelog.com/en/1.1.0/)
 [![Semantic Versioning](https://img.shields.io/badge/SemVer-2.0.0-3F51B5?style=flat-square&logo=semver&logoColor=white)](https://semver.org/spec/v2.0.0.html)
-[![Latest Release](https://img.shields.io/badge/latest-v0.24.1-2EA043?style=flat-square&logo=github&logoColor=white)](https://github.com/RISHII7/Flowbrowse/releases/tag/v0.24.1)
+[![Latest Release](https://img.shields.io/badge/latest-v0.24.2-2EA043?style=flat-square&logo=github&logoColor=white)](https://github.com/RISHII7/Flowbrowse/releases/tag/v0.24.2)
 
 </div>
 
@@ -33,6 +33,7 @@ This changelog is written to be **read by humans**. Every release lists exactly 
 
 | Version | Date | Headline |
 | :-- | :-- | :-- |
+| [**0.24.2**](#0242--2026-07-25) | 2026-07-25 | 📄 Data-passthrough spec — `{{nodeId.path}}` field interpolation |
 | [**0.24.1**](#0241--2026-07-25) | 2026-07-25 | 🔑 Document Browserbase key in `.env.example` |
 | [**0.24.0**](#0240--2026-07-25) | 2026-07-25 | 🖱️ Open URL node executor — workflows drive a real browser |
 | [**0.23.0**](#0230--2026-07-25) | 2026-07-25 | 🌐 Browserbase + Stagehand initialized |
@@ -78,7 +79,17 @@ This changelog is written to be **read by humans**. Every release lists exactly 
 
 ## [Unreleased]
 
-> _Nothing yet — the working tree is in sync with `v0.24.1`._
+> _Nothing yet — the working tree is in sync with `v0.24.2`._
+
+---
+
+## [0.24.2] — 2026-07-25
+
+> **Highlights** 📄 A spec for letting workflow fields reference upstream node output via `{{nodeId.path}}` placeholders, with clickable connection chips in the inspector to insert them. Spec only — no implementation.
+
+### ✨ Added
+
+- **`specs/data-passthrough.md`** — a five-part plan: a pure `interpolate` helper (nested-path placeholder substitution), threading each node's output through `run-workflow.ts` and interpolating field values before a node runs, declaring each node's available outputs in the registry, a `useUpstreamConnections` hook that walks the graph to find every reachable upstream output, and a "Connections" chip section in the right-sidebar inspector.
 
 ---
 
@@ -812,7 +823,8 @@ Added via the Clerk CLI (`clerk init --framework next --pm npm`, linked to the `
 
 </div>
 
-[Unreleased]: https://github.com/RISHII7/Flowbrowse/compare/v0.24.1...HEAD
+[Unreleased]: https://github.com/RISHII7/Flowbrowse/compare/v0.24.2...HEAD
+[0.24.2]: https://github.com/RISHII7/Flowbrowse/compare/v0.24.1...v0.24.2
 [0.24.1]: https://github.com/RISHII7/Flowbrowse/compare/v0.24.0...v0.24.1
 [0.24.0]: https://github.com/RISHII7/Flowbrowse/compare/v0.23.0...v0.24.0
 [0.23.0]: https://github.com/RISHII7/Flowbrowse/compare/v0.22.0...v0.23.0
