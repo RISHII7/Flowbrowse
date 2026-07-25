@@ -8,7 +8,7 @@ _All notable changes to this project, documented with care._
 
 [![Keep a Changelog](https://img.shields.io/badge/Keep%20a%20Changelog-1.1.0-E05735?style=flat-square&logo=keepachangelog&logoColor=white)](https://keepachangelog.com/en/1.1.0/)
 [![Semantic Versioning](https://img.shields.io/badge/SemVer-2.0.0-3F51B5?style=flat-square&logo=semver&logoColor=white)](https://semver.org/spec/v2.0.0.html)
-[![Latest Release](https://img.shields.io/badge/latest-v0.19.0-2EA043?style=flat-square&logo=github&logoColor=white)](https://github.com/RISHII7/Flowbrowse/releases/tag/v0.19.0)
+[![Latest Release](https://img.shields.io/badge/latest-v0.20.0-2EA043?style=flat-square&logo=github&logoColor=white)](https://github.com/RISHII7/Flowbrowse/releases/tag/v0.20.0)
 
 </div>
 
@@ -33,6 +33,7 @@ This changelog is written to be **read by humans**. Every release lists exactly 
 
 | Version | Date | Headline |
 | :-- | :-- | :-- |
+| [**0.20.0**](#0200--2026-07-24) | 2026-07-24 | 🗑️ Delete workflow — DB row + Liveblocks room cleanup |
 | [**0.19.0**](#0190--2026-07-24) | 2026-07-24 | 📝 Editor auto-switch, multiline fields, required-field marker |
 | [**0.18.0**](#0180--2026-07-24) | 2026-07-24 | 💾 Node field edits persist and render on the canvas · 🐛 dark-mode hotkey crash fix |
 | [**0.17.1**](#0171--2026-07-24) | 2026-07-24 | 🎯 Editor tab reflects the selected canvas node |
@@ -72,7 +73,23 @@ This changelog is written to be **read by humans**. Every release lists exactly 
 
 ## [Unreleased]
 
-> _Nothing yet — the working tree is in sync with `v0.19.0`._
+> _Nothing yet — the working tree is in sync with `v0.20.0`._
+
+---
+
+## [0.20.0] — 2026-07-24
+
+> **Highlights** 🗑️ Workflows can be deleted — the "…" menu's delete action now removes the workflow's database row and cleans up its Liveblocks room, then redirects home.
+
+### ✨ Added
+
+- **`features/workflows/data.ts`** — `deleteWorkflow(orgId, id)`: deletes the workflow row scoped to both `id` and `orgId` (via `and(...)`), returning the deleted row or `undefined` when it didn't exist or belonged to another org.
+- **`features/workflows/actions.ts`** — `deleteWorkflowAction(id)`: resolves the active org via `auth()`, calls `deleteWorkflow`, and throws if no matching row was found. The workflow's id doubles as its Liveblocks room id, so the room is deleted too via `liveblocks.deleteRoom(id)`. Revalidates the workflows layout and redirects home.
+
+### ♻️ Changed
+
+- **`features/workflows/components/right-sidebar.tsx`** — `ActionsMenu` now takes a `workflowId` prop and uses `useTransition` to run the delete: `onSelect` calls `preventDefault()` (keeping the menu mounted so its disabled state stays visible) and starts a transition that awaits `deleteWorkflowAction(workflowId)`, letting the router handle the action's redirect on success. The delete menu item is disabled while pending. `RightSidebar` now takes `workflowId` and threads it down to `ActionsMenu`, replacing the "TODO: delete the workflow, then navigate away" placeholder.
+- **`features/workflows/components/workflow-shell.tsx`** — passes `workflowId` through to `<RightSidebar workflowId={workflowId} />`.
 
 ---
 
@@ -713,7 +730,8 @@ Added via the Clerk CLI (`clerk init --framework next --pm npm`, linked to the `
 
 </div>
 
-[Unreleased]: https://github.com/RISHII7/Flowbrowse/compare/v0.19.0...HEAD
+[Unreleased]: https://github.com/RISHII7/Flowbrowse/compare/v0.20.0...HEAD
+[0.20.0]: https://github.com/RISHII7/Flowbrowse/compare/v0.19.0...v0.20.0
 [0.19.0]: https://github.com/RISHII7/Flowbrowse/compare/v0.18.0...v0.19.0
 [0.18.0]: https://github.com/RISHII7/Flowbrowse/compare/v0.17.1...v0.18.0
 [0.17.1]: https://github.com/RISHII7/Flowbrowse/compare/v0.17.0...v0.17.1
