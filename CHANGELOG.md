@@ -8,7 +8,7 @@ _All notable changes to this project, documented with care._
 
 [![Keep a Changelog](https://img.shields.io/badge/Keep%20a%20Changelog-1.1.0-E05735?style=flat-square&logo=keepachangelog&logoColor=white)](https://keepachangelog.com/en/1.1.0/)
 [![Semantic Versioning](https://img.shields.io/badge/SemVer-2.0.0-3F51B5?style=flat-square&logo=semver&logoColor=white)](https://semver.org/spec/v2.0.0.html)
-[![Latest Release](https://img.shields.io/badge/latest-v0.15.0-2EA043?style=flat-square&logo=github&logoColor=white)](https://github.com/RISHII7/Flowbrowse/releases/tag/v0.15.0)
+[![Latest Release](https://img.shields.io/badge/latest-v0.15.1-2EA043?style=flat-square&logo=github&logoColor=white)](https://github.com/RISHII7/Flowbrowse/releases/tag/v0.15.1)
 
 </div>
 
@@ -33,6 +33,7 @@ This changelog is written to be **read by humans**. Every release lists exactly 
 
 | Version | Date | Headline |
 | :-- | :-- | :-- |
+| [**0.15.1**](#0151--2026-07-24) | 2026-07-24 | 🧰 Right-sidebar inspector/toolbar template + tabs underline tweak |
 | [**0.15.0**](#0150--2026-07-24) | 2026-07-24 | 🧑‍🤝‍🧑 Names and avatars in the Liveblocks room |
 | [**0.14.1**](#0141--2026-07-24) | 2026-07-24 | 🏢 Liveblocks org compartmentalization + room loading spinner |
 | [**0.14.0**](#0140--2026-07-23) | 2026-07-23 | 🔒 Liveblocks ID-token auth — org-scoped private rooms |
@@ -66,7 +67,21 @@ This changelog is written to be **read by humans**. Every release lists exactly 
 
 ## [Unreleased]
 
-> _Nothing yet — the working tree is in sync with `v0.15.0`._
+> _Nothing yet — the working tree is in sync with `v0.15.1`._
+
+---
+
+## [0.15.1] — 2026-07-24
+
+> **Highlights** 🧰 Scaffolding for the real workflow inspector/toolbar sidebar, plus a small tabs polish. Template only — nothing imports it yet and the live `components/right-sidebar.tsx` is unchanged.
+
+### ✨ Added
+
+- **`templates/right-sidebar.tsx`** — a fleshed-out `RightSidebar` built on the real node registry: a header with workflow actions (a "…" menu with delete, and a Run button) above two tabs — **Toolbar** (an accordion palette of node types grouped by kind, trigger/action, each adding to the canvas) and **Editor** (renders one input per field on the selected node, or an empty state when nothing's selected). `NodeIcon`, the accent-colored icon chip resolved from the registry, is defined as a local helper directly in this file so the sidebar stays a single-file template. Internal helpers (`Section`, `FieldInput`, `Inspector`, `Palette`, `ActionsMenu`, `RunButton`) are defined bottom-up toward the exported component. Selection state, field edits, add-node, delete-workflow, and run are all left as `TODO`s for when the canvas exposes selection and the server actions exist.
+
+### ♻️ Changed
+
+- **`components/ui/tabs.tsx`** — adjusted the active-tab underline offset in the horizontal "line" variant from `bottom-[-5px]` to `-bottom-1.25`, tightening the gap between the tab label and its active-state underline.
 
 ---
 
@@ -614,7 +629,8 @@ Added via the Clerk CLI (`clerk init --framework next --pm npm`, linked to the `
 
 </div>
 
-[Unreleased]: https://github.com/RISHII7/Flowbrowse/compare/v0.15.0...HEAD
+[Unreleased]: https://github.com/RISHII7/Flowbrowse/compare/v0.15.1...HEAD
+[0.15.1]: https://github.com/RISHII7/Flowbrowse/compare/v0.15.0...v0.15.1
 [0.15.0]: https://github.com/RISHII7/Flowbrowse/compare/v0.14.1...v0.15.0
 [0.14.1]: https://github.com/RISHII7/Flowbrowse/compare/v0.14.0...v0.14.1
 [0.14.0]: https://github.com/RISHII7/Flowbrowse/compare/v0.13.0...v0.14.0
