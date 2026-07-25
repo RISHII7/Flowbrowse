@@ -8,7 +8,7 @@ _All notable changes to this project, documented with care._
 
 [![Keep a Changelog](https://img.shields.io/badge/Keep%20a%20Changelog-1.1.0-E05735?style=flat-square&logo=keepachangelog&logoColor=white)](https://keepachangelog.com/en/1.1.0/)
 [![Semantic Versioning](https://img.shields.io/badge/SemVer-2.0.0-3F51B5?style=flat-square&logo=semver&logoColor=white)](https://semver.org/spec/v2.0.0.html)
-[![Latest Release](https://img.shields.io/badge/latest-v0.16.0-2EA043?style=flat-square&logo=github&logoColor=white)](https://github.com/RISHII7/Flowbrowse/releases/tag/v0.16.0)
+[![Latest Release](https://img.shields.io/badge/latest-v0.17.0-2EA043?style=flat-square&logo=github&logoColor=white)](https://github.com/RISHII7/Flowbrowse/releases/tag/v0.17.0)
 
 </div>
 
@@ -33,6 +33,7 @@ This changelog is written to be **read by humans**. Every release lists exactly 
 
 | Version | Date | Headline |
 | :-- | :-- | :-- |
+| [**0.17.0**](#0170--2026-07-24) | 2026-07-24 | ➕ Toolbar add-to-canvas — click a node type to add it to the graph |
 | [**0.16.0**](#0160--2026-07-24) | 2026-07-24 | 🧰 Real inspector/toolbar sidebar, live in the workflow editor |
 | [**0.15.1**](#0151--2026-07-24) | 2026-07-24 | 🧰 Right-sidebar inspector/toolbar template + tabs underline tweak |
 | [**0.15.0**](#0150--2026-07-24) | 2026-07-24 | 🧑‍🤝‍🧑 Names and avatars in the Liveblocks room |
@@ -68,7 +69,25 @@ This changelog is written to be **read by humans**. Every release lists exactly 
 
 ## [Unreleased]
 
-> _Nothing yet — the working tree is in sync with `v0.16.0`._
+> _Nothing yet — the working tree is in sync with `v0.17.0`._
+
+---
+
+## [0.17.0] — 2026-07-24
+
+> **Highlights** ➕ The Toolbar tab is wired up — clicking a node type now actually adds it to the canvas, centered in the current view, with single-trigger enforcement and auto-numbered duplicate titles.
+
+### ✨ Added
+
+- **`app/(dashboard)/workflows/[id]/page.tsx`** — wraps `WorkflowShell` in a `<ReactFlowProvider>`. The canvas and the sidebar's node palette live in separate components, so a single provider above both gives them one shared React Flow store.
+
+### ♻️ Changed
+
+- **`features/workflows/components/right-sidebar.tsx`** — `Palette`'s `add(type)` action is implemented (previously a `TODO`), using `useReactFlow` (`getNodes`/`getViewport`/`addNodes`) and `useStore` (pane width/height):
+  - Enforces a single trigger per workflow, toasting an error (via `sonner`) and bailing out if a trigger already exists on the canvas.
+  - Auto-numbers duplicate node titles (e.g. "Open URL 1", "Open URL 2") by counting existing nodes of the same type.
+  - Computes the pane's center in flow coordinates from the current viewport transform (`position * zoom + offset`) and drops the new node there, so it lands in view regardless of pan/zoom.
+  - Calls `addNodes` with a fresh id, `type: "step"`, the computed position, and the node's initial `data` (`values: {}`).
 
 ---
 
@@ -646,7 +665,8 @@ Added via the Clerk CLI (`clerk init --framework next --pm npm`, linked to the `
 
 </div>
 
-[Unreleased]: https://github.com/RISHII7/Flowbrowse/compare/v0.16.0...HEAD
+[Unreleased]: https://github.com/RISHII7/Flowbrowse/compare/v0.17.0...HEAD
+[0.17.0]: https://github.com/RISHII7/Flowbrowse/compare/v0.16.0...v0.17.0
 [0.16.0]: https://github.com/RISHII7/Flowbrowse/compare/v0.15.1...v0.16.0
 [0.15.1]: https://github.com/RISHII7/Flowbrowse/compare/v0.15.0...v0.15.1
 [0.15.0]: https://github.com/RISHII7/Flowbrowse/compare/v0.14.1...v0.15.0
