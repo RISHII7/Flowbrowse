@@ -8,7 +8,7 @@ _All notable changes to this project, documented with care._
 
 [![Keep a Changelog](https://img.shields.io/badge/Keep%20a%20Changelog-1.1.0-E05735?style=flat-square&logo=keepachangelog&logoColor=white)](https://keepachangelog.com/en/1.1.0/)
 [![Semantic Versioning](https://img.shields.io/badge/SemVer-2.0.0-3F51B5?style=flat-square&logo=semver&logoColor=white)](https://semver.org/spec/v2.0.0.html)
-[![Latest Release](https://img.shields.io/badge/latest-v0.15.1-2EA043?style=flat-square&logo=github&logoColor=white)](https://github.com/RISHII7/Flowbrowse/releases/tag/v0.15.1)
+[![Latest Release](https://img.shields.io/badge/latest-v0.16.0-2EA043?style=flat-square&logo=github&logoColor=white)](https://github.com/RISHII7/Flowbrowse/releases/tag/v0.16.0)
 
 </div>
 
@@ -33,6 +33,7 @@ This changelog is written to be **read by humans**. Every release lists exactly 
 
 | Version | Date | Headline |
 | :-- | :-- | :-- |
+| [**0.16.0**](#0160--2026-07-24) | 2026-07-24 | 🧰 Real inspector/toolbar sidebar, live in the workflow editor |
 | [**0.15.1**](#0151--2026-07-24) | 2026-07-24 | 🧰 Right-sidebar inspector/toolbar template + tabs underline tweak |
 | [**0.15.0**](#0150--2026-07-24) | 2026-07-24 | 🧑‍🤝‍🧑 Names and avatars in the Liveblocks room |
 | [**0.14.1**](#0141--2026-07-24) | 2026-07-24 | 🏢 Liveblocks org compartmentalization + room loading spinner |
@@ -67,7 +68,23 @@ This changelog is written to be **read by humans**. Every release lists exactly 
 
 ## [Unreleased]
 
-> _Nothing yet — the working tree is in sync with `v0.15.1`._
+> _Nothing yet — the working tree is in sync with `v0.16.0`._
+
+---
+
+## [0.16.0] — 2026-07-24
+
+> **Highlights** 🧰 The workflow editor's right sidebar is real — the inspector/toolbar UI from `templates/right-sidebar.tsx` now drives the live editor, replacing the placeholder Run button.
+
+### ♻️ Changed
+
+- **`features/workflows/components/right-sidebar.tsx`** — replaced the bare Run-button `RightSidebar` with the full inspector/toolbar sidebar built on the real node registry:
+  - **Header** — workflow-level actions: a "…" menu (destructive delete-workflow entry) and a Run button, above two tabs.
+  - **Toolbar tab** — an accordion palette of node types grouped by kind (Triggers/Actions), each entry adding that node type to the canvas.
+  - **Editor tab** — renders one input per field on the selected node, or an empty state ("No node selected" / "No properties") when nothing's selected or the node has no editable fields.
+  - **`NodeIcon`** — the accent-colored icon chip resolved from the registry, defined as a local helper so the file stays self-contained.
+  - Selection state, field edits, add-node, delete-workflow, and run are left as `TODO`s — wiring them up depends on the canvas exposing the selected node and the corresponding server actions existing.
+  - `templates/right-sidebar.tsx` is left in place as the reference scaffold this was built from.
 
 ---
 
@@ -629,7 +646,8 @@ Added via the Clerk CLI (`clerk init --framework next --pm npm`, linked to the `
 
 </div>
 
-[Unreleased]: https://github.com/RISHII7/Flowbrowse/compare/v0.15.1...HEAD
+[Unreleased]: https://github.com/RISHII7/Flowbrowse/compare/v0.16.0...HEAD
+[0.16.0]: https://github.com/RISHII7/Flowbrowse/compare/v0.15.1...v0.16.0
 [0.15.1]: https://github.com/RISHII7/Flowbrowse/compare/v0.15.0...v0.15.1
 [0.15.0]: https://github.com/RISHII7/Flowbrowse/compare/v0.14.1...v0.15.0
 [0.14.1]: https://github.com/RISHII7/Flowbrowse/compare/v0.14.0...v0.14.1
