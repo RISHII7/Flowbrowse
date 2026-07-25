@@ -8,7 +8,7 @@ _All notable changes to this project, documented with care._
 
 [![Keep a Changelog](https://img.shields.io/badge/Keep%20a%20Changelog-1.1.0-E05735?style=flat-square&logo=keepachangelog&logoColor=white)](https://keepachangelog.com/en/1.1.0/)
 [![Semantic Versioning](https://img.shields.io/badge/SemVer-2.0.0-3F51B5?style=flat-square&logo=semver&logoColor=white)](https://semver.org/spec/v2.0.0.html)
-[![Latest Release](https://img.shields.io/badge/latest-v0.14.1-2EA043?style=flat-square&logo=github&logoColor=white)](https://github.com/RISHII7/Flowbrowse/releases/tag/v0.14.1)
+[![Latest Release](https://img.shields.io/badge/latest-v0.15.0-2EA043?style=flat-square&logo=github&logoColor=white)](https://github.com/RISHII7/Flowbrowse/releases/tag/v0.15.0)
 
 </div>
 
@@ -33,6 +33,7 @@ This changelog is written to be **read by humans**. Every release lists exactly 
 
 | Version | Date | Headline |
 | :-- | :-- | :-- |
+| [**0.15.0**](#0150--2026-07-24) | 2026-07-24 | 🧑‍🤝‍🧑 Names and avatars in the Liveblocks room |
 | [**0.14.1**](#0141--2026-07-24) | 2026-07-24 | 🏢 Liveblocks org compartmentalization + room loading spinner |
 | [**0.14.0**](#0140--2026-07-23) | 2026-07-23 | 🔒 Liveblocks ID-token auth — org-scoped private rooms |
 | [**0.13.0**](#0130--2026-07-23) | 2026-07-23 | 👥 Liveblocks realtime collaborative canvas |
@@ -65,7 +66,23 @@ This changelog is written to be **read by humans**. Every release lists exactly 
 
 ## [Unreleased]
 
-> _Nothing yet — the working tree is in sync with `v0.14.1`._
+> _Nothing yet — the working tree is in sync with `v0.15.0`._
+
+---
+
+## [0.15.0] — 2026-07-24
+
+> **Highlights** 🧑‍🤝‍🧑 Real names and avatars now show up in the collaborative canvas — cursors, presence, and a new `AvatarStack` — instead of Liveblocks' anonymous placeholders.
+
+### ✨ Added
+
+- **`app/api/liveblocks/users/route.ts`** — the backend for Liveblocks' `resolveUsers`: validates the caller is authenticated with an active org, parses `{ userIds: string[] }` from the body (400 on invalid JSON or shape), and returns `[]` early for an empty list. Looks users up via Clerk's `clerkClient().users.getUserList`, scoped to `organizationId: [orgId]` so display info can't be harvested for users outside the caller's organization. Returns one entry per requested ID, in the same order, with `name` (full name, falling back to username, then email, then `"Anonymous"`) and `avatar`, or `null` for an unknown/out-of-org id.
+
+### ♻️ Changed
+
+- **`features/workflows/components/room.tsx`** — added a `resolveUsers` callback to `LiveblocksProvider` that `POST`s to `/api/liveblocks/users` and returns the resolved user info, swallowing network/non-OK responses as `undefined` so Liveblocks falls back gracefully.
+- **`features/workflows/components/canvas.tsx`** — renders Liveblocks' `<AvatarStack />` (from `@liveblocks/react-ui`) over the canvas so everyone currently in the room is visible at a glance.
+- **Dependencies** — `@trigger.dev/sdk`, `@trigger.dev/react-hooks`, and `@trigger.dev/build` bumped `4.5.5` → `4.5.7`.
 
 ---
 
@@ -597,7 +614,8 @@ Added via the Clerk CLI (`clerk init --framework next --pm npm`, linked to the `
 
 </div>
 
-[Unreleased]: https://github.com/RISHII7/Flowbrowse/compare/v0.14.1...HEAD
+[Unreleased]: https://github.com/RISHII7/Flowbrowse/compare/v0.15.0...HEAD
+[0.15.0]: https://github.com/RISHII7/Flowbrowse/compare/v0.14.1...v0.15.0
 [0.14.1]: https://github.com/RISHII7/Flowbrowse/compare/v0.14.0...v0.14.1
 [0.14.0]: https://github.com/RISHII7/Flowbrowse/compare/v0.13.0...v0.14.0
 [0.13.0]: https://github.com/RISHII7/Flowbrowse/compare/v0.12.1...v0.13.0
