@@ -8,7 +8,7 @@ _All notable changes to this project, documented with care._
 
 [![Keep a Changelog](https://img.shields.io/badge/Keep%20a%20Changelog-1.1.0-E05735?style=flat-square&logo=keepachangelog&logoColor=white)](https://keepachangelog.com/en/1.1.0/)
 [![Semantic Versioning](https://img.shields.io/badge/SemVer-2.0.0-3F51B5?style=flat-square&logo=semver&logoColor=white)](https://semver.org/spec/v2.0.0.html)
-[![Latest Release](https://img.shields.io/badge/latest-v0.18.0-2EA043?style=flat-square&logo=github&logoColor=white)](https://github.com/RISHII7/Flowbrowse/releases/tag/v0.18.0)
+[![Latest Release](https://img.shields.io/badge/latest-v0.19.0-2EA043?style=flat-square&logo=github&logoColor=white)](https://github.com/RISHII7/Flowbrowse/releases/tag/v0.19.0)
 
 </div>
 
@@ -33,6 +33,7 @@ This changelog is written to be **read by humans**. Every release lists exactly 
 
 | Version | Date | Headline |
 | :-- | :-- | :-- |
+| [**0.19.0**](#0190--2026-07-24) | 2026-07-24 | 📝 Editor auto-switch, multiline fields, required-field marker |
 | [**0.18.0**](#0180--2026-07-24) | 2026-07-24 | 💾 Node field edits persist and render on the canvas · 🐛 dark-mode hotkey crash fix |
 | [**0.17.1**](#0171--2026-07-24) | 2026-07-24 | 🎯 Editor tab reflects the selected canvas node |
 | [**0.17.0**](#0170--2026-07-24) | 2026-07-24 | ➕ Toolbar add-to-canvas — click a node type to add it to the graph |
@@ -71,7 +72,24 @@ This changelog is written to be **read by humans**. Every release lists exactly 
 
 ## [Unreleased]
 
-> _Nothing yet — the working tree is in sync with `v0.18.0`._
+> _Nothing yet — the working tree is in sync with `v0.19.0`._
+
+---
+
+## [0.19.0] — 2026-07-24
+
+> **Highlights** 📝 The Editor tab now auto-switches in when you select a node, fields can opt into a multi-line textarea, and required fields are marked in the inspector.
+
+### ✨ Added
+
+- **`features/workflows/nodes/node-registry.ts`** — `NodeField` gains `multiline?: boolean` (render as a textarea instead of a single-line input) and `required?: boolean`. The `open-url` node's `url` field is now `required: true`.
+
+### ♻️ Changed
+
+- **`features/workflows/components/right-sidebar.tsx`**:
+  - `FieldInput` renamed to `Field`; it now renders a `Textarea` when `field.multiline` is set, otherwise the existing `Input`.
+  - `Inspector`'s field `Label` shows a destructive-colored `*` when `field.required`.
+  - `RightSidebar` tracks `prevSelectedId` and, when the selected node's id changes, switches the tab to `"editor"` during render — implements the "TODO: auto-switch to the Editor tab when the selection changes" from `v0.17.1`.
 
 ---
 
@@ -695,7 +713,8 @@ Added via the Clerk CLI (`clerk init --framework next --pm npm`, linked to the `
 
 </div>
 
-[Unreleased]: https://github.com/RISHII7/Flowbrowse/compare/v0.18.0...HEAD
+[Unreleased]: https://github.com/RISHII7/Flowbrowse/compare/v0.19.0...HEAD
+[0.19.0]: https://github.com/RISHII7/Flowbrowse/compare/v0.18.0...v0.19.0
 [0.18.0]: https://github.com/RISHII7/Flowbrowse/compare/v0.17.1...v0.18.0
 [0.17.1]: https://github.com/RISHII7/Flowbrowse/compare/v0.17.0...v0.17.1
 [0.17.0]: https://github.com/RISHII7/Flowbrowse/compare/v0.16.0...v0.17.0
