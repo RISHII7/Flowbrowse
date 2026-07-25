@@ -8,7 +8,7 @@ _All notable changes to this project, documented with care._
 
 [![Keep a Changelog](https://img.shields.io/badge/Keep%20a%20Changelog-1.1.0-E05735?style=flat-square&logo=keepachangelog&logoColor=white)](https://keepachangelog.com/en/1.1.0/)
 [![Semantic Versioning](https://img.shields.io/badge/SemVer-2.0.0-3F51B5?style=flat-square&logo=semver&logoColor=white)](https://semver.org/spec/v2.0.0.html)
-[![Latest Release](https://img.shields.io/badge/latest-v0.20.0-2EA043?style=flat-square&logo=github&logoColor=white)](https://github.com/RISHII7/Flowbrowse/releases/tag/v0.20.0)
+[![Latest Release](https://img.shields.io/badge/latest-v0.21.0-2EA043?style=flat-square&logo=github&logoColor=white)](https://github.com/RISHII7/Flowbrowse/releases/tag/v0.21.0)
 
 </div>
 
@@ -33,6 +33,7 @@ This changelog is written to be **read by humans**. Every release lists exactly 
 
 | Version | Date | Headline |
 | :-- | :-- | :-- |
+| [**0.21.0**](#0210--2026-07-24) | 2026-07-24 | ✅ Graph validation and persistence for workflow runs |
 | [**0.20.0**](#0200--2026-07-24) | 2026-07-24 | 🗑️ Delete workflow — DB row + Liveblocks room cleanup |
 | [**0.19.0**](#0190--2026-07-24) | 2026-07-24 | 📝 Editor auto-switch, multiline fields, required-field marker |
 | [**0.18.0**](#0180--2026-07-24) | 2026-07-24 | 💾 Node field edits persist and render on the canvas · 🐛 dark-mode hotkey crash fix |
@@ -73,7 +74,25 @@ This changelog is written to be **read by humans**. Every release lists exactly 
 
 ## [Unreleased]
 
-> _Nothing yet — the working tree is in sync with `v0.20.0`._
+> _Nothing yet — the working tree is in sync with `v0.21.0`._
+
+---
+
+## [0.21.0] — 2026-07-24
+
+> **Highlights** ✅ The workflow graph is now typed, validated, and persisted before a run — laying the groundwork for wiring the Run button up to real, current canvas state.
+
+### ✨ Added
+
+- **`features/workflows/lib/validate-graph.ts`** — `validateGraph({ nodes, edges })`: structural checks knowable before a run, returning an array of problem strings (empty = runnable). Requires exactly one Start trigger, requires at least one edge (the runner only executes nodes touching an edge), and detects cycles via `toposort` (which throws on one, since the run would otherwise fail mid-sort). Pure — no `db` import — so the client can pre-flight the in-hand graph and toast, while the server reuses it as the save-time backstop.
+- **`features/workflows/actions.ts`** — `cancelWorkflowRunAction(runId)`: auth + org check, then `runs.cancel(runId)` (from `@trigger.dev/sdk`) to stop an in-progress run.
+- **Dependencies** — `toposort` (`^2.0.2`) and `@types/toposort` (`^2.0.7`).
+
+### ♻️ Changed
+
+- **`lib/db/schema.ts`** — the `graph` jsonb column is now typed as `WorkflowGraph` via `.$type<WorkflowGraph>()` (`$inferSelect`/`$inferInsert` flow the shape through). TypeScript-only change — confirmed no DB drift via `npm run db:push` ("No changes detected").
+- **`features/workflows/data.ts`** — `saveWorkflowGraph({ orgId, id, graph })`: runs `validateGraph` first and throws (joining the problems) if it finds any, otherwise updates the workflow's `graph` and `updatedAt`, scoped to both `id` and `orgId`.
+- **`features/workflows/actions.ts`** — `runWorkflowAction` now takes `{ id, graph: WorkflowGraph }` instead of no arguments: it saves the graph via `saveWorkflowGraph` before triggering the `hello-world` task, so the run reflects the current canvas state.
 
 ---
 
@@ -730,7 +749,8 @@ Added via the Clerk CLI (`clerk init --framework next --pm npm`, linked to the `
 
 </div>
 
-[Unreleased]: https://github.com/RISHII7/Flowbrowse/compare/v0.20.0...HEAD
+[Unreleased]: https://github.com/RISHII7/Flowbrowse/compare/v0.21.0...HEAD
+[0.21.0]: https://github.com/RISHII7/Flowbrowse/compare/v0.20.0...v0.21.0
 [0.20.0]: https://github.com/RISHII7/Flowbrowse/compare/v0.19.0...v0.20.0
 [0.19.0]: https://github.com/RISHII7/Flowbrowse/compare/v0.18.0...v0.19.0
 [0.18.0]: https://github.com/RISHII7/Flowbrowse/compare/v0.17.1...v0.18.0
