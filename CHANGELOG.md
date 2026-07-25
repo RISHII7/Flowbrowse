@@ -8,7 +8,7 @@ _All notable changes to this project, documented with care._
 
 [![Keep a Changelog](https://img.shields.io/badge/Keep%20a%20Changelog-1.1.0-E05735?style=flat-square&logo=keepachangelog&logoColor=white)](https://keepachangelog.com/en/1.1.0/)
 [![Semantic Versioning](https://img.shields.io/badge/SemVer-2.0.0-3F51B5?style=flat-square&logo=semver&logoColor=white)](https://semver.org/spec/v2.0.0.html)
-[![Latest Release](https://img.shields.io/badge/latest-v0.17.0-2EA043?style=flat-square&logo=github&logoColor=white)](https://github.com/RISHII7/Flowbrowse/releases/tag/v0.17.0)
+[![Latest Release](https://img.shields.io/badge/latest-v0.17.1-2EA043?style=flat-square&logo=github&logoColor=white)](https://github.com/RISHII7/Flowbrowse/releases/tag/v0.17.1)
 
 </div>
 
@@ -33,6 +33,7 @@ This changelog is written to be **read by humans**. Every release lists exactly 
 
 | Version | Date | Headline |
 | :-- | :-- | :-- |
+| [**0.17.1**](#0171--2026-07-24) | 2026-07-24 | 🎯 Editor tab reflects the selected canvas node |
 | [**0.17.0**](#0170--2026-07-24) | 2026-07-24 | ➕ Toolbar add-to-canvas — click a node type to add it to the graph |
 | [**0.16.0**](#0160--2026-07-24) | 2026-07-24 | 🧰 Real inspector/toolbar sidebar, live in the workflow editor |
 | [**0.15.1**](#0151--2026-07-24) | 2026-07-24 | 🧰 Right-sidebar inspector/toolbar template + tabs underline tweak |
@@ -69,7 +70,17 @@ This changelog is written to be **read by humans**. Every release lists exactly 
 
 ## [Unreleased]
 
-> _Nothing yet — the working tree is in sync with `v0.17.0`._
+> _Nothing yet — the working tree is in sync with `v0.17.1`._
+
+---
+
+## [0.17.1] — 2026-07-24
+
+> **Highlights** 🎯 The Editor tab now reflects whatever node is actually selected on the canvas, instead of always showing the empty state.
+
+### ♻️ Changed
+
+- **`features/workflows/components/right-sidebar.tsx`** — `const selected` now comes from `useStore((s) => s.nodes.find((n) => n.selected))`, cast to `StepNodeType | undefined`, replacing the "TODO: read the currently selected node from React Flow" placeholder. `Inspector` (already wired to `selected`) now reflects the actual canvas selection.
 
 ---
 
@@ -665,7 +676,8 @@ Added via the Clerk CLI (`clerk init --framework next --pm npm`, linked to the `
 
 </div>
 
-[Unreleased]: https://github.com/RISHII7/Flowbrowse/compare/v0.17.0...HEAD
+[Unreleased]: https://github.com/RISHII7/Flowbrowse/compare/v0.17.1...HEAD
+[0.17.1]: https://github.com/RISHII7/Flowbrowse/compare/v0.17.0...v0.17.1
 [0.17.0]: https://github.com/RISHII7/Flowbrowse/compare/v0.16.0...v0.17.0
 [0.16.0]: https://github.com/RISHII7/Flowbrowse/compare/v0.15.1...v0.16.0
 [0.15.1]: https://github.com/RISHII7/Flowbrowse/compare/v0.15.0...v0.15.1
