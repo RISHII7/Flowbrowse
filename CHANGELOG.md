@@ -8,7 +8,7 @@ _All notable changes to this project, documented with care._
 
 [![Keep a Changelog](https://img.shields.io/badge/Keep%20a%20Changelog-1.1.0-E05735?style=flat-square&logo=keepachangelog&logoColor=white)](https://keepachangelog.com/en/1.1.0/)
 [![Semantic Versioning](https://img.shields.io/badge/SemVer-2.0.0-3F51B5?style=flat-square&logo=semver&logoColor=white)](https://semver.org/spec/v2.0.0.html)
-[![Latest Release](https://img.shields.io/badge/latest-v0.17.1-2EA043?style=flat-square&logo=github&logoColor=white)](https://github.com/RISHII7/Flowbrowse/releases/tag/v0.17.1)
+[![Latest Release](https://img.shields.io/badge/latest-v0.18.0-2EA043?style=flat-square&logo=github&logoColor=white)](https://github.com/RISHII7/Flowbrowse/releases/tag/v0.18.0)
 
 </div>
 
@@ -33,6 +33,7 @@ This changelog is written to be **read by humans**. Every release lists exactly 
 
 | Version | Date | Headline |
 | :-- | :-- | :-- |
+| [**0.18.0**](#0180--2026-07-24) | 2026-07-24 | 💾 Node field edits persist and render on the canvas · 🐛 dark-mode hotkey crash fix |
 | [**0.17.1**](#0171--2026-07-24) | 2026-07-24 | 🎯 Editor tab reflects the selected canvas node |
 | [**0.17.0**](#0170--2026-07-24) | 2026-07-24 | ➕ Toolbar add-to-canvas — click a node type to add it to the graph |
 | [**0.16.0**](#0160--2026-07-24) | 2026-07-24 | 🧰 Real inspector/toolbar sidebar, live in the workflow editor |
@@ -70,7 +71,25 @@ This changelog is written to be **read by humans**. Every release lists exactly 
 
 ## [Unreleased]
 
-> _Nothing yet — the working tree is in sync with `v0.17.1`._
+> _Nothing yet — the working tree is in sync with `v0.18.0`._
+
+---
+
+## [0.18.0] — 2026-07-24
+
+> **Highlights** 💾 Editing a node's fields in the Editor tab now actually persists — and the canvas node itself renders a live summary of its configured values. Also fixes a crash in the dark-mode hotkey triggered by synthetic keyboard events.
+
+### ✨ Added
+
+- **`features/workflows/components/step-node.tsx`** — when a node has filled-in fields, the canvas card now renders a bordered section below its header listing each field's label and value (truncated), so a glance at the canvas shows a node's configured state without opening the inspector.
+
+### ♻️ Changed
+
+- **`features/workflows/components/right-sidebar.tsx`** — `Inspector`'s `FieldInput.onChange` now calls `updateNodeData(node.id, { values: { ...values, [field.key]: value } })` (via `useReactFlow`), replacing the "TODO: save the edit back onto the selected node" placeholder — Editor tab edits persist onto the node.
+
+### 🐛 Fixed
+
+- **Dark-mode hotkey crash on synthetic `keydown` events** — the global "press `d` to toggle dark mode" listener in `components/theme-provider.tsx` called `event.key.toLowerCase()` unconditionally. Since it listens on `window`, it receives every keydown on the page — including synthetic ones dispatched by some browser extensions (password managers, Grammarly, automation tooling) that construct a bare `KeyboardEvent` without a `key`, which threw `Cannot read properties of undefined (reading 'toLowerCase')`. Changed to `event.key?.toLowerCase()`: identical behavior for real key presses, safely ignored otherwise.
 
 ---
 
@@ -676,7 +695,8 @@ Added via the Clerk CLI (`clerk init --framework next --pm npm`, linked to the `
 
 </div>
 
-[Unreleased]: https://github.com/RISHII7/Flowbrowse/compare/v0.17.1...HEAD
+[Unreleased]: https://github.com/RISHII7/Flowbrowse/compare/v0.18.0...HEAD
+[0.18.0]: https://github.com/RISHII7/Flowbrowse/compare/v0.17.1...v0.18.0
 [0.17.1]: https://github.com/RISHII7/Flowbrowse/compare/v0.17.0...v0.17.1
 [0.17.0]: https://github.com/RISHII7/Flowbrowse/compare/v0.16.0...v0.17.0
 [0.16.0]: https://github.com/RISHII7/Flowbrowse/compare/v0.15.1...v0.16.0
