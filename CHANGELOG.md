@@ -8,7 +8,7 @@ _All notable changes to this project, documented with care._
 
 [![Keep a Changelog](https://img.shields.io/badge/Keep%20a%20Changelog-1.1.0-E05735?style=flat-square&logo=keepachangelog&logoColor=white)](https://keepachangelog.com/en/1.1.0/)
 [![Semantic Versioning](https://img.shields.io/badge/SemVer-2.0.0-3F51B5?style=flat-square&logo=semver&logoColor=white)](https://semver.org/spec/v2.0.0.html)
-[![Latest Release](https://img.shields.io/badge/latest-v0.21.0-2EA043?style=flat-square&logo=github&logoColor=white)](https://github.com/RISHII7/Flowbrowse/releases/tag/v0.21.0)
+[![Latest Release](https://img.shields.io/badge/latest-v0.22.0-2EA043?style=flat-square&logo=github&logoColor=white)](https://github.com/RISHII7/Flowbrowse/releases/tag/v0.22.0)
 
 </div>
 
@@ -33,6 +33,7 @@ This changelog is written to be **read by humans**. Every release lists exactly 
 
 | Version | Date | Headline |
 | :-- | :-- | :-- |
+| [**0.22.0**](#0220--2026-07-24) | 2026-07-24 | ▶️ Run button triggers the real run-workflow task |
 | [**0.21.0**](#0210--2026-07-24) | 2026-07-24 | ✅ Graph validation and persistence for workflow runs |
 | [**0.20.0**](#0200--2026-07-24) | 2026-07-24 | 🗑️ Delete workflow — DB row + Liveblocks room cleanup |
 | [**0.19.0**](#0190--2026-07-24) | 2026-07-24 | 📝 Editor auto-switch, multiline fields, required-field marker |
@@ -74,7 +75,27 @@ This changelog is written to be **read by humans**. Every release lists exactly 
 
 ## [Unreleased]
 
-> _Nothing yet — the working tree is in sync with `v0.21.0`._
+> _Nothing yet — the working tree is in sync with `v0.22.0`._
+
+---
+
+## [0.22.0] — 2026-07-24
+
+> **Highlights** ▶️ The Run button is fully wired — it validates the current canvas, triggers a real `run-workflow` Trigger.dev task, and that task actually loads and orders the saved graph. The workflow editor is now functionally complete end-to-end: create, edit, save, delete, run.
+
+### ✨ Added
+
+- **`features/workflows/tasks/run-workflow.ts`** — `runWorkflowTask`: loads the workflow's saved graph via `getWorkflow`, throwing if it's missing. Builds the set of connected node ids (anything touching an edge — orphans dropped on the canvas are skipped), then orders them with `toposort.array` (throws on a cycle). Logs the workflow name and step count, then logs each step as it's visited in order. Real per-node execution (executors, live progress, browser sessions) is left as a `TODO` to layer on from here.
+
+### ♻️ Changed
+
+- **`trigger.config.ts`** — `dirs: ["trigger"]` → `["features"]`, since the task now lives under `features/workflows/tasks/` instead of the top-level `trigger/` dir.
+- **`features/workflows/actions.ts`** — `runWorkflowAction` triggers `"run-workflow"` (typed via `runWorkflowTask`, imported from its new path) with `{ workflowId: id, orgId }` and `tags: [`workflow:${id}`]`, replacing the `hello-world` trigger call.
+- **`features/workflows/components/right-sidebar.tsx`** — `RunButton` now takes `workflowId`, reads the current nodes/edges via `useReactFlow`, and validates them with `validateGraph` before doing anything — toasting the first problem and returning early if there are any. Otherwise it calls `runWorkflowAction({ id: workflowId, graph })` in a transition, with the button disabled while pending. Implements the "TODO: validate the graph and run the workflow" placeholder.
+
+### 🗑️ Removed
+
+- **`trigger/example.ts`** — the `hello-world` example task is no longer used now that a real task exists; the now-empty `trigger/` directory is dropped.
 
 ---
 
@@ -749,7 +770,8 @@ Added via the Clerk CLI (`clerk init --framework next --pm npm`, linked to the `
 
 </div>
 
-[Unreleased]: https://github.com/RISHII7/Flowbrowse/compare/v0.21.0...HEAD
+[Unreleased]: https://github.com/RISHII7/Flowbrowse/compare/v0.22.0...HEAD
+[0.22.0]: https://github.com/RISHII7/Flowbrowse/compare/v0.21.0...v0.22.0
 [0.21.0]: https://github.com/RISHII7/Flowbrowse/compare/v0.20.0...v0.21.0
 [0.20.0]: https://github.com/RISHII7/Flowbrowse/compare/v0.19.0...v0.20.0
 [0.19.0]: https://github.com/RISHII7/Flowbrowse/compare/v0.18.0...v0.19.0
