@@ -8,7 +8,7 @@ _All notable changes to this project, documented with care._
 
 [![Keep a Changelog](https://img.shields.io/badge/Keep%20a%20Changelog-1.1.0-E05735?style=flat-square&logo=keepachangelog&logoColor=white)](https://keepachangelog.com/en/1.1.0/)
 [![Semantic Versioning](https://img.shields.io/badge/SemVer-2.0.0-3F51B5?style=flat-square&logo=semver&logoColor=white)](https://semver.org/spec/v2.0.0.html)
-[![Latest Release](https://img.shields.io/badge/latest-v0.25.0-2EA043?style=flat-square&logo=github&logoColor=white)](https://github.com/RISHII7/Flowbrowse/releases/tag/v0.25.0)
+[![Latest Release](https://img.shields.io/badge/latest-v0.25.1-2EA043?style=flat-square&logo=github&logoColor=white)](https://github.com/RISHII7/Flowbrowse/releases/tag/v0.25.1)
 
 </div>
 
@@ -33,6 +33,7 @@ This changelog is written to be **read by humans**. Every release lists exactly 
 
 | Version | Date | Headline |
 | :-- | :-- | :-- |
+| [**0.25.1**](#0251--2026-07-30) | 2026-07-30 | 📡 Live-run-status spec |
 | [**0.25.0**](#0250--2026-07-25) | 2026-07-25 | 🔗 Data passthrough — `{{nodeId.path}}` interpolation + connection chips |
 | [**0.24.2**](#0242--2026-07-25) | 2026-07-25 | 📄 Data-passthrough spec — `{{nodeId.path}}` field interpolation |
 | [**0.24.1**](#0241--2026-07-25) | 2026-07-25 | 🔑 Document Browserbase key in `.env.example` |
@@ -80,7 +81,17 @@ This changelog is written to be **read by humans**. Every release lists exactly 
 
 ## [Unreleased]
 
-> _Nothing yet — the working tree is in sync with `v0.25.0`._
+> _Nothing yet — the working tree is in sync with `v0.25.1`._
+
+---
+
+## [0.25.1] — 2026-07-30
+
+> **Highlights** 📡 A spec for showing each node's live run status on the canvas — spinner while running, red border on failure — powered by Trigger.dev Realtime. Spec only, no implementation.
+
+### ✨ Added
+
+- **`specs/live-run-status.md`** — a four-part plan: streaming per-step status (`RunStep`) from `run-workflow.ts` via run metadata, with a forced flush right after marking a step `"running"` (so the spinner isn't overwritten before it's ever pushed) and again right after marking one `"failed"` (since a thrown run returns no output, the flushed metadata is the only way that failed state reaches the canvas); a `WorkflowRunsProvider` + `useLatestRunSteps` hook subscribing to the workflow's runs by tag; wiring a scoped public token and the provider into the workflow page; and painting each canvas node from the latest run's steps.
 
 ---
 
@@ -841,7 +852,8 @@ Added via the Clerk CLI (`clerk init --framework next --pm npm`, linked to the `
 
 </div>
 
-[Unreleased]: https://github.com/RISHII7/Flowbrowse/compare/v0.25.0...HEAD
+[Unreleased]: https://github.com/RISHII7/Flowbrowse/compare/v0.25.1...HEAD
+[0.25.1]: https://github.com/RISHII7/Flowbrowse/compare/v0.25.0...v0.25.1
 [0.25.0]: https://github.com/RISHII7/Flowbrowse/compare/v0.24.2...v0.25.0
 [0.24.2]: https://github.com/RISHII7/Flowbrowse/compare/v0.24.1...v0.24.2
 [0.24.1]: https://github.com/RISHII7/Flowbrowse/compare/v0.24.0...v0.24.1
