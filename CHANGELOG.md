@@ -8,7 +8,7 @@ _All notable changes to this project, documented with care._
 
 [![Keep a Changelog](https://img.shields.io/badge/Keep%20a%20Changelog-1.1.0-E05735?style=flat-square&logo=keepachangelog&logoColor=white)](https://keepachangelog.com/en/1.1.0/)
 [![Semantic Versioning](https://img.shields.io/badge/SemVer-2.0.0-3F51B5?style=flat-square&logo=semver&logoColor=white)](https://semver.org/spec/v2.0.0.html)
-[![Latest Release](https://img.shields.io/badge/latest-v0.28.0-2EA043?style=flat-square&logo=github&logoColor=white)](https://github.com/RISHII7/Flowbrowse/releases/tag/v0.28.0)
+[![Latest Release](https://img.shields.io/badge/latest-v0.28.1-2EA043?style=flat-square&logo=github&logoColor=white)](https://github.com/RISHII7/Flowbrowse/releases/tag/v0.28.1)
 
 </div>
 
@@ -33,6 +33,7 @@ This changelog is written to be **read by humans**. Every release lists exactly 
 
 | Version | Date | Headline |
 | :-- | :-- | :-- |
+| [**0.28.1**](#0281--2026-07-31) | 2026-07-31 | 📄 Console-panel spec — run logs + output inspector |
 | [**0.28.0**](#0280--2026-07-31) | 2026-07-31 | 📧 Send Email node — Resend-powered email step |
 | [**0.27.1**](#0271--2026-07-31) | 2026-07-31 | 🧩 Resend agent skill |
 | [**0.27.0**](#0270--2026-07-30) | 2026-07-30 | 🧩 `act` / `extract` / `observe` / `agent` nodes — Stagehand-powered browser actions |
@@ -86,7 +87,17 @@ This changelog is written to be **read by humans**. Every release lists exactly 
 
 ## [Unreleased]
 
-> _Nothing yet — the working tree is in sync with `v0.28.0`._
+> _Nothing yet — the working tree is in sync with `v0.28.1`._
+
+---
+
+## [0.28.1] — 2026-07-31
+
+> **Highlights** 📄 A spec for a bottom console panel — a logs list of every run's steps plus an output inspector for the selected one. Spec only, no implementation.
+
+### ✨ Added
+
+- **`specs/console-panel.md`** — a three-part plan: capture each step's output/error/duration as the run walks its steps and expose it from the workflow runs provider; build a `LogsPanel` (reusing the right sidebar's `NodeIcon`) wrapped in a `ConsolePanel` that lists every run and its steps — icon, title, `pretty-ms`-formatted duration, a live spinner while running, inactive styling for steps that never ran, and click-to-select/deselect — mounted where the workflow shell's "Logs" placeholder currently sits; then an `InspectorPanel` rendered inside the `ConsolePanel` showing the selected step's output, error, or a placeholder note.
 
 ---
 
@@ -931,7 +942,8 @@ Added via the Clerk CLI (`clerk init --framework next --pm npm`, linked to the `
 
 </div>
 
-[Unreleased]: https://github.com/RISHII7/Flowbrowse/compare/v0.28.0...HEAD
+[Unreleased]: https://github.com/RISHII7/Flowbrowse/compare/v0.28.1...HEAD
+[0.28.1]: https://github.com/RISHII7/Flowbrowse/compare/v0.28.0...v0.28.1
 [0.28.0]: https://github.com/RISHII7/Flowbrowse/compare/v0.27.1...v0.28.0
 [0.27.1]: https://github.com/RISHII7/Flowbrowse/compare/v0.27.0...v0.27.1
 [0.27.0]: https://github.com/RISHII7/Flowbrowse/compare/v0.26.1...v0.27.0
