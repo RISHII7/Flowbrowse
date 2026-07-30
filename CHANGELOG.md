@@ -8,7 +8,7 @@ _All notable changes to this project, documented with care._
 
 [![Keep a Changelog](https://img.shields.io/badge/Keep%20a%20Changelog-1.1.0-E05735?style=flat-square&logo=keepachangelog&logoColor=white)](https://keepachangelog.com/en/1.1.0/)
 [![Semantic Versioning](https://img.shields.io/badge/SemVer-2.0.0-3F51B5?style=flat-square&logo=semver&logoColor=white)](https://semver.org/spec/v2.0.0.html)
-[![Latest Release](https://img.shields.io/badge/latest-v0.29.2-2EA043?style=flat-square&logo=github&logoColor=white)](https://github.com/RISHII7/Flowbrowse/releases/tag/v0.29.2)
+[![Latest Release](https://img.shields.io/badge/latest-v0.30.0-2EA043?style=flat-square&logo=github&logoColor=white)](https://github.com/RISHII7/Flowbrowse/releases/tag/v0.30.0)
 
 </div>
 
@@ -33,6 +33,7 @@ This changelog is written to be **read by humans**. Every release lists exactly 
 
 | Version | Date | Headline |
 | :-- | :-- | :-- |
+| [**0.30.0**](#0300--2026-07-31) | 2026-07-31 | 🎬 Session replay in the console |
 | [**0.29.2**](#0292--2026-07-31) | 2026-07-31 | 📄 Session-replay spec — watch a run's Browserbase session |
 | [**0.29.1**](#0291--2026-07-31) | 2026-07-31 | 📄 Console-panel spec — recorded its own fixes |
 | [**0.29.0**](#0290--2026-07-31) | 2026-07-31 | 🖥️ Run console — logs list + output inspector |
@@ -94,7 +95,29 @@ This changelog is written to be **read by humans**. Every release lists exactly 
 
 ## [Unreleased]
 
-> _Nothing yet — the working tree is in sync with `v0.29.2`._
+> _Nothing yet — the working tree is in sync with `v0.30.0`._
+
+---
+
+## [0.30.0] — 2026-07-31
+
+> **Highlights** 🎬 Watch a run's Browserbase session back inside the console — a selectable "Replay" row per finished run plays its recording via a proxied, auth-gated HLS stream. Implements [`specs/session-replay.md`](specs/session-replay.md).
+
+### ✨ Added
+
+- **`lib/browserbase.ts`** — a server-only `Browserbase` client for observability calls (session replays, logs), holding the secret API key.
+- **`app/api/replays/[sessionId]/route.ts`** — proxies a session's replay playlist behind Clerk auth. Returns `202` while Browserbase is still processing the recording (no pages yet, or a 404 on the resource) so the client knows to keep polling, and the `.m3u8` playlist with `200` once it's ready.
+- **`features/workflows/components/session-replay.tsx`** — `SessionReplay` polls that route until ready, then plays the HLS playlist via `hls.js` (falling back to native HLS on Safari), with loading/error/unsupported states.
+
+### ♻️ Changed
+
+- **`features/workflows/tasks/run-workflow.ts`** — captures the Browserbase session id the moment the session opens and returns it in the run's output as `browserbaseSessionId`, alongside `steps`.
+- **`features/workflows/components/workflow-runs-provider.tsx`** — `useConsoleRuns()` surfaces `browserbaseSessionId` per run, read from the run's final output only (the recording lags the session close, so live metadata never has it; an in-flight or failed run reports `undefined`).
+- **`features/workflows/components/logs-panel.tsx`** — `ConsoleSelection` replaces `StepSelection` as a discriminated union (`step` | `replay`); a finished run with a captured session id gets a selectable "Replay" row alongside its step rows.
+- **`features/workflows/components/inspector-panel.tsx`** / **`console-panel.tsx`** — the inspector renders `SessionReplay` when a replay is selected instead of a step's output; selection-sameness now compares kind, run, and (for steps) node id.
+- **`AGENTS.md`** — documents where Browserbase's observability and session-replay docs live, since the retrieval needs the secret key and must be proxied server-side.
+
+Adds the `hls.js` dependency.
 
 ---
 
@@ -1030,7 +1053,8 @@ Added via the Clerk CLI (`clerk init --framework next --pm npm`, linked to the `
 
 </div>
 
-[Unreleased]: https://github.com/RISHII7/Flowbrowse/compare/v0.29.2...HEAD
+[Unreleased]: https://github.com/RISHII7/Flowbrowse/compare/v0.30.0...HEAD
+[0.30.0]: https://github.com/RISHII7/Flowbrowse/compare/v0.29.2...v0.30.0
 [0.29.2]: https://github.com/RISHII7/Flowbrowse/compare/v0.29.1...v0.29.2
 [0.29.1]: https://github.com/RISHII7/Flowbrowse/compare/v0.29.0...v0.29.1
 [0.29.0]: https://github.com/RISHII7/Flowbrowse/compare/v0.28.5...v0.29.0
