@@ -1,3 +1,4 @@
+<!-- markdownlint-disable MD025 -->
 <!-- BEGIN:nextjs-agent-rules -->
 
 # This is NOT the Next.js you know
@@ -5,12 +6,25 @@
 This version has breaking changes — APIs, conventions, and file structure may all differ from your training data. Read the relevant guide in `node_modules/next/dist/docs/` before writing any code. Heed deprecation notices.
 <!-- END:nextjs-agent-rules -->
 
+# Adding a workflow node
+
+Three edits, all under `features/workflows/nodes/`:
+
+1. the impl file (e.g. `open-url.ts`) — the node's executor logic,
+2. register it in `node-executors.ts` — the `satisfies` contract makes a missing
+   executor a compile error for action nodes,
+3. add its manifest entry in `node-registry.ts` — kind, label, icon, accent, its
+   input `fields`, and the `outputs` downstream nodes can reference.
+
+The run task and the canvas step node are registry-driven — never touch them to add
+a node.
+
 # ReactFlow — don't trust training data
 
 This project uses ReactFlow (React Flow / `@xyflow/react`) for the canvas. Its
 APIs, components, hooks, and props change across versions and may differ from
 your training data. Before writing or changing any ReactFlow code, fetch and
-consult the official LLM docs index at https://reactflow.dev/llms.txt and follow
+consult the official LLM docs index at <https://reactflow.dev/llms.txt> and follow
 the linked pages relevant to what you're building. Do not rely on memory for
 component names, props, hook signatures, or usage patterns.
 
