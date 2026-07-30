@@ -8,7 +8,7 @@ _All notable changes to this project, documented with care._
 
 [![Keep a Changelog](https://img.shields.io/badge/Keep%20a%20Changelog-1.1.0-E05735?style=flat-square&logo=keepachangelog&logoColor=white)](https://keepachangelog.com/en/1.1.0/)
 [![Semantic Versioning](https://img.shields.io/badge/SemVer-2.0.0-3F51B5?style=flat-square&logo=semver&logoColor=white)](https://semver.org/spec/v2.0.0.html)
-[![Latest Release](https://img.shields.io/badge/latest-v0.28.1-2EA043?style=flat-square&logo=github&logoColor=white)](https://github.com/RISHII7/Flowbrowse/releases/tag/v0.28.1)
+[![Latest Release](https://img.shields.io/badge/latest-v0.28.2-2EA043?style=flat-square&logo=github&logoColor=white)](https://github.com/RISHII7/Flowbrowse/releases/tag/v0.28.2)
 
 </div>
 
@@ -33,6 +33,7 @@ This changelog is written to be **read by humans**. Every release lists exactly 
 
 | Version | Date | Headline |
 | :-- | :-- | :-- |
+| [**0.28.2**](#0282--2026-07-31) | 2026-07-31 | 📄 Console-panel spec — prompts point at their target files |
 | [**0.28.1**](#0281--2026-07-31) | 2026-07-31 | 📄 Console-panel spec — run logs + output inspector |
 | [**0.28.0**](#0280--2026-07-31) | 2026-07-31 | 📧 Send Email node — Resend-powered email step |
 | [**0.27.1**](#0271--2026-07-31) | 2026-07-31 | 🧩 Resend agent skill |
@@ -87,7 +88,17 @@ This changelog is written to be **read by humans**. Every release lists exactly 
 
 ## [Unreleased]
 
-> _Nothing yet — the working tree is in sync with `v0.28.1`._
+> _Nothing yet — the working tree is in sync with `v0.28.2`._
+
+---
+
+## [0.28.2] — 2026-07-31
+
+> **Highlights** 📄 Tightened up `specs/console-panel.md` so each prompt names the exact file it touches or creates, instead of describing it only by role.
+
+### ♻️ Changed
+
+- **`specs/console-panel.md`** — Prompt 1 now names `features/workflows/tasks/run-workflow.ts` and `features/workflows/components/workflow-runs-provider.tsx`; Prompt 2 names `features/workflows/components/right-sidebar.tsx` (for `NodeIcon`) and `features/workflows/components/workflow-shell.tsx` (for the "Logs" placeholder); Prompt 3 names `features/workflows/components/console-panel.tsx`.
 
 ---
 
@@ -942,7 +953,8 @@ Added via the Clerk CLI (`clerk init --framework next --pm npm`, linked to the `
 
 </div>
 
-[Unreleased]: https://github.com/RISHII7/Flowbrowse/compare/v0.28.1...HEAD
+[Unreleased]: https://github.com/RISHII7/Flowbrowse/compare/v0.28.2...HEAD
+[0.28.2]: https://github.com/RISHII7/Flowbrowse/compare/v0.28.1...v0.28.2
 [0.28.1]: https://github.com/RISHII7/Flowbrowse/compare/v0.28.0...v0.28.1
 [0.28.0]: https://github.com/RISHII7/Flowbrowse/compare/v0.27.1...v0.28.0
 [0.27.1]: https://github.com/RISHII7/Flowbrowse/compare/v0.27.0...v0.27.1
