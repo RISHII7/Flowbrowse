@@ -8,7 +8,7 @@ _All notable changes to this project, documented with care._
 
 [![Keep a Changelog](https://img.shields.io/badge/Keep%20a%20Changelog-1.1.0-E05735?style=flat-square&logo=keepachangelog&logoColor=white)](https://keepachangelog.com/en/1.1.0/)
 [![Semantic Versioning](https://img.shields.io/badge/SemVer-2.0.0-3F51B5?style=flat-square&logo=semver&logoColor=white)](https://semver.org/spec/v2.0.0.html)
-[![Latest Release](https://img.shields.io/badge/latest-v0.28.2-2EA043?style=flat-square&logo=github&logoColor=white)](https://github.com/RISHII7/Flowbrowse/releases/tag/v0.28.2)
+[![Latest Release](https://img.shields.io/badge/latest-v0.28.3-2EA043?style=flat-square&logo=github&logoColor=white)](https://github.com/RISHII7/Flowbrowse/releases/tag/v0.28.3)
 
 </div>
 
@@ -33,6 +33,7 @@ This changelog is written to be **read by humans**. Every release lists exactly 
 
 | Version | Date | Headline |
 | :-- | :-- | :-- |
+| [**0.28.3**](#0283--2026-07-31) | 2026-07-31 | 📄 Console-panel spec — `@file` references |
 | [**0.28.2**](#0282--2026-07-31) | 2026-07-31 | 📄 Console-panel spec — prompts point at their target files |
 | [**0.28.1**](#0281--2026-07-31) | 2026-07-31 | 📄 Console-panel spec — run logs + output inspector |
 | [**0.28.0**](#0280--2026-07-31) | 2026-07-31 | 📧 Send Email node — Resend-powered email step |
@@ -88,7 +89,17 @@ This changelog is written to be **read by humans**. Every release lists exactly 
 
 ## [Unreleased]
 
-> _Nothing yet — the working tree is in sync with `v0.28.2`._
+> _Nothing yet — the working tree is in sync with `v0.28.3`._
+
+---
+
+## [0.28.3] — 2026-07-31
+
+> **Highlights** 📄 Marked each file path in `specs/console-panel.md`'s prompts as an explicit `@`-reference, matching the convention used across the other specs.
+
+### ♻️ Changed
+
+- **`specs/console-panel.md`** — `run-workflow.ts`, `workflow-runs-provider.tsx`, `right-sidebar.tsx`, `workflow-shell.tsx`, and `console-panel.tsx` are now written as `@file` references.
 
 ---
 
@@ -953,7 +964,8 @@ Added via the Clerk CLI (`clerk init --framework next --pm npm`, linked to the `
 
 </div>
 
-[Unreleased]: https://github.com/RISHII7/Flowbrowse/compare/v0.28.2...HEAD
+[Unreleased]: https://github.com/RISHII7/Flowbrowse/compare/v0.28.3...HEAD
+[0.28.3]: https://github.com/RISHII7/Flowbrowse/compare/v0.28.2...v0.28.3
 [0.28.2]: https://github.com/RISHII7/Flowbrowse/compare/v0.28.1...v0.28.2
 [0.28.1]: https://github.com/RISHII7/Flowbrowse/compare/v0.28.0...v0.28.1
 [0.28.0]: https://github.com/RISHII7/Flowbrowse/compare/v0.27.1...v0.28.0
