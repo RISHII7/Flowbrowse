@@ -8,7 +8,7 @@ _All notable changes to this project, documented with care._
 
 [![Keep a Changelog](https://img.shields.io/badge/Keep%20a%20Changelog-1.1.0-E05735?style=flat-square&logo=keepachangelog&logoColor=white)](https://keepachangelog.com/en/1.1.0/)
 [![Semantic Versioning](https://img.shields.io/badge/SemVer-2.0.0-3F51B5?style=flat-square&logo=semver&logoColor=white)](https://semver.org/spec/v2.0.0.html)
-[![Latest Release](https://img.shields.io/badge/latest-v0.28.4-2EA043?style=flat-square&logo=github&logoColor=white)](https://github.com/RISHII7/Flowbrowse/releases/tag/v0.28.4)
+[![Latest Release](https://img.shields.io/badge/latest-v0.28.5-2EA043?style=flat-square&logo=github&logoColor=white)](https://github.com/RISHII7/Flowbrowse/releases/tag/v0.28.5)
 
 </div>
 
@@ -33,6 +33,7 @@ This changelog is written to be **read by humans**. Every release lists exactly 
 
 | Version | Date | Headline |
 | :-- | :-- | :-- |
+| [**0.28.5**](#0285--2026-07-31) | 2026-07-31 | 📄 Console-panel spec — step data + failed state + JSON output detail |
 | [**0.28.4**](#0284--2026-07-31) | 2026-07-31 | 📄 Console-panel spec — shorter paragraphs |
 | [**0.28.3**](#0283--2026-07-31) | 2026-07-31 | 📄 Console-panel spec — `@file` references |
 | [**0.28.2**](#0282--2026-07-31) | 2026-07-31 | 📄 Console-panel spec — prompts point at their target files |
@@ -90,7 +91,17 @@ This changelog is written to be **read by humans**. Every release lists exactly 
 
 ## [Unreleased]
 
-> _Nothing yet — the working tree is in sync with `v0.28.4`._
+> _Nothing yet — the working tree is in sync with `v0.28.5`._
+
+---
+
+## [0.28.5] — 2026-07-31
+
+> **Highlights** 📄 Fleshed out `specs/console-panel.md`'s data and rendering detail: what a step tracks, a failed/red state in the logs list, and formatted-JSON output in the inspector.
+
+### ♻️ Changed
+
+- **`specs/console-panel.md`** — Prompt 1 now spells out exactly what each step should track (node id, status pending/running/done/failed, duration, output, error) instead of leaving "what the panel will need" implicit. Prompt 2 adds a failed state to the logs list — a step turns red when it failed, alongside the existing spinning/inactive states. Prompt 3 specifies that a step's output renders as formatted JSON in the inspector.
 
 ---
 
@@ -975,7 +986,8 @@ Added via the Clerk CLI (`clerk init --framework next --pm npm`, linked to the `
 
 </div>
 
-[Unreleased]: https://github.com/RISHII7/Flowbrowse/compare/v0.28.4...HEAD
+[Unreleased]: https://github.com/RISHII7/Flowbrowse/compare/v0.28.5...HEAD
+[0.28.5]: https://github.com/RISHII7/Flowbrowse/compare/v0.28.4...v0.28.5
 [0.28.4]: https://github.com/RISHII7/Flowbrowse/compare/v0.28.3...v0.28.4
 [0.28.3]: https://github.com/RISHII7/Flowbrowse/compare/v0.28.2...v0.28.3
 [0.28.2]: https://github.com/RISHII7/Flowbrowse/compare/v0.28.1...v0.28.2
