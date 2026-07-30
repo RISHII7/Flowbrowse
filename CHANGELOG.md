@@ -8,7 +8,7 @@ _All notable changes to this project, documented with care._
 
 [![Keep a Changelog](https://img.shields.io/badge/Keep%20a%20Changelog-1.1.0-E05735?style=flat-square&logo=keepachangelog&logoColor=white)](https://keepachangelog.com/en/1.1.0/)
 [![Semantic Versioning](https://img.shields.io/badge/SemVer-2.0.0-3F51B5?style=flat-square&logo=semver&logoColor=white)](https://semver.org/spec/v2.0.0.html)
-[![Latest Release](https://img.shields.io/badge/latest-v0.28.5-2EA043?style=flat-square&logo=github&logoColor=white)](https://github.com/RISHII7/Flowbrowse/releases/tag/v0.28.5)
+[![Latest Release](https://img.shields.io/badge/latest-v0.29.0-2EA043?style=flat-square&logo=github&logoColor=white)](https://github.com/RISHII7/Flowbrowse/releases/tag/v0.29.0)
 
 </div>
 
@@ -33,6 +33,7 @@ This changelog is written to be **read by humans**. Every release lists exactly 
 
 | Version | Date | Headline |
 | :-- | :-- | :-- |
+| [**0.29.0**](#0290--2026-07-31) | 2026-07-31 | 🖥️ Run console — logs list + output inspector |
 | [**0.28.5**](#0285--2026-07-31) | 2026-07-31 | 📄 Console-panel spec — step data + failed state + JSON output detail |
 | [**0.28.4**](#0284--2026-07-31) | 2026-07-31 | 📄 Console-panel spec — shorter paragraphs |
 | [**0.28.3**](#0283--2026-07-31) | 2026-07-31 | 📄 Console-panel spec — `@file` references |
@@ -91,7 +92,28 @@ This changelog is written to be **read by humans**. Every release lists exactly 
 
 ## [Unreleased]
 
-> _Nothing yet — the working tree is in sync with `v0.28.5`._
+> _Nothing yet — the working tree is in sync with `v0.29.0`._
+
+---
+
+## [0.29.0] — 2026-07-31
+
+> **Highlights** 🖥️ A run console below the canvas — a logs list of every run and its steps, and an output inspector for whichever step you click. Implements [`specs/console-panel.md`](specs/console-panel.md).
+
+### ✨ Added
+
+- **`features/workflows/components/node-icon.tsx`** — `NodeIcon` pulled out of `right-sidebar.tsx` into its own component so the console can reuse it, with a `running` prop that swaps the node's icon for a spinner in the same accent chip. Falls back to a neutral `CircleHelp` chip when a step's type isn't a known node type — realtime run history isn't guaranteed to match the current code's `RunStep` shape (confirmed against this project's own run history: steps recorded before `type` existed on `RunStep`, and an older run whose output predates steps being an array at all).
+- **`features/workflows/components/logs-panel.tsx`** — `LogsPanel` lists every run and its steps: each step shows its icon, title, and `pretty-ms`-formatted duration once known; it spins while running (only if its run is still live), reads red on failure, and dims if it never ran. Clicking a step reports the selection up to `ConsolePanel`.
+- **`features/workflows/components/inspector-panel.tsx`** — `InspectorPanel` shows the selected step's output as formatted JSON, its error if it failed, or a note for the pending/running/no-output cases. Re-reads the shared run history so a still-running step's output appears the moment it lands, without needing a re-select.
+- **`features/workflows/components/console-panel.tsx`** — `ConsolePanel` owns the selection: `LogsPanel` on the left is always shown, `InspectorPanel` on the right shows only while a step is selected; clicking the selected step again clears it.
+
+### ♻️ Changed
+
+- **`features/workflows/components/workflow-runs-provider.tsx`** — adds `useConsoleRuns()`, flattening every subscribed run (newest first) into `{ id, status, createdAt, isLive, steps }`, and factors the "is this run still live" / "which steps does it have" logic (shared with `useLatestRunSteps`) into `isRunLive`/`stepsForRun` helpers.
+- **`features/workflows/tasks/run-workflow.ts`** — `RunStep` gains `type`/`title` (denormalized from the graph, so the console can render a step without it), `durationMs`, `output`, and `error`. A node with no executor (the start trigger) is marked `"done"` immediately rather than left `"pending"` forever. Executors are timed on both the success and failure paths, and the failure path now records the thrown error's message before flushing.
+- **`features/workflows/components/workflow-shell.tsx`** — mounts `ConsolePanel` where the "Logs" placeholder was.
+
+Adds the `pretty-ms` dependency.
 
 ---
 
@@ -986,7 +1008,8 @@ Added via the Clerk CLI (`clerk init --framework next --pm npm`, linked to the `
 
 </div>
 
-[Unreleased]: https://github.com/RISHII7/Flowbrowse/compare/v0.28.5...HEAD
+[Unreleased]: https://github.com/RISHII7/Flowbrowse/compare/v0.29.0...HEAD
+[0.29.0]: https://github.com/RISHII7/Flowbrowse/compare/v0.28.5...v0.29.0
 [0.28.5]: https://github.com/RISHII7/Flowbrowse/compare/v0.28.4...v0.28.5
 [0.28.4]: https://github.com/RISHII7/Flowbrowse/compare/v0.28.3...v0.28.4
 [0.28.3]: https://github.com/RISHII7/Flowbrowse/compare/v0.28.2...v0.28.3
