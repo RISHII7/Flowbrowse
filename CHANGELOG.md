@@ -8,7 +8,7 @@ _All notable changes to this project, documented with care._
 
 [![Keep a Changelog](https://img.shields.io/badge/Keep%20a%20Changelog-1.1.0-E05735?style=flat-square&logo=keepachangelog&logoColor=white)](https://keepachangelog.com/en/1.1.0/)
 [![Semantic Versioning](https://img.shields.io/badge/SemVer-2.0.0-3F51B5?style=flat-square&logo=semver&logoColor=white)](https://semver.org/spec/v2.0.0.html)
-[![Latest Release](https://img.shields.io/badge/latest-v0.26.0-2EA043?style=flat-square&logo=github&logoColor=white)](https://github.com/RISHII7/Flowbrowse/releases/tag/v0.26.0)
+[![Latest Release](https://img.shields.io/badge/latest-v0.26.1-2EA043?style=flat-square&logo=github&logoColor=white)](https://github.com/RISHII7/Flowbrowse/releases/tag/v0.26.1)
 
 </div>
 
@@ -33,6 +33,7 @@ This changelog is written to be **read by humans**. Every release lists exactly 
 
 | Version | Date | Headline |
 | :-- | :-- | :-- |
+| [**0.26.1**](#0261--2026-07-30) | 2026-07-30 | 📄 Remaining-nodes spec — `act` / `extract` / `observe` / `agent` |
 | [**0.26.0**](#0260--2026-07-30) | 2026-07-30 | 📡 Live run status — spinner + failure border on the canvas |
 | [**0.25.1**](#0251--2026-07-30) | 2026-07-30 | 📡 Live-run-status spec |
 | [**0.25.0**](#0250--2026-07-25) | 2026-07-25 | 🔗 Data passthrough — `{{nodeId.path}}` interpolation + connection chips |
@@ -82,7 +83,17 @@ This changelog is written to be **read by humans**. Every release lists exactly 
 
 ## [Unreleased]
 
-> _Nothing yet — the working tree is in sync with `v0.26.0`._
+> _Nothing yet — the working tree is in sync with `v0.26.1`._
+
+---
+
+## [0.26.1] — 2026-07-30
+
+> **Highlights** 📄 A spec for the four Stagehand-powered action nodes still missing from the registry — `act`, `extract`, `observe`, `agent` — plus documenting the node-adding convention in `AGENTS.md`. Spec only, no implementation.
+
+### ✨ Added
+
+- **`specs/remaining-nodes.md`** — a five-part plan: document the three-edit convention for adding a workflow node (executor impl, `node-executors.ts` registration, `node-registry.ts` manifest entry) in `AGENTS.md`, then one prompt per remaining node — `act` (Stagehand `act`, surfacing success/message/URL), `extract` (Stagehand `extract`, surfacing the extracted result), `observe` (Stagehand `observe`, surfacing matched elements with selector + description), and `agent` (Stagehand's autonomous multi-step agent, surfacing success/message/completion).
 
 ---
 
@@ -869,7 +880,8 @@ Added via the Clerk CLI (`clerk init --framework next --pm npm`, linked to the `
 
 </div>
 
-[Unreleased]: https://github.com/RISHII7/Flowbrowse/compare/v0.26.0...HEAD
+[Unreleased]: https://github.com/RISHII7/Flowbrowse/compare/v0.26.1...HEAD
+[0.26.1]: https://github.com/RISHII7/Flowbrowse/compare/v0.26.0...v0.26.1
 [0.26.0]: https://github.com/RISHII7/Flowbrowse/compare/v0.25.1...v0.26.0
 [0.25.1]: https://github.com/RISHII7/Flowbrowse/compare/v0.25.0...v0.25.1
 [0.25.0]: https://github.com/RISHII7/Flowbrowse/compare/v0.24.2...v0.25.0
