@@ -8,7 +8,7 @@ _All notable changes to this project, documented with care._
 
 [![Keep a Changelog](https://img.shields.io/badge/Keep%20a%20Changelog-1.1.0-E05735?style=flat-square&logo=keepachangelog&logoColor=white)](https://keepachangelog.com/en/1.1.0/)
 [![Semantic Versioning](https://img.shields.io/badge/SemVer-2.0.0-3F51B5?style=flat-square&logo=semver&logoColor=white)](https://semver.org/spec/v2.0.0.html)
-[![Latest Release](https://img.shields.io/badge/latest-v0.29.1-2EA043?style=flat-square&logo=github&logoColor=white)](https://github.com/RISHII7/Flowbrowse/releases/tag/v0.29.1)
+[![Latest Release](https://img.shields.io/badge/latest-v0.29.2-2EA043?style=flat-square&logo=github&logoColor=white)](https://github.com/RISHII7/Flowbrowse/releases/tag/v0.29.2)
 
 </div>
 
@@ -33,6 +33,7 @@ This changelog is written to be **read by humans**. Every release lists exactly 
 
 | Version | Date | Headline |
 | :-- | :-- | :-- |
+| [**0.29.2**](#0292--2026-07-31) | 2026-07-31 | 📄 Session-replay spec — watch a run's Browserbase session |
 | [**0.29.1**](#0291--2026-07-31) | 2026-07-31 | 📄 Console-panel spec — recorded its own fixes |
 | [**0.29.0**](#0290--2026-07-31) | 2026-07-31 | 🖥️ Run console — logs list + output inspector |
 | [**0.28.5**](#0285--2026-07-31) | 2026-07-31 | 📄 Console-panel spec — step data + failed state + JSON output detail |
@@ -93,7 +94,17 @@ This changelog is written to be **read by humans**. Every release lists exactly 
 
 ## [Unreleased]
 
-> _Nothing yet — the working tree is in sync with `v0.29.1`._
+> _Nothing yet — the working tree is in sync with `v0.29.2`._
+
+---
+
+## [0.29.2] — 2026-07-31
+
+> **Highlights** 📄 A spec for watching a run's Browserbase session back inside the console. Spec only, no implementation.
+
+### ✨ Added
+
+- **`specs/session-replay.md`** — a three-part plan: capture the Browserbase session id when a run opens its session and surface it once the run finishes (the recording lags the session close, so it's read from the run's final output, not live metadata); add a server-proxied `app/api/replays/[sessionId]` route plus a `SessionReplay` component that polls until the recording is ready and plays it with `hls.js`; then add a selectable "Replay" row per finished run in the logs list, extending the console's selection to be either a step or a run's replay, only one active at a time. Also documents where Browserbase's observability and session-replay docs live in `AGENTS.md`, so the prompts don't have to carry the URL.
 
 ---
 
@@ -1019,7 +1030,8 @@ Added via the Clerk CLI (`clerk init --framework next --pm npm`, linked to the `
 
 </div>
 
-[Unreleased]: https://github.com/RISHII7/Flowbrowse/compare/v0.29.1...HEAD
+[Unreleased]: https://github.com/RISHII7/Flowbrowse/compare/v0.29.2...HEAD
+[0.29.2]: https://github.com/RISHII7/Flowbrowse/compare/v0.29.1...v0.29.2
 [0.29.1]: https://github.com/RISHII7/Flowbrowse/compare/v0.29.0...v0.29.1
 [0.29.0]: https://github.com/RISHII7/Flowbrowse/compare/v0.28.5...v0.29.0
 [0.28.5]: https://github.com/RISHII7/Flowbrowse/compare/v0.28.4...v0.28.5
