@@ -8,7 +8,7 @@ _All notable changes to this project, documented with care._
 
 [![Keep a Changelog](https://img.shields.io/badge/Keep%20a%20Changelog-1.1.0-E05735?style=flat-square&logo=keepachangelog&logoColor=white)](https://keepachangelog.com/en/1.1.0/)
 [![Semantic Versioning](https://img.shields.io/badge/SemVer-2.0.0-3F51B5?style=flat-square&logo=semver&logoColor=white)](https://semver.org/spec/v2.0.0.html)
-[![Latest Release](https://img.shields.io/badge/latest-v0.27.0-2EA043?style=flat-square&logo=github&logoColor=white)](https://github.com/RISHII7/Flowbrowse/releases/tag/v0.27.0)
+[![Latest Release](https://img.shields.io/badge/latest-v0.27.1-2EA043?style=flat-square&logo=github&logoColor=white)](https://github.com/RISHII7/Flowbrowse/releases/tag/v0.27.1)
 
 </div>
 
@@ -33,6 +33,7 @@ This changelog is written to be **read by humans**. Every release lists exactly 
 
 | Version | Date | Headline |
 | :-- | :-- | :-- |
+| [**0.27.1**](#0271--2026-07-31) | 2026-07-31 | 🧩 Resend agent skill |
 | [**0.27.0**](#0270--2026-07-30) | 2026-07-30 | 🧩 `act` / `extract` / `observe` / `agent` nodes — Stagehand-powered browser actions |
 | [**0.26.1**](#0261--2026-07-30) | 2026-07-30 | 📄 Remaining-nodes spec — `act` / `extract` / `observe` / `agent` |
 | [**0.26.0**](#0260--2026-07-30) | 2026-07-30 | 📡 Live run status — spinner + failure border on the canvas |
@@ -84,7 +85,17 @@ This changelog is written to be **read by humans**. Every release lists exactly 
 
 ## [Unreleased]
 
-> _Nothing yet — the working tree is in sync with `v0.27.0`._
+> _Nothing yet — the working tree is in sync with `v0.27.1`._
+
+---
+
+## [0.27.1] — 2026-07-31
+
+> **Highlights** 🧩 Installed the Resend agent skill, ahead of adding transactional email to the workflow app.
+
+### ✨ Added
+
+- **Resend agent skill** — installed from `resend/resend-skills` into `.agents/skills/resend/` and `.claude/skills/resend/`, with `skills-lock.json` recording its source and content hash. The skill is a `SKILL.md` plus reference docs covering sending (single/batch), receiving via webhooks, templates, domains, contacts, broadcasts, automations, API keys, events, and logs. As with the earlier Clerk, Neon, Trigger.dev, and Liveblocks bundles, the `.claude/skills/*` symlink was committed as a duplicate copy because `core.symlinks` is `false` here.
 
 ---
 
@@ -900,7 +911,8 @@ Added via the Clerk CLI (`clerk init --framework next --pm npm`, linked to the `
 
 </div>
 
-[Unreleased]: https://github.com/RISHII7/Flowbrowse/compare/v0.27.0...HEAD
+[Unreleased]: https://github.com/RISHII7/Flowbrowse/compare/v0.27.1...HEAD
+[0.27.1]: https://github.com/RISHII7/Flowbrowse/compare/v0.27.0...v0.27.1
 [0.27.0]: https://github.com/RISHII7/Flowbrowse/compare/v0.26.1...v0.27.0
 [0.26.1]: https://github.com/RISHII7/Flowbrowse/compare/v0.26.0...v0.26.1
 [0.26.0]: https://github.com/RISHII7/Flowbrowse/compare/v0.25.1...v0.26.0
