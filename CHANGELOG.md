@@ -8,7 +8,7 @@ _All notable changes to this project, documented with care._
 
 [![Keep a Changelog](https://img.shields.io/badge/Keep%20a%20Changelog-1.1.0-E05735?style=flat-square&logo=keepachangelog&logoColor=white)](https://keepachangelog.com/en/1.1.0/)
 [![Semantic Versioning](https://img.shields.io/badge/SemVer-2.0.0-3F51B5?style=flat-square&logo=semver&logoColor=white)](https://semver.org/spec/v2.0.0.html)
-[![Latest Release](https://img.shields.io/badge/latest-v0.29.0-2EA043?style=flat-square&logo=github&logoColor=white)](https://github.com/RISHII7/Flowbrowse/releases/tag/v0.29.0)
+[![Latest Release](https://img.shields.io/badge/latest-v0.29.1-2EA043?style=flat-square&logo=github&logoColor=white)](https://github.com/RISHII7/Flowbrowse/releases/tag/v0.29.1)
 
 </div>
 
@@ -33,6 +33,7 @@ This changelog is written to be **read by humans**. Every release lists exactly 
 
 | Version | Date | Headline |
 | :-- | :-- | :-- |
+| [**0.29.1**](#0291--2026-07-31) | 2026-07-31 | 📄 Console-panel spec — recorded its own fixes |
 | [**0.29.0**](#0290--2026-07-31) | 2026-07-31 | 🖥️ Run console — logs list + output inspector |
 | [**0.28.5**](#0285--2026-07-31) | 2026-07-31 | 📄 Console-panel spec — step data + failed state + JSON output detail |
 | [**0.28.4**](#0284--2026-07-31) | 2026-07-31 | 📄 Console-panel spec — shorter paragraphs |
@@ -92,7 +93,17 @@ This changelog is written to be **read by humans**. Every release lists exactly 
 
 ## [Unreleased]
 
-> _Nothing yet — the working tree is in sync with `v0.29.0`._
+> _Nothing yet — the working tree is in sync with `v0.29.1`._
+
+---
+
+## [0.29.1] — 2026-07-31
+
+> **Highlights** 📄 Recorded the console-panel implementation's own fixes back into its spec — a paper trail of what the agent got wrong the first time and the one-line prompt that corrected each.
+
+### ✨ Added
+
+- **`specs/console-panel.md`** — a "Fixes" section documenting three corrections the implementation needed: marking the executor-less start node `"done"` instead of leaving it `"pending"` forever, extracting `NodeIcon` into its own file with a running-spinner prop, and swapping the console's fixed logs/inspector split for a resizable panel group. All three already shipped in `v0.29.0` — this only adds the record of how they were prompted.
 
 ---
 
@@ -1008,7 +1019,8 @@ Added via the Clerk CLI (`clerk init --framework next --pm npm`, linked to the `
 
 </div>
 
-[Unreleased]: https://github.com/RISHII7/Flowbrowse/compare/v0.29.0...HEAD
+[Unreleased]: https://github.com/RISHII7/Flowbrowse/compare/v0.29.1...HEAD
+[0.29.1]: https://github.com/RISHII7/Flowbrowse/compare/v0.29.0...v0.29.1
 [0.29.0]: https://github.com/RISHII7/Flowbrowse/compare/v0.28.5...v0.29.0
 [0.28.5]: https://github.com/RISHII7/Flowbrowse/compare/v0.28.4...v0.28.5
 [0.28.4]: https://github.com/RISHII7/Flowbrowse/compare/v0.28.3...v0.28.4
