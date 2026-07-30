@@ -8,7 +8,7 @@ _All notable changes to this project, documented with care._
 
 [![Keep a Changelog](https://img.shields.io/badge/Keep%20a%20Changelog-1.1.0-E05735?style=flat-square&logo=keepachangelog&logoColor=white)](https://keepachangelog.com/en/1.1.0/)
 [![Semantic Versioning](https://img.shields.io/badge/SemVer-2.0.0-3F51B5?style=flat-square&logo=semver&logoColor=white)](https://semver.org/spec/v2.0.0.html)
-[![Latest Release](https://img.shields.io/badge/latest-v0.25.1-2EA043?style=flat-square&logo=github&logoColor=white)](https://github.com/RISHII7/Flowbrowse/releases/tag/v0.25.1)
+[![Latest Release](https://img.shields.io/badge/latest-v0.26.0-2EA043?style=flat-square&logo=github&logoColor=white)](https://github.com/RISHII7/Flowbrowse/releases/tag/v0.26.0)
 
 </div>
 
@@ -33,6 +33,7 @@ This changelog is written to be **read by humans**. Every release lists exactly 
 
 | Version | Date | Headline |
 | :-- | :-- | :-- |
+| [**0.26.0**](#0260--2026-07-30) | 2026-07-30 | 📡 Live run status — spinner + failure border on the canvas |
 | [**0.25.1**](#0251--2026-07-30) | 2026-07-30 | 📡 Live-run-status spec |
 | [**0.25.0**](#0250--2026-07-25) | 2026-07-25 | 🔗 Data passthrough — `{{nodeId.path}}` interpolation + connection chips |
 | [**0.24.2**](#0242--2026-07-25) | 2026-07-25 | 📄 Data-passthrough spec — `{{nodeId.path}}` field interpolation |
@@ -81,7 +82,23 @@ This changelog is written to be **read by humans**. Every release lists exactly 
 
 ## [Unreleased]
 
-> _Nothing yet — the working tree is in sync with `v0.25.1`._
+> _Nothing yet — the working tree is in sync with `v0.26.0`._
+
+---
+
+## [0.26.0] — 2026-07-30
+
+> **Highlights** 📡 The canvas now shows a workflow's progress live — a spinner and blue border on the node currently running, a red border on the one that failed — with no reload required. Implements [`specs/live-run-status.md`](specs/live-run-status.md).
+
+### ✨ Added
+
+- **`features/workflows/components/workflow-runs-provider.tsx`** — `WorkflowRunsProvider`, a client provider subscribing to a workflow's runs in realtime by their `workflow:<id>` tag via `useRealtimeRunsWithTag`, given a scoped public access token as a prop. Exposes `useLatestRunSteps()`, which resolves the most recent run's steps — preferring the run's finished `output.steps`, falling back to the live `metadata.steps` while it's still going — plus `isLive` (true while that run is queued or executing).
+
+### ♻️ Changed
+
+- **`features/workflows/tasks/run-workflow.ts`** — exports a new `RunStep` type (`{ nodeId, status }`, status one of `pending` / `running` / `done` / `failed`) and, before executing anything, seeds the run's metadata with every step `pending`. Each node is marked `running` right before its executor and `done` right after, with the metadata re-published on every change; marking `running` forces an immediate flush, otherwise that state gets overwritten by `done` before it's ever pushed and the spinner never appears. If an executor throws, the node is marked `failed`, the metadata is flushed again (a thrown run returns no output, so this is the only way the canvas ever learns the run failed), the Browserbase session is closed, and the error is rethrown. Returns the finished `steps` from the task so a successful run's output carries the guaranteed final state.
+- **`app/(dashboard)/workflows/[id]/page.tsx`** — mints a read-only public access token scoped to the workflow's `workflow:<id>` run tag, good for about an hour, and wraps the canvas shell in `WorkflowRunsProvider` with the workflow id and that token.
+- **`features/workflows/components/step-node.tsx`** — reads `useLatestRunSteps()` and looks up the current node's status by id. While that node is running (and the run is still live), its icon is replaced with a spinner and it gets a blue border; if it failed, it gets a destructive border. A node left marked `running` by a run that has since ended is no longer treated as running, so it stops spinning.
 
 ---
 
@@ -852,7 +869,8 @@ Added via the Clerk CLI (`clerk init --framework next --pm npm`, linked to the `
 
 </div>
 
-[Unreleased]: https://github.com/RISHII7/Flowbrowse/compare/v0.25.1...HEAD
+[Unreleased]: https://github.com/RISHII7/Flowbrowse/compare/v0.26.0...HEAD
+[0.26.0]: https://github.com/RISHII7/Flowbrowse/compare/v0.25.1...v0.26.0
 [0.25.1]: https://github.com/RISHII7/Flowbrowse/compare/v0.25.0...v0.25.1
 [0.25.0]: https://github.com/RISHII7/Flowbrowse/compare/v0.24.2...v0.25.0
 [0.24.2]: https://github.com/RISHII7/Flowbrowse/compare/v0.24.1...v0.24.2
