@@ -8,7 +8,7 @@ _All notable changes to this project, documented with care._
 
 [![Keep a Changelog](https://img.shields.io/badge/Keep%20a%20Changelog-1.1.0-E05735?style=flat-square&logo=keepachangelog&logoColor=white)](https://keepachangelog.com/en/1.1.0/)
 [![Semantic Versioning](https://img.shields.io/badge/SemVer-2.0.0-3F51B5?style=flat-square&logo=semver&logoColor=white)](https://semver.org/spec/v2.0.0.html)
-[![Latest Release](https://img.shields.io/badge/latest-v0.34.1-2EA043?style=flat-square&logo=github&logoColor=white)](https://github.com/RISHII7/Flowbrowse/releases/tag/v0.34.1)
+[![Latest Release](https://img.shields.io/badge/latest-v0.35.0-2EA043?style=flat-square&logo=github&logoColor=white)](https://github.com/RISHII7/Flowbrowse/releases/tag/v0.35.0)
 
 </div>
 
@@ -33,6 +33,7 @@ This changelog is written to be **read by humans**. Every release lists exactly 
 
 | Version | Date | Headline |
 | :-- | :-- | :-- |
+| [**0.35.0**](#0350--2026-07-31) | 2026-07-31 | ▶️⏹️ Run/Stop toggle + empty-state New workflow button |
 | [**0.34.1**](#0341--2026-07-31) | 2026-07-31 | 📄 Polish spec — Run/Stop toggle + empty-state New workflow button |
 | [**0.34.0**](#0340--2026-07-31) | 2026-07-31 | 🛰️ Sentry integrated with Trigger.dev task runs |
 | [**0.33.0**](#0330--2026-07-31) | 2026-07-31 | 🛰️ Sentry instrumentation — Liveblocks routes + workflow actions |
@@ -104,7 +105,23 @@ This changelog is written to be **read by humans**. Every release lists exactly 
 
 ## [Unreleased]
 
-> _Nothing yet — the working tree is in sync with `v0.34.1`._
+> _Nothing yet — the working tree is in sync with `v0.35.0`._
+
+---
+
+## [0.35.0] — 2026-07-31
+
+> **Highlights** ▶️⏹️ Two loose ends closed: the Run button is now a Run/Stop toggle, and the dashboard empty state's "New workflow" button actually creates one. Implements [`specs/polish.md`](specs/polish.md).
+
+### ✨ Added
+
+- **`features/workflows/components/new-workflow-button.tsx`** — a client component wrapping `createWorkflowAction` in a transition, naming the new workflow with `generateSlug()` the same way the sidebar's New workflow button does.
+
+### ♻️ Changed
+
+- **`features/workflows/components/workflow-runs-provider.tsx`** — `useLiveRun()`, returning the run currently in flight (at most one is live at a time) so a Stop button knows whether there's a run to cancel and its id.
+- **`features/workflows/components/right-sidebar.tsx`** — `RunButton` reads `useLiveRun()`: while a run is live it renders as a destructive Stop button calling `cancelWorkflowRunAction` (toasting on failure); otherwise it's the existing Run button that validates the graph and triggers a new run.
+- **`app/(dashboard)/page.tsx`** — the dashboard empty state's "New workflow" button now renders `NewWorkflowButton` instead of an inert `Button`.
 
 ---
 
@@ -1184,7 +1201,8 @@ Added via the Clerk CLI (`clerk init --framework next --pm npm`, linked to the `
 
 </div>
 
-[Unreleased]: https://github.com/RISHII7/Flowbrowse/compare/v0.34.1...HEAD
+[Unreleased]: https://github.com/RISHII7/Flowbrowse/compare/v0.35.0...HEAD
+[0.35.0]: https://github.com/RISHII7/Flowbrowse/compare/v0.34.1...v0.35.0
 [0.34.1]: https://github.com/RISHII7/Flowbrowse/compare/v0.34.0...v0.34.1
 [0.34.0]: https://github.com/RISHII7/Flowbrowse/compare/v0.33.0...v0.34.0
 [0.33.0]: https://github.com/RISHII7/Flowbrowse/compare/v0.32.0...v0.33.0
