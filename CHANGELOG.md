@@ -8,7 +8,7 @@ _All notable changes to this project, documented with care._
 
 [![Keep a Changelog](https://img.shields.io/badge/Keep%20a%20Changelog-1.1.0-E05735?style=flat-square&logo=keepachangelog&logoColor=white)](https://keepachangelog.com/en/1.1.0/)
 [![Semantic Versioning](https://img.shields.io/badge/SemVer-2.0.0-3F51B5?style=flat-square&logo=semver&logoColor=white)](https://semver.org/spec/v2.0.0.html)
-[![Latest Release](https://img.shields.io/badge/latest-v0.33.0-2EA043?style=flat-square&logo=github&logoColor=white)](https://github.com/RISHII7/Flowbrowse/releases/tag/v0.33.0)
+[![Latest Release](https://img.shields.io/badge/latest-v0.34.0-2EA043?style=flat-square&logo=github&logoColor=white)](https://github.com/RISHII7/Flowbrowse/releases/tag/v0.34.0)
 
 </div>
 
@@ -33,6 +33,7 @@ This changelog is written to be **read by humans**. Every release lists exactly 
 
 | Version | Date | Headline |
 | :-- | :-- | :-- |
+| [**0.34.0**](#0340--2026-07-31) | 2026-07-31 | 🛰️ Sentry integrated with Trigger.dev task runs |
 | [**0.33.0**](#0330--2026-07-31) | 2026-07-31 | 🛰️ Sentry instrumentation — Liveblocks routes + workflow actions |
 | [**0.32.0**](#0320--2026-07-31) | 2026-07-31 | 🛰️ Sentry error and performance monitoring |
 | [**0.31.0**](#0310--2026-07-31) | 2026-07-31 | 💳 Clerk billing — pro plan gates the Agent node and session replay |
@@ -102,7 +103,23 @@ This changelog is written to be **read by humans**. Every release lists exactly 
 
 ## [Unreleased]
 
-> _Nothing yet — the working tree is in sync with `v0.33.0`._
+> _Nothing yet — the working tree is in sync with `v0.34.0`._
+
+---
+
+## [0.34.0] — 2026-07-31
+
+> **Highlights** 🛰️ Trigger.dev task runs now get their own Sentry error and source-map setup — the runtime has no request context to inherit from the Next.js app's instrumentation.
+
+### ✨ Added
+
+- **`features/init.ts`** — Trigger.dev auto-loads this before any task runs. Initializes `@sentry/node` (`SENTRY_DSN`, `defaultIntegrations` disabled) and registers a global `tasks.onFailure` hook that reports every task failure to Sentry with its payload and `ctx` attached.
+
+### ♻️ Changed
+
+- **`trigger.config.ts`** — adds the Sentry esbuild plugin as a build extension, uploading source maps on every deploy (`placement: "last"`, deploy target only) so task stack traces resolve back to original source, using `SENTRY_AUTH_TOKEN`.
+
+Adds the `@sentry/node` and `@sentry/esbuild-plugin` dependencies.
 
 ---
 
@@ -1156,7 +1173,8 @@ Added via the Clerk CLI (`clerk init --framework next --pm npm`, linked to the `
 
 </div>
 
-[Unreleased]: https://github.com/RISHII7/Flowbrowse/compare/v0.33.0...HEAD
+[Unreleased]: https://github.com/RISHII7/Flowbrowse/compare/v0.34.0...HEAD
+[0.34.0]: https://github.com/RISHII7/Flowbrowse/compare/v0.33.0...v0.34.0
 [0.33.0]: https://github.com/RISHII7/Flowbrowse/compare/v0.32.0...v0.33.0
 [0.32.0]: https://github.com/RISHII7/Flowbrowse/compare/v0.31.0...v0.32.0
 [0.31.0]: https://github.com/RISHII7/Flowbrowse/compare/v0.30.4...v0.31.0
