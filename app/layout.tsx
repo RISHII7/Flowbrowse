@@ -1,3 +1,4 @@
+import type { Metadata } from "next"
 import { Geist, Geist_Mono } from "next/font/google"
 
 import "@clerk/ui/themes/shadcn.css"
@@ -18,6 +19,15 @@ const fontMono = Geist_Mono({
   subsets: ["latin"],
   variable: "--font-mono",
 })
+
+export const metadata: Metadata = {
+  title: "Flowbrowse",
+  description:
+    "Build browser-automation workflows on a visual canvas — no code required.",
+  icons: {
+    icon: "/logo.svg",
+  },
+}
 
 export default function RootLayout({
   children,

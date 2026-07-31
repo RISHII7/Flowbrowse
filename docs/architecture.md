@@ -86,7 +86,7 @@ flowchart TB
 
     ServerActions -. errors + logs .-> Sentry
     ApiRoutes -. errors + logs .-> Sentry
-    TriggerWorker -. errors + logs .-> Sentry
+    Loop -. errors + logs .-> Sentry
 ```
 
 ## Layer by layer

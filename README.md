@@ -2,7 +2,9 @@
 
 <div align="center">
 
-# 🌊 Flowbrowse
+<img src="public/logo.svg" alt="Flowbrowse" width="72" height="72" />
+
+# Flowbrowse
 
 **Build browser-automation workflows on a visual canvas — no code required.**
 
@@ -86,7 +88,7 @@ flowchart LR
     Trigger --> Browserbase
     Trigger --> Resend
     Trigger -. errors/logs .-> Sentry
-    Vercel -. errors/traces .-> Sentry
+    Actions -. errors/traces .-> Sentry
 ```
 
 See [`docs/architecture.md`](docs/architecture.md) for the full breakdown, plus
