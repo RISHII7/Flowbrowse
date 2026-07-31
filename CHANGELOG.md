@@ -8,7 +8,7 @@ _All notable changes to this project, documented with care._
 
 [![Keep a Changelog](https://img.shields.io/badge/Keep%20a%20Changelog-1.1.0-E05735?style=flat-square&logo=keepachangelog&logoColor=white)](https://keepachangelog.com/en/1.1.0/)
 [![Semantic Versioning](https://img.shields.io/badge/SemVer-2.0.0-3F51B5?style=flat-square&logo=semver&logoColor=white)](https://semver.org/spec/v2.0.0.html)
-[![Latest Release](https://img.shields.io/badge/latest-v0.30.4-2EA043?style=flat-square&logo=github&logoColor=white)](https://github.com/RISHII7/Flowbrowse/releases/tag/v0.30.4)
+[![Latest Release](https://img.shields.io/badge/latest-v0.31.0-2EA043?style=flat-square&logo=github&logoColor=white)](https://github.com/RISHII7/Flowbrowse/releases/tag/v0.31.0)
 
 </div>
 
@@ -33,6 +33,7 @@ This changelog is written to be **read by humans**. Every release lists exactly 
 
 | Version | Date | Headline |
 | :-- | :-- | :-- |
+| [**0.31.0**](#0310--2026-07-31) | 2026-07-31 | 💳 Clerk billing — pro plan gates the Agent node and session replay |
 | [**0.30.4**](#0304--2026-07-31) | 2026-07-31 | 📄 Billing spec — Prompt 1 scoped to config only |
 | [**0.30.3**](#0303--2026-07-31) | 2026-07-31 | 📄 Billing spec — split setup into two prompts |
 | [**0.30.2**](#0302--2026-07-31) | 2026-07-31 | 📄 Billing spec — clerk-billing skill call-outs |
@@ -99,7 +100,27 @@ This changelog is written to be **read by humans**. Every release lists exactly 
 
 ## [Unreleased]
 
-> _Nothing yet — the working tree is in sync with `v0.30.4`._
+> _Nothing yet — the working tree is in sync with `v0.31.0`._
+
+---
+
+## [0.31.0] — 2026-07-31
+
+> **Highlights** 💳 Clerk billing is live for organizations — a "pro" plan gates the Agent node and session replay, with an in-app upgrade surface. Implements Prompts 2–3 of [`specs/billing.md`](specs/billing.md), plus defense-in-depth server-side gates. The org "pro" plan itself was enabled and created earlier via the Clerk CLI (config-only, no app code — not part of this release).
+
+### ✨ Added
+
+- **`app/(dashboard)/billing/page.tsx`** — the upgrade surface: a dashboard page rendering Clerk's org `PricingTable`, redirecting back to itself after a new subscription.
+- **`features/workflows/hooks/use-pro-plan.ts`** — `useProPlan()`, a reusable hook wrapping `useAuth()` that tells a component whether the active org is on the `pro` plan (`isLoaded`/`isPro`) and hands it `goToUpgrade()` to route to the pricing page.
+
+### ♻️ Changed
+
+- **`features/workflows/components/right-sidebar.tsx`** — the Agent node is now premium: the toolbar shows it locked (Lock icon + tooltip) for non-pro orgs, and clicking it routes to upgrade instead of adding it to the canvas. Every other node stays free.
+- **`features/workflows/components/logs-panel.tsx`** — session replay is gated the same way: a non-pro org's Replay row shows locked and routes to upgrade instead of opening the recording.
+- **`features/workflows/actions.ts`** — `runWorkflowAction` rejects a run whose graph contains an Agent node when the org isn't pro, since the Trigger.dev task itself has no Clerk session to check against.
+- **`app/api/replays/[sessionId]/route.ts`** — the replay route checks `has({ plan: "pro" })` before proxying a recording, so a non-pro org can't pull one by calling the route directly.
+
+Workflow creation itself is not yet gated (Prompt 4 of the spec) — this release only covers the Agent node and session replay gates.
 
 ---
 
@@ -1097,7 +1118,8 @@ Added via the Clerk CLI (`clerk init --framework next --pm npm`, linked to the `
 
 </div>
 
-[Unreleased]: https://github.com/RISHII7/Flowbrowse/compare/v0.30.4...HEAD
+[Unreleased]: https://github.com/RISHII7/Flowbrowse/compare/v0.31.0...HEAD
+[0.31.0]: https://github.com/RISHII7/Flowbrowse/compare/v0.30.4...v0.31.0
 [0.30.4]: https://github.com/RISHII7/Flowbrowse/compare/v0.30.3...v0.30.4
 [0.30.3]: https://github.com/RISHII7/Flowbrowse/compare/v0.30.2...v0.30.3
 [0.30.2]: https://github.com/RISHII7/Flowbrowse/compare/v0.30.1...v0.30.2
