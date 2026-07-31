@@ -8,7 +8,7 @@ _All notable changes to this project, documented with care._
 
 [![Keep a Changelog](https://img.shields.io/badge/Keep%20a%20Changelog-1.1.0-E05735?style=flat-square&logo=keepachangelog&logoColor=white)](https://keepachangelog.com/en/1.1.0/)
 [![Semantic Versioning](https://img.shields.io/badge/SemVer-2.0.0-3F51B5?style=flat-square&logo=semver&logoColor=white)](https://semver.org/spec/v2.0.0.html)
-[![Latest Release](https://img.shields.io/badge/latest-v0.31.0-2EA043?style=flat-square&logo=github&logoColor=white)](https://github.com/RISHII7/Flowbrowse/releases/tag/v0.31.0)
+[![Latest Release](https://img.shields.io/badge/latest-v0.32.0-2EA043?style=flat-square&logo=github&logoColor=white)](https://github.com/RISHII7/Flowbrowse/releases/tag/v0.32.0)
 
 </div>
 
@@ -33,6 +33,7 @@ This changelog is written to be **read by humans**. Every release lists exactly 
 
 | Version | Date | Headline |
 | :-- | :-- | :-- |
+| [**0.32.0**](#0320--2026-07-31) | 2026-07-31 | 🛰️ Sentry error and performance monitoring |
 | [**0.31.0**](#0310--2026-07-31) | 2026-07-31 | 💳 Clerk billing — pro plan gates the Agent node and session replay |
 | [**0.30.4**](#0304--2026-07-31) | 2026-07-31 | 📄 Billing spec — Prompt 1 scoped to config only |
 | [**0.30.3**](#0303--2026-07-31) | 2026-07-31 | 📄 Billing spec — split setup into two prompts |
@@ -100,7 +101,28 @@ This changelog is written to be **read by humans**. Every release lists exactly 
 
 ## [Unreleased]
 
-> _Nothing yet — the working tree is in sync with `v0.31.0`._
+> _Nothing yet — the working tree is in sync with `v0.32.0`._
+
+---
+
+## [0.32.0] — 2026-07-31
+
+> **Highlights** 🛰️ Sentry error and performance monitoring, wired across all three Next.js runtimes, with source map upload and session replay.
+
+### ✨ Added
+
+- **`instrumentation.ts`** — registers the server/edge Sentry configs per `NEXT_RUNTIME` and exports `onRequestError` so unhandled server-side request errors are captured automatically.
+- **`sentry.server.config.ts`** / **`sentry.edge.config.ts`** — `Sentry.init` for the Node and edge runtimes, both reading `SENTRY_DSN`. The server config also attaches local variable values to captured stack frames.
+- **`instrumentation-client.ts`** — `Sentry.init` for the browser (reads `NEXT_PUBLIC_SENTRY_DSN`), with session replay (10% of sessions, 100% on error) and App Router navigation transitions wired via `onRouterTransitionStart`.
+- **`app/global-error.tsx`** — the App Router global error boundary, reporting the error to Sentry before rendering Next's default error UI.
+
+### ♻️ Changed
+
+- **`next.config.ts`** — wraps the config with `withSentryConfig` for our org/project, pointed at the EU region, with a `/monitoring` tunnel route to bypass ad-blockers and source maps uploaded via `SENTRY_AUTH_TOKEN`.
+- **`proxy.ts`** — excludes `/monitoring` from Clerk's middleware matcher so the tunnel route isn't gated behind auth.
+- **`.env.example`** — documents `NEXT_PUBLIC_SENTRY_DSN`, `SENTRY_DSN`, and `SENTRY_AUTH_TOKEN`.
+
+Adds the `@sentry/nextjs` dependency. Sample rates are 100% in development and 10% in production for both traces and (non-error) session replay.
 
 ---
 
@@ -1118,7 +1140,8 @@ Added via the Clerk CLI (`clerk init --framework next --pm npm`, linked to the `
 
 </div>
 
-[Unreleased]: https://github.com/RISHII7/Flowbrowse/compare/v0.31.0...HEAD
+[Unreleased]: https://github.com/RISHII7/Flowbrowse/compare/v0.32.0...HEAD
+[0.32.0]: https://github.com/RISHII7/Flowbrowse/compare/v0.31.0...v0.32.0
 [0.31.0]: https://github.com/RISHII7/Flowbrowse/compare/v0.30.4...v0.31.0
 [0.30.4]: https://github.com/RISHII7/Flowbrowse/compare/v0.30.3...v0.30.4
 [0.30.3]: https://github.com/RISHII7/Flowbrowse/compare/v0.30.2...v0.30.3
