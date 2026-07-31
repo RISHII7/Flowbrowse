@@ -1,4 +1,6 @@
 import { defineConfig } from "@trigger.dev/sdk"
+import { esbuildPlugin } from "@trigger.dev/build/extensions"
+import { sentryEsbuildPlugin } from "@sentry/esbuild-plugin"
 
 export default defineConfig({
   project: "proj_zogsllrfowwglzrhbnqf",
@@ -19,4 +21,18 @@ export default defineConfig({
     },
   },
   dirs: ["features"],
+  build: {
+    extensions: [
+      // Upload source maps to Sentry on every deploy so task stack traces
+      // map back to original source. Runs last, deploy target only.
+      esbuildPlugin(
+        sentryEsbuildPlugin({
+          org: "barclays-97",
+          project: "flowbrowse",
+          authToken: process.env.SENTRY_AUTH_TOKEN,
+        }),
+        { placement: "last", target: "deploy" }
+      ),
+    ],
+  },
 })
