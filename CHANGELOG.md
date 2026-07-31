@@ -8,7 +8,7 @@ _All notable changes to this project, documented with care._
 
 [![Keep a Changelog](https://img.shields.io/badge/Keep%20a%20Changelog-1.1.0-E05735?style=flat-square&logo=keepachangelog&logoColor=white)](https://keepachangelog.com/en/1.1.0/)
 [![Semantic Versioning](https://img.shields.io/badge/SemVer-2.0.0-3F51B5?style=flat-square&logo=semver&logoColor=white)](https://semver.org/spec/v2.0.0.html)
-[![Latest Release](https://img.shields.io/badge/latest-v0.35.1-2EA043?style=flat-square&logo=github&logoColor=white)](https://github.com/RISHII7/Flowbrowse/releases/tag/v0.35.1)
+[![Latest Release](https://img.shields.io/badge/latest-v1.0.0-2EA043?style=flat-square&logo=github&logoColor=white)](https://github.com/RISHII7/Flowbrowse/releases/tag/v1.0.0)
 
 </div>
 
@@ -33,6 +33,7 @@ This changelog is written to be **read by humans**. Every release lists exactly 
 
 | Version | Date | Headline |
 | :-- | :-- | :-- |
+| [**1.0.0**](#100--2026-07-31) | 2026-07-31 | 🎉 v1.0 — logo, fixed diagrams, repo metadata |
 | [**0.35.1**](#0351--2026-07-31) | 2026-07-31 | 📚 Full project documentation + architecture diagrams |
 | [**0.35.0**](#0350--2026-07-31) | 2026-07-31 | ▶️⏹️ Run/Stop toggle + empty-state New workflow button |
 | [**0.34.1**](#0341--2026-07-31) | 2026-07-31 | 📄 Polish spec — Run/Stop toggle + empty-state New workflow button |
@@ -106,7 +107,31 @@ This changelog is written to be **read by humans**. Every release lists exactly 
 
 ## [Unreleased]
 
-> _Nothing yet — the working tree is in sync with `v0.35.1`._
+> _Nothing yet — the working tree is in sync with `v1.0.0`._
+
+---
+
+## [1.0.0] — 2026-07-31
+
+> **Highlights** 🎉 The first stable release. Flowbrowse has its own visual identity, both documentation diagrams that failed to render on GitHub are fixed, and the repository's public-facing metadata is filled in. No behavior change for existing users — this is a v1.0 checkpoint, not a rewrite.
+
+### ✨ Added
+
+- **`public/logo.svg`** — the Flowbrowse mark: a browser window with a play/flow arrow through it, on a dark gradient tile. Chosen from three concepts drafted for review.
+- **`app/layout.tsx`** — explicit `metadata` (`title`, `description`, `icons.icon` pointing at the new logo), replacing Next.js's implicit defaults.
+
+### ♻️ Changed
+
+- **`README.md`** — the header now shows the actual logo image instead of an emoji placeholder.
+- GitHub repository **description and topics** set (`nextjs`, `typescript`, `browser-automation`, `workflow-automation`, `trigger-dev`, `react-flow`, `clerk`, `liveblocks`, `stagehand`, `browserbase`) — repo metadata, not a file in this tree.
+
+### 🐛 Fixed
+
+- **`README.md`** / **`docs/architecture.md`** — both system diagrams drew an edge directly from a subgraph's id (`Vercel`, `TriggerWorker`) instead of a node inside it, which crashes GitHub's Mermaid renderer (`Cannot read properties of null (reading 'firstChild')`). Repointed each edge at a concrete node in the same subgraph. All seven diagrams across the docs were verified to render cleanly with `@mermaid-js/mermaid-cli` before release.
+
+### 🗑️ Removed
+
+- **`app/favicon.ico`** — the default Next.js/Vercel triangle favicon, replaced by the logo above.
 
 ---
 
@@ -1219,7 +1244,8 @@ Added via the Clerk CLI (`clerk init --framework next --pm npm`, linked to the `
 
 </div>
 
-[Unreleased]: https://github.com/RISHII7/Flowbrowse/compare/v0.35.1...HEAD
+[Unreleased]: https://github.com/RISHII7/Flowbrowse/compare/v1.0.0...HEAD
+[1.0.0]: https://github.com/RISHII7/Flowbrowse/compare/v0.35.1...v1.0.0
 [0.35.1]: https://github.com/RISHII7/Flowbrowse/compare/v0.35.0...v0.35.1
 [0.35.0]: https://github.com/RISHII7/Flowbrowse/compare/v0.34.1...v0.35.0
 [0.34.1]: https://github.com/RISHII7/Flowbrowse/compare/v0.34.0...v0.34.1
