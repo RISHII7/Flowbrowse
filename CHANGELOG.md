@@ -8,7 +8,7 @@ _All notable changes to this project, documented with care._
 
 [![Keep a Changelog](https://img.shields.io/badge/Keep%20a%20Changelog-1.1.0-E05735?style=flat-square&logo=keepachangelog&logoColor=white)](https://keepachangelog.com/en/1.1.0/)
 [![Semantic Versioning](https://img.shields.io/badge/SemVer-2.0.0-3F51B5?style=flat-square&logo=semver&logoColor=white)](https://semver.org/spec/v2.0.0.html)
-[![Latest Release](https://img.shields.io/badge/latest-v0.32.0-2EA043?style=flat-square&logo=github&logoColor=white)](https://github.com/RISHII7/Flowbrowse/releases/tag/v0.32.0)
+[![Latest Release](https://img.shields.io/badge/latest-v0.33.0-2EA043?style=flat-square&logo=github&logoColor=white)](https://github.com/RISHII7/Flowbrowse/releases/tag/v0.33.0)
 
 </div>
 
@@ -33,6 +33,7 @@ This changelog is written to be **read by humans**. Every release lists exactly 
 
 | Version | Date | Headline |
 | :-- | :-- | :-- |
+| [**0.33.0**](#0330--2026-07-31) | 2026-07-31 | 🛰️ Sentry instrumentation — Liveblocks routes + workflow actions |
 | [**0.32.0**](#0320--2026-07-31) | 2026-07-31 | 🛰️ Sentry error and performance monitoring |
 | [**0.31.0**](#0310--2026-07-31) | 2026-07-31 | 💳 Clerk billing — pro plan gates the Agent node and session replay |
 | [**0.30.4**](#0304--2026-07-31) | 2026-07-31 | 📄 Billing spec — Prompt 1 scoped to config only |
@@ -101,7 +102,22 @@ This changelog is written to be **read by humans**. Every release lists exactly 
 
 ## [Unreleased]
 
-> _Nothing yet — the working tree is in sync with `v0.32.0`._
+> _Nothing yet — the working tree is in sync with `v0.33.0`._
+
+---
+
+## [0.33.0] — 2026-07-31
+
+> **Highlights** 🛰️ Sentry instrumentation extends beyond the SDK setup into the request paths that matter most for debugging: Liveblocks auth/user-resolution and every workflow server action.
+
+### ♻️ Changed
+
+- **`app/api/liveblocks/auth/route.ts`** — tags the Sentry isolation scope with the route, user, and org, and logs Liveblocks identify-user success or failure.
+- **`app/api/liveblocks/users/route.ts`** — tags the scope, and logs invalid JSON/malformed input plus how many of the requested user ids resolved.
+- **`app/api/replays/[sessionId]/route.ts`** — tags the scope with the session id, and logs a denied non-pro request or a served replay (with its page count).
+- **`features/workflows/actions.ts`** — every action (create, delete, run, cancel) tags its scope and logs its outcome; `runWorkflowAction` also logs the Agent-node pro-gate denial and a graph-validation failure before rethrowing, and its success log includes the triggered run id, node count, and whether the graph has an Agent node.
+
+Each handler tags its scope up front (route/action name plus the relevant ids) so any error captured downstream carries that context automatically; `Sentry.logger` calls mark notable outcomes along each path (info on success, warn on rejected input or denied gates, error on the Liveblocks identify-user failure).
 
 ---
 
@@ -1140,7 +1156,8 @@ Added via the Clerk CLI (`clerk init --framework next --pm npm`, linked to the `
 
 </div>
 
-[Unreleased]: https://github.com/RISHII7/Flowbrowse/compare/v0.32.0...HEAD
+[Unreleased]: https://github.com/RISHII7/Flowbrowse/compare/v0.33.0...HEAD
+[0.33.0]: https://github.com/RISHII7/Flowbrowse/compare/v0.32.0...v0.33.0
 [0.32.0]: https://github.com/RISHII7/Flowbrowse/compare/v0.31.0...v0.32.0
 [0.31.0]: https://github.com/RISHII7/Flowbrowse/compare/v0.30.4...v0.31.0
 [0.30.4]: https://github.com/RISHII7/Flowbrowse/compare/v0.30.3...v0.30.4
