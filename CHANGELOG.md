@@ -8,7 +8,7 @@ _All notable changes to this project, documented with care._
 
 [![Keep a Changelog](https://img.shields.io/badge/Keep%20a%20Changelog-1.1.0-E05735?style=flat-square&logo=keepachangelog&logoColor=white)](https://keepachangelog.com/en/1.1.0/)
 [![Semantic Versioning](https://img.shields.io/badge/SemVer-2.0.0-3F51B5?style=flat-square&logo=semver&logoColor=white)](https://semver.org/spec/v2.0.0.html)
-[![Latest Release](https://img.shields.io/badge/latest-v0.34.0-2EA043?style=flat-square&logo=github&logoColor=white)](https://github.com/RISHII7/Flowbrowse/releases/tag/v0.34.0)
+[![Latest Release](https://img.shields.io/badge/latest-v0.34.1-2EA043?style=flat-square&logo=github&logoColor=white)](https://github.com/RISHII7/Flowbrowse/releases/tag/v0.34.1)
 
 </div>
 
@@ -33,6 +33,7 @@ This changelog is written to be **read by humans**. Every release lists exactly 
 
 | Version | Date | Headline |
 | :-- | :-- | :-- |
+| [**0.34.1**](#0341--2026-07-31) | 2026-07-31 | 📄 Polish spec — Run/Stop toggle + empty-state New workflow button |
 | [**0.34.0**](#0340--2026-07-31) | 2026-07-31 | 🛰️ Sentry integrated with Trigger.dev task runs |
 | [**0.33.0**](#0330--2026-07-31) | 2026-07-31 | 🛰️ Sentry instrumentation — Liveblocks routes + workflow actions |
 | [**0.32.0**](#0320--2026-07-31) | 2026-07-31 | 🛰️ Sentry error and performance monitoring |
@@ -103,7 +104,17 @@ This changelog is written to be **read by humans**. Every release lists exactly 
 
 ## [Unreleased]
 
-> _Nothing yet — the working tree is in sync with `v0.34.0`._
+> _Nothing yet — the working tree is in sync with `v0.34.1`._
+
+---
+
+## [0.34.1] — 2026-07-31
+
+> **Highlights** 📄 A spec for two loose ends: a Run/Stop toggle on the workflow Run button, and wiring the dashboard empty state's "New workflow" button. Spec only, no implementation.
+
+### ✨ Added
+
+- **`specs/polish.md`** — a two-part plan: turn the Run button into a Run/Stop toggle that cancels the in-flight run via the existing cancel action, using the runs provider's live-run tracking (at most one run live at a time); and wire the dashboard empty state's "New workflow" button to a direct call to the create-workflow action, giving the new workflow a generated name the same way the sidebar's button does — no optimistic update.
 
 ---
 
@@ -1173,7 +1184,8 @@ Added via the Clerk CLI (`clerk init --framework next --pm npm`, linked to the `
 
 </div>
 
-[Unreleased]: https://github.com/RISHII7/Flowbrowse/compare/v0.34.0...HEAD
+[Unreleased]: https://github.com/RISHII7/Flowbrowse/compare/v0.34.1...HEAD
+[0.34.1]: https://github.com/RISHII7/Flowbrowse/compare/v0.34.0...v0.34.1
 [0.34.0]: https://github.com/RISHII7/Flowbrowse/compare/v0.33.0...v0.34.0
 [0.33.0]: https://github.com/RISHII7/Flowbrowse/compare/v0.32.0...v0.33.0
 [0.32.0]: https://github.com/RISHII7/Flowbrowse/compare/v0.31.0...v0.32.0
