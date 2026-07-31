@@ -8,7 +8,7 @@ _All notable changes to this project, documented with care._
 
 [![Keep a Changelog](https://img.shields.io/badge/Keep%20a%20Changelog-1.1.0-E05735?style=flat-square&logo=keepachangelog&logoColor=white)](https://keepachangelog.com/en/1.1.0/)
 [![Semantic Versioning](https://img.shields.io/badge/SemVer-2.0.0-3F51B5?style=flat-square&logo=semver&logoColor=white)](https://semver.org/spec/v2.0.0.html)
-[![Latest Release](https://img.shields.io/badge/latest-v0.30.0-2EA043?style=flat-square&logo=github&logoColor=white)](https://github.com/RISHII7/Flowbrowse/releases/tag/v0.30.0)
+[![Latest Release](https://img.shields.io/badge/latest-v0.30.1-2EA043?style=flat-square&logo=github&logoColor=white)](https://github.com/RISHII7/Flowbrowse/releases/tag/v0.30.1)
 
 </div>
 
@@ -33,6 +33,7 @@ This changelog is written to be **read by humans**. Every release lists exactly 
 
 | Version | Date | Headline |
 | :-- | :-- | :-- |
+| [**0.30.1**](#0301--2026-07-31) | 2026-07-31 | 📄 Billing spec — gate premium features behind a pro plan |
 | [**0.30.0**](#0300--2026-07-31) | 2026-07-31 | 🎬 Session replay in the console |
 | [**0.29.2**](#0292--2026-07-31) | 2026-07-31 | 📄 Session-replay spec — watch a run's Browserbase session |
 | [**0.29.1**](#0291--2026-07-31) | 2026-07-31 | 📄 Console-panel spec — recorded its own fixes |
@@ -95,7 +96,17 @@ This changelog is written to be **read by humans**. Every release lists exactly 
 
 ## [Unreleased]
 
-> _Nothing yet — the working tree is in sync with `v0.30.0`._
+> _Nothing yet — the working tree is in sync with `v0.30.1`._
+
+---
+
+## [0.30.1] — 2026-07-31
+
+> **Highlights** 📄 A spec for gating premium features behind a Clerk org "pro" plan — the Agent node and workflow creation itself. Spec only, no implementation.
+
+### ✨ Added
+
+- **`specs/billing.md`** — a three-part plan: turn on Clerk organization billing and add a "pro" plan, then build the upgrade surface (a dashboard pricing page plus a reusable pro-gate hook in the workflows feature's hooks folder); gate the Agent node on the canvas toolbar behind pro, locking it and redirecting non-pro orgs to upgrade; then gate workflow creation itself, enforced server-side in `createWorkflowAction` and surfaced on the "New workflow" button. Points at the `clerk-billing` skill rather than teaching the agent how Clerk billing works.
 
 ---
 
@@ -1053,7 +1064,8 @@ Added via the Clerk CLI (`clerk init --framework next --pm npm`, linked to the `
 
 </div>
 
-[Unreleased]: https://github.com/RISHII7/Flowbrowse/compare/v0.30.0...HEAD
+[Unreleased]: https://github.com/RISHII7/Flowbrowse/compare/v0.30.1...HEAD
+[0.30.1]: https://github.com/RISHII7/Flowbrowse/compare/v0.30.0...v0.30.1
 [0.30.0]: https://github.com/RISHII7/Flowbrowse/compare/v0.29.2...v0.30.0
 [0.29.2]: https://github.com/RISHII7/Flowbrowse/compare/v0.29.1...v0.29.2
 [0.29.1]: https://github.com/RISHII7/Flowbrowse/compare/v0.29.0...v0.29.1
